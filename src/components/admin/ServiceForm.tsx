@@ -1,0 +1,116 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { CloudinaryUploadWidget } from "./CloudinaryUploadWidget";
+import { Loader2 } from "lucide-react";
+import type { Service } from "@/types";
+
+interface ServiceFormData {
+  title: string;
+  description: string;
+  icon_url: string;
+}
+
+interface ServiceFormProps {
+  initialData?: Service;
+  onSubmit: (data: Omit<Service, "id" | "createdAt" | "updatedAt">) => Promise<void>;
+  onCancel: () => void;
+}
+
+export function ServiceForm({
+  initialData,
+  onSubmit,
+  onCancel,
+}: ServiceFormProps) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<ServiceFormData>({
+    defaultValues: {
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      icon_url: initialData?.icon_url || "",
+    },
+  });
+
+  const iconUrl = watch("icon_url");
+
+  async function handleFormSubmit(data: ServiceFormData) {
+    await onSubmit(data);
+  }
+
+  const inputClass =
+    "w-full bg-[#0F172A] border border-white/10 rounded-lg px-4 py-3 text-[#F8FAFC] placeholder-white/30 focus:outline-none focus:border-[#3B82F6] transition-colors text-sm";
+
+  return (
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="flex flex-col gap-6 bg-[#1E293B] p-6 lg:p-8 rounded-xl border border-white/5"
+    >
+      <h2 className="text-xl font-bold text-[#F8FAFC]">
+        {initialData ? "Edit Service" : "New Service"}
+      </h2>
+
+      {/* Title */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-[#F8FAFC]">Title *</label>
+        <input
+          {...register("title", { required: "Title is required" })}
+          placeholder="Marketing Strategy"
+          className={inputClass}
+        />
+        {errors.title && (
+          <p className="text-xs text-red-400">{errors.title.message}</p>
+        )}
+      </div>
+
+      {/* Description */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-[#F8FAFC]">
+          Description *
+        </label>
+        <textarea
+          {...register("description", {
+            required: "Description is required",
+          })}
+          rows={4}
+          placeholder="Describe the service..."
+          className={`${inputClass} resize-none`}
+        />
+        {errors.description && (
+          <p className="text-xs text-red-400">{errors.description.message}</p>
+        )}
+      </div>
+
+      {/* Icon Upload */}
+      <CloudinaryUploadWidget
+        onUpload={(url) => setValue("icon_url", url)}
+        currentUrl={iconUrl}
+        label="Service Icon"
+      />
+      <input type="hidden" {...register("icon_url")} />
+
+      {/* Actions */}
+      <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-5 py-2.5 text-sm font-medium text-[#94A3B8] hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-all"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="px-5 py-2.5 text-sm font-medium text-white bg-[#3B82F6] hover:bg-blue-600 rounded-lg transition-all flex items-center gap-2 disabled:opacity-60"
+        >
+          {isSubmitting && <Loader2 size={16} className="animate-spin" />}
+          {initialData ? "Update" : "Create"}
+        </button>
+      </div>
+    </form>
+  );
+}

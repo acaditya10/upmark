@@ -1,26 +1,40 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary-bg: #0F172A;
+  --color-secondary-surface: #1E293B;
+  --color-accent-blue: #3B82F6;
+  --color-accent-gold: #F59E0B;
+  --color-primary-text: #F8FAFC;
+  --color-muted-text: #94A3B8;
+
+  --font-heading: var(--font-poppins), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-primary-bg text-primary-text font-body antialiased selection:bg-accent-blue/30 selection:text-white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-primary-text font-bold;
+  }
+
+  p {
+    @apply text-muted-text;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom utility for the cinematic glow */
+@layer utilities {
+  .glow-blue {
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.15));
+  }
+  .glow-blue-lg {
+    filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.15));
+  }
+  .glow-gold {
+    filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.15));
+  }
 }
