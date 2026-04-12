@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface HeroProps {
   videoUrl?: string | null;
@@ -14,7 +14,7 @@ export const Hero = ({ videoUrl }: HeroProps) => {
   const currentVideoUrl = videoUrl || defaultVideo;
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-0 pb-16 overflow-hidden">
       {/* Background Video & Premium Lighting */}
       <div className="absolute inset-0 z-0 bg-primary-bg overflow-hidden">
         <div className="absolute inset-0 opacity-40 mix-blend-screen">
@@ -32,12 +32,13 @@ export const Hero = ({ videoUrl }: HeroProps) => {
         >
           <source src={currentVideoUrl} type="video/mp4" />
         </video>
-        {/* Soft Vignette and Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary-bg via-primary-bg/80 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-bg via-primary-bg/70 to-primary-bg/30"></div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center h-full text-center mt-20">
+        
+        {/* Soft radial darkening behind text to maintain readability against bright video */}
+        <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] h-[600px] bg-primary-bg/80 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -95,16 +96,7 @@ export const Hero = ({ videoUrl }: HeroProps) => {
           </div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div 
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           transition={{ delay: 1.5, duration: 1 }}
-           className="absolute bottom-10 flex flex-col items-center gap-2 text-muted-text text-sm uppercase tracking-widest font-semibold"
-        >
-          Scroll
-          <ChevronDown className="animate-bounce" size={16} />
-        </motion.div>
+
       </div>
     </section>
   );

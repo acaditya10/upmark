@@ -25,7 +25,7 @@ export function LayoutShell({ children }: { children: ReactNode }) {
     <>
       <CustomCursor />
       <Navbar />
-      <main className="flex-grow pt-20">{children}</main>
+      <main className="flex-grow">{children}</main>
       <Footer />
       <FloatingCTA />
     </>

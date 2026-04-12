@@ -2,20 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -27,12 +20,8 @@ export const Navbar = () => {
   ];
 
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 flex justify-center mt-6 ${
-        scrolled ? "px-6" : "px-0"
-      }`}
-    >
-      <div className={`w-full transition-all duration-500 ${scrolled ? 'max-w-5xl rounded-full bg-secondary-surface/70 backdrop-blur-2xl border border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5),_0_0_20px_rgba(59,130,246,0.1)] py-3 px-8' : 'container mx-auto bg-transparent py-4 px-6'}`}>
+    <header className="fixed top-0 w-full z-50 flex justify-center mt-6 px-6">
+      <div className="w-full max-w-5xl rounded-full bg-secondary-surface/70 backdrop-blur-2xl border border-white/10 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5),_0_0_20px_rgba(59,130,246,0.1)] py-3 px-8">
         <div className="flex justify-between items-center">
         <Link href="/" className="text-2xl font-heading font-bold tracking-tight text-white">
           Upmark<span className="text-accent-blue">.</span>
