@@ -46,43 +46,43 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 pt-16 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div className="container mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-6 sm:pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
           <div className="lg:col-span-1">
-            <Link href="/" className="text-2xl font-heading font-bold tracking-tight text-white mb-6 inline-block">
+            <Link href="/" className="text-xl sm:text-2xl font-heading font-bold tracking-tight text-white mb-4 sm:mb-6 inline-block">
               Upmark<span className="text-accent-blue">.</span>
             </Link>
-            <p className="text-muted-text/80 text-sm leading-relaxed max-w-xs">
-              Integrated marketing that moves markets. Strategy, production and execution — unified.
+            <p className="text-muted-text/80 text-xs sm:text-sm leading-relaxed max-w-xs">
+              Integrated marketing that moves markets.
             </p>
           </div>
           
           <div>
-            <h4 className="text-white font-bold font-heading mb-6 tracking-wide">Services</h4>
-            <ul className="flex flex-col gap-3">
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Marketing Strategy</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Performance Marketing</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Content Production</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">SEO & Lead Generation</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Video & Reels</Link></li>
+            <h4 className="text-white font-bold font-heading mb-4 sm:mb-6 tracking-wide text-sm sm:text-base">Services</h4>
+            <ul className="flex flex-col gap-2 sm:gap-3">
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Marketing Strategy</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Performance Marketing</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Content Production</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Social Media Management</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">SEO & Lead Generation</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-white font-bold font-heading mb-6 tracking-wide">Company</h4>
-            <ul className="flex flex-col gap-3">
-              <li><Link href="/about" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">About</Link></li>
-              <li><Link href="/work" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Work</Link></li>
-              <li><Link href="/process" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Process</Link></li>
-              <li><Link href="/contact" className="text-muted-text hover:text-accent-blue transition-colors text-sm hover:translate-x-1 inline-block transform duration-200">Contact</Link></li>
+            <h4 className="text-white font-bold font-heading mb-4 sm:mb-6 tracking-wide text-sm sm:text-base">Company</h4>
+            <ul className="flex flex-col gap-2 sm:gap-3">
+              <li><Link href="/work" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Work</Link></li>
+              <li><Link href="/case-studies" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Case Studies</Link></li>
+              <li><Link href="/contact" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Contact</Link></li>
+              <li><Link href="/privacy" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Privacy Policy</Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-white font-bold font-heading mb-6 tracking-wide">Connect</h4>
-            <ul className="flex flex-col gap-3">
+            <h4 className="text-white font-bold font-heading mb-4 sm:mb-6 tracking-wide text-sm sm:text-base">Connect</h4>
+            <ul className="flex flex-col gap-2 sm:gap-3">
               <li>
-                <a href="#" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
+                <a href="https://x.com/upmarkmedia" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
                   <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 group-hover/social:shadow-[0_0_12px_rgba(59,130,246,0.2)] transition-all duration-300">
                     <TwitterIcon size={16} />
                   </span>
@@ -90,7 +90,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
+                <a href="https://linkedin.com/company/upmark" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
                   <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 group-hover/social:shadow-[0_0_12px_rgba(59,130,246,0.2)] transition-all duration-300">
                     <LinkedinIcon size={16} />
                   </span>
@@ -98,7 +98,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
+                <a href="https://instagram.com/upmark.media" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
                   <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 group-hover/social:shadow-[0_0_12px_rgba(59,130,246,0.2)] transition-all duration-300">
                     <InstagramIcon size={16} />
                   </span>
@@ -114,7 +114,7 @@ export const Footer = () => {
           </div>
         </div>
         
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="pt-6 sm:pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 safe-bottom">
           <p className="text-muted-text/60 text-xs text-center md:text-left">
             © 2026 Upmark. All rights reserved.
           </p>

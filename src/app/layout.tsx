@@ -18,8 +18,38 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Upmark Media | Strategic Visibility in a Digital World",
-  description: "Upmark Media is a strategic media partner that helps brands build digital visibility through storytelling, content production, and AI-powered marketing systems.",
+  metadataBase: new URL("https://upmark.co"),
+  title: "Upmark Media | Integrated Marketing That Moves Markets",
+  description: "Upmark is an integrated marketing agency combining strategy, performance marketing, content production and execution into one growth engine. We build complete marketing systems that scale.",
+  keywords: ["marketing agency", "performance marketing", "content production", "brand strategy", "digital marketing", "SEO", "social media management", "Upmark"],
+  authors: [{ name: "Upmark Media" }],
+  openGraph: {
+    title: "Upmark Media | Integrated Marketing That Moves Markets",
+    description: "Strategy, performance marketing, content and execution — unified. We build complete marketing systems that scale.",
+    url: "https://upmark.co",
+    siteName: "Upmark Media",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Upmark Media — Integrated Marketing Agency",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Upmark Media | Integrated Marketing That Moves Markets",
+    description: "Strategy, performance marketing, content and execution — unified. We build complete marketing systems that scale.",
+    images: ["/images/og-image.png"],
+    creator: "@upmarkmedia",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

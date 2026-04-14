@@ -39,6 +39,51 @@
   }
 }
 
+/* ─── Smooth scroll ─── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Hide scrollbar utility for carousels ─── */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Mobile safe area padding ─── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ─── Touch-friendly minimum tap targets on mobile ─── */
+@media (pointer: coarse) {
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  /* Ensure form inputs are comfortable on mobile */
+  input, textarea, select {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+}
+
+/* ─── Mobile performance optimizations ─── */
+@media (max-width: 768px) {
+  /* Reduce blur effects on mobile for performance */
+  .backdrop-blur-3xl,
+  .backdrop-blur-2xl {
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+}
+
 /* Marquee animation for footer accent strip */
 @keyframes marquee {
   0% {

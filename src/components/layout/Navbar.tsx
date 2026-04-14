@@ -44,19 +44,19 @@ export const Navbar = () => {
   }, [pathname]);
 
   return (
-    <header className="fixed top-0 w-full z-50 flex justify-center pt-6 px-4 sm:px-6 pointer-events-none">
+    <header className="fixed top-0 w-full z-50 flex justify-center pt-3 sm:pt-6 px-3 sm:px-6 pointer-events-none">
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className={`relative w-full max-w-6xl rounded-full transition-all duration-500 pointer-events-auto flex justify-between items-center ${
           scrolled
-            ? "bg-black/40 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] py-3 px-6 sm:px-8"
-            : "bg-transparent py-4 px-6 sm:px-8"
+            ? "bg-black/40 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] py-2.5 sm:py-3 px-4 sm:px-6 md:px-8"
+            : "bg-transparent py-3 sm:py-4 px-4 sm:px-6 md:px-8"
         }`}
       >
         {/* Logo - Left Side */}
-        <Link href="/" className="text-2xl font-bold tracking-tight text-white group flex items-center shrink-0">
+        <Link href="/" className="text-xl sm:text-2xl font-bold tracking-tight text-white group flex items-center shrink-0">
           Upmark<span className="text-blue-500 transition-transform duration-300 group-hover:scale-125 inline-block">.</span>
         </Link>
 
@@ -123,7 +123,7 @@ export const Navbar = () => {
 
         {/* Mobile Nav Toggle */}
         <button
-          className="lg:hidden text-white hover:text-white/80 p-2 ml-auto rounded-full transition-colors focus:outline-none relative z-50"
+          className="lg:hidden text-white hover:text-white/80 p-3 ml-auto rounded-full transition-colors focus:outline-none relative z-50"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
@@ -162,7 +162,7 @@ export const Navbar = () => {
                 <div className="absolute inset-0 bg-gradient-to-bl from-black/95 via-black/80 to-transparent backdrop-blur-[10px] -z-10" />
                 
                 {/* Links Container */}
-                <div className="flex flex-col items-end pt-4 pb-10 pr-6 pl-10 space-y-4">
+                <div className="flex flex-col items-end pt-4 pb-10 pr-8 sm:pr-10 pl-10 space-y-4">
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.href}
@@ -188,14 +188,13 @@ export const Navbar = () => {
                                 onClick={() => setMobileSubmenuOpen(mobileSubmenuOpen === link.name ? null : link.name)}
                                 className="text-[17px] tracking-wide text-white/90 hover:text-white transition-colors flex items-center justify-end gap-1.5 w-full"
                               >
-                                {/* Chevron moved to the left to match reference */}
+                                {link.name}
                                 <ChevronDown
                                   size={16}
                                   className={`transition-transform duration-300 opacity-70 ${
                                     mobileSubmenuOpen === link.name ? "rotate-180 text-cyan-400" : ""
                                   }`}
                                 />
-                                {link.name}
                               </button>
                               <AnimatePresence>
                                 {mobileSubmenuOpen === link.name && (

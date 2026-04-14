@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/Hero";
 import { ContentGrid } from "@/components/sections/ContentGrid";
 import { PlaySquare, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { getSiteSettings, getTestimonials } from "@/lib/firestore";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
 
@@ -74,25 +75,25 @@ export default async function Home() {
   }));
 
   return (
-    <div className="flex flex-col gap-32 pb-32 relative">
+    <div className="flex flex-col gap-16 sm:gap-24 md:gap-32 pb-16 sm:pb-24 md:pb-32 relative">
       <Hero videoUrl={settings?.heroVideoUrl} metrics={settings?.heroMetrics} />
 
-      {/* Philosophy Section */}
-      <section className="container mx-auto px-6 mt-16 md:mt-24">
-        <div className="flex flex-col lg:flex-row gap-16 mb-20 text-white items-center">
+      {/* Philosophy / About Section */}
+      <section id="about" className="container mx-auto px-4 sm:px-6 mt-8 sm:mt-16 md:mt-24 scroll-mt-32">
+        <div className="flex flex-col lg:flex-row gap-10 sm:gap-12 lg:gap-16 mb-12 sm:mb-20 text-white items-center">
            {/* Left Side */}
            <div className="lg:w-7/12 flex flex-col items-start pr-0 lg:pr-10">
              <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-6 inline-flex items-center gap-4">
                <span className="w-8 h-[1px] bg-accent-blue"></span>
                PHILOSOPHY
              </span>
-             <h2 className="text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight mb-4">
+             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight mb-4">
                Most agencies only <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">create content</span> <br className="hidden md:block"/>or run ads.
              </h2>
-             <h3 className="text-2xl md:text-3xl mt-4 mb-8 font-semibold">
+             <h3 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold">
                Upmark builds <span className="text-accent-gold">complete marketing systems.</span>
              </h3>
-             <div className="flex flex-col gap-6 text-muted-text font-light text-lg mb-10">
+             <div className="flex flex-col gap-4 sm:gap-6 text-muted-text font-light text-base sm:text-lg mb-8 sm:mb-10">
                 <p>
                   We integrate strategy, performance marketing, content production, campaign execution and distribution into a single, coherent growth engine. The result is not a collection of deliverables — it is a system that compounds.
                 </p>
@@ -101,42 +102,45 @@ export default async function Home() {
                 </p>
              </div>
              
-             <Link href="/about" className="group flex items-center justify-center px-8 py-4 rounded-lg font-semibold text-base text-white border border-white/20 hover:border-accent-blue hover:bg-accent-blue/5 transition-all">
-               Learn more
+             <Link href="/services" className="group flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-white border border-white/20 hover:border-accent-blue hover:bg-accent-blue/5 transition-all w-full sm:w-auto">
+               Explore our services
              </Link>
            </div>
            
-           {/* Right Side Graphic */}
-           <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[400px]">
-             {/* Glowing orb / graphic placeholder inspired by the dark theme */}
-             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
-             <div className="relative w-full aspect-square max-w-[400px] border border-white/5 bg-secondary-surface/20 rounded-full flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg')] mix-blend-overlay opacity-20 object-cover w-full h-full"></div>
-                <div className="w-3/4 h-3/4 rounded-full border border-dashed border-white/20 animate-[spin_20s_linear_infinite]"></div>
-                <div className="absolute w-1/2 h-1/2 rounded-full bg-gradient-to-br from-accent-blue/30 to-transparent blur-2xl"></div>
-                {/* Single minimalist circle from mockup */}
-                <div className="absolute w-20 h-20 rounded-full border border-accent-blue/40 right-10 bottom-20"></div>
+           {/* Right Side Visual */}
+           <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[280px] sm:min-h-[400px]">
+             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none"></div>
+             <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[450px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+                <Image
+                  src="/images/philosophy.png"
+                  alt="Upmark strategy session — marketing team brainstorming around data-driven insights"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/60 via-transparent to-transparent"></div>
              </div>
            </div>
         </div>
 
         {/* Philosophy Pointers */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {philosophyPointers.map((p, i) => (
-            <div key={i} className="group p-8 rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-md hover:border-accent-blue/30 transition-all duration-500 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-6 text-6xl font-black text-white/5 group-hover:text-white/10 transition-colors pointer-events-none">
+            <div key={i} className="group p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-md hover:border-accent-blue/30 transition-all duration-500 relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-3 sm:p-6 text-4xl sm:text-6xl font-black text-white/5 group-hover:text-white/10 transition-colors pointer-events-none">
                  0{i + 1}
                </div>
-              <h3 className="text-xl font-bold font-heading text-white mb-3 relative z-10">{p.title}</h3>
-              <p className="text-muted-text/90 text-sm font-light leading-relaxed relative z-10">{p.desc}</p>
+              <h3 className="text-base sm:text-xl font-bold font-heading text-white mb-2 sm:mb-3 relative z-10">{p.title}</h3>
+              <p className="text-muted-text/90 text-xs sm:text-sm font-light leading-relaxed relative z-10">{p.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Process Section */}
-      <section className="container mx-auto px-6 relative z-10 mt-16 md:mt-24">
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
+      <section className="container mx-auto px-4 sm:px-6 relative z-10 mt-8 sm:mt-16 md:mt-24">
+        <div className="flex flex-col lg:flex-row gap-10 sm:gap-12 lg:gap-16 items-start">
            
            {/* Left Side: Text and Steps */}
            <div className="lg:w-7/12 w-full flex flex-col pr-0 lg:pr-8">
@@ -145,53 +149,39 @@ export default async function Home() {
                   <span className="w-8 h-[1px] bg-accent-blue"></span>
                   HOW WE WORK
                </span>
-               <h2 className="text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6">Our <span className="text-accent-gold">6-Step Process</span></h2>
-               <p className="text-muted-text text-xl max-w-2xl font-light">A rigorous system built for consistency, speed and measurable outcomes at every stage.</p>
+               <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-4 sm:mb-6">Our <span className="text-accent-gold">6-Step Process</span></h2>
+               <p className="text-muted-text text-base sm:text-xl max-w-2xl font-light">A rigorous system built for consistency, speed and measurable outcomes at every stage.</p>
              </div>
              
              {/* Enumerate Steps 1-6 */}
              <ContentGrid items={processItems} type="numbered" columns={2} />
              
              {/* CTA Buttons */}
-             <div className="mt-16 flex flex-col sm:flex-row items-center justify-start gap-4">
-               <Link href="/services" className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-blue text-white px-8 py-4 rounded-lg font-semibold text-base overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
+             <div className="mt-10 sm:mt-16 flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4">
+               <Link href="/services" className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-blue text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
                  <span className="relative z-10 flex items-center gap-2">Our Services </span>
                </Link>
                
-               <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-8 py-4 rounded-lg font-semibold text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md transition-all">
+               <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md transition-all">
                  View our work
                </Link>
              </div>
            </div>
 
-           {/* Right Side Graphic Placeholders */}
+           {/* Right Side Visual */}
            <div className="lg:w-5/12 w-full lg:sticky lg:top-32 flex flex-col gap-6 items-center">
-             <div className="w-full aspect-[4/5] rounded-[2rem] border border-white/5 bg-secondary-surface/30 backdrop-blur-md overflow-hidden relative group">
-               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-accent-blue/10 z-10"></div>
-               {/* Decorative structural elements to serve as placeholder */}
-               <div className="absolute inset-x-8 inset-y-12 border border-white/10 rounded-2xl flex flex-col gap-6 p-8 justify-center z-20 bg-secondary-surface/50 backdrop-blur-sm">
-                  <div className="w-full h-8 flex gap-2 mb-4">
-                     <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse"></div>
-                     <div className="w-3/4 h-8 rounded bg-white/5"></div>
-                  </div>
-                  <div className="w-full h-px bg-white/10 my-2"></div>
-                  <div className="flex flex-col gap-4">
-                     {[1, 2, 3].map((i) => (
-                        <div key={i} className="flex gap-4 items-center">
-                           <div className="w-10 h-10 rounded-full border-2 border-accent-blue/30 flex items-center justify-center text-accent-blue/50 text-xs">0{i}</div>
-                           <div className="flex-1 flex flex-col gap-2">
-                              <div className="w-full h-2 rounded bg-white/10"></div>
-                              <div className="w-2/3 h-2 rounded bg-white/5"></div>
-                           </div>
-                        </div>
-                     ))}
-                  </div>
-               </div>
-               
-               {/* Abstract background blobs for premium feel */}
-               <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/20 rounded-full blur-[80px]"></div>
-               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/10 rounded-full blur-[80px]"></div>
+             <div className="w-full aspect-[4/5] rounded-[2rem] border border-white/5 overflow-hidden relative group shadow-2xl">
+               <Image
+                 src="/images/process.png"
+                 alt="Upmark 6-step marketing process — strategic workflow dashboard"
+                 fill
+                 className="object-cover group-hover:scale-105 transition-transform duration-700"
+                 sizes="(max-width: 1024px) 100vw, 40vw"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/70 via-primary-bg/20 to-transparent z-10"></div>
+               <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/20 rounded-full blur-[80px] z-0"></div>
+               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/10 rounded-full blur-[80px] z-0"></div>
              </div>
            </div>
            
@@ -199,33 +189,33 @@ export default async function Home() {
       </section>
 
       {/* Content Studio */}
-      <section className="container mx-auto px-6 relative z-10 mt-10">
-        <div className="mb-20 text-center flex flex-col items-center">
+      <section className="container mx-auto px-4 sm:px-6 relative z-10 mt-4 sm:mt-10">
+        <div className="mb-10 sm:mb-20 text-center flex flex-col items-center">
           <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
              <span className="w-8 h-[1px] bg-accent-blue"></span>
              PRODUCTION STUDIO
              <span className="w-8 h-[1px] bg-accent-blue"></span>
           </span>
-          <h2 className="text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6">Content that <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-blue-400">converts.</span></h2>
-          <p className="text-muted-text text-xl max-w-2xl font-light">Our production team creates across every format — from viral reels to cinematic brand films. All in-house. All on-brand.</p>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-4 sm:mb-6">Content that <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-blue-400">converts.</span></h2>
+          <p className="text-muted-text text-base sm:text-xl max-w-2xl font-light">Our production team creates across every format — from viral reels to cinematic brand films. All in-house. All on-brand.</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
              {contentItems.map((item) => (
-                <div key={item.id} className="p-8 rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-sm">
+                <div key={item.id} className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-sm">
                    <div className="text-accent-blue font-bold text-xs uppercase tracking-widest mb-3">{item.subtitle}</div>
-                   <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
+                   <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">{item.title}</h3>
                    <p className="text-muted-text font-light text-sm">{item.description}</p>
                 </div>
              ))}
            </div>
            
            {/* Studio Capabilities feature block */}
-           <div className="lg:col-span-1 p-10 rounded-3xl bg-accent-blue/5 border border-accent-blue/20 backdrop-blur-sm flex flex-col justify-center">
+           <div className="lg:col-span-1 p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-accent-blue/5 border border-accent-blue/20 backdrop-blur-sm flex flex-col justify-center">
               <div className="w-12 h-12 rounded-xl bg-accent-blue/20 text-accent-blue flex items-center justify-center mb-6"><PlaySquare size={24} /></div>
-              <h3 className="text-2xl font-black text-white mb-6">Studio Capabilities</h3>
-              <p className="text-muted-text mb-8">Professional production infrastructure available to every Upmark client.</p>
+              <h3 className="text-xl sm:text-2xl font-black text-white mb-4 sm:mb-6">Studio Capabilities</h3>
+              <p className="text-muted-text mb-6 sm:mb-8 text-sm sm:text-base">Professional production infrastructure available to every Upmark client.</p>
               
               <ul className="flex flex-col gap-4">
                 {studioCapabilities.map((cap, i) => (
@@ -240,37 +230,37 @@ export default async function Home() {
       </section>
 
       {/* Why Upmark */}
-      <section className="container mx-auto px-6 relative z-10 mt-10">
-        <div className="mb-20 text-center flex flex-col items-center">
+      <section className="container mx-auto px-4 sm:px-6 relative z-10 mt-4 sm:mt-10">
+        <div className="mb-10 sm:mb-20 text-center flex flex-col items-center">
           <span className="text-accent-gold font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
              <span className="w-8 h-[1px] bg-accent-gold"></span>
              WHY UPMARK
              <span className="w-8 h-[1px] bg-accent-gold"></span>
           </span>
-          <h2 className="text-4xl md:text-6xl font-black font-heading text-white mb-16 tracking-tight">Different by <span className="text-accent-gold">design.</span></h2>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white mb-10 sm:mb-16 tracking-tight">Different by <span className="text-accent-gold">design.</span></h2>
         </div>
 
-        <div className="flex flex-col gap-6 max-w-4xl mx-auto mb-20">
-           <div className="border border-white/10 bg-secondary-surface/30 p-8 rounded-2xl flex flex-col md:flex-row gap-6 md:items-center justify-between">
-              <h3 className="text-2xl font-bold text-white md:w-1/2">Marketing without execution is just theory.</h3>
+        <div className="flex flex-col gap-4 sm:gap-6 max-w-4xl mx-auto mb-12 sm:mb-20">
+           <div className="border border-white/10 bg-secondary-surface/30 p-5 sm:p-8 rounded-xl sm:rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-6 md:items-center justify-between">
+              <h3 className="text-lg sm:text-2xl font-bold text-white md:w-1/2">Marketing without execution is just theory.</h3>
               <p className="text-muted-text md:w-1/2 font-light">Ideas without action don&apos;t grow brands. We build, launch and optimize — every time.</p>
            </div>
-           <div className="border border-white/10 bg-secondary-surface/30 p-8 rounded-2xl flex flex-col md:flex-row gap-6 md:items-center justify-between">
-              <h3 className="text-2xl font-bold text-white md:w-1/2">Strategy. Production. Distribution. One team.</h3>
+           <div className="border border-white/10 bg-secondary-surface/30 p-5 sm:p-8 rounded-xl sm:rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-6 md:items-center justify-between">
+              <h3 className="text-lg sm:text-2xl font-bold text-white md:w-1/2">Strategy. Production. Distribution. One team.</h3>
               <p className="text-muted-text md:w-1/2 font-light">Stop managing three agencies. Upmark unifies your entire marketing operation under one roof.</p>
            </div>
-           <div className="border border-white/10 bg-secondary-surface/30 p-8 rounded-2xl flex flex-col md:flex-row gap-6 md:items-center justify-between">
-              <h3 className="text-2xl font-bold text-white md:w-1/2">We measure what matters. Results.</h3>
+           <div className="border border-white/10 bg-secondary-surface/30 p-5 sm:p-8 rounded-xl sm:rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-6 md:items-center justify-between">
+              <h3 className="text-lg sm:text-2xl font-bold text-white md:w-1/2">We measure what matters. Results.</h3>
               <p className="text-muted-text md:w-1/2 font-light">Vanity metrics are noise. We track revenue, pipeline, ROAS and real business outcomes.</p>
            </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 border-t border-white/5 pt-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-12 border-t border-white/5 pt-10 sm:pt-20">
            {advantages.map((adv) => (
              <div key={adv.id}>
-                <div className="text-accent-blue font-black text-xl mb-2">0{adv.id}</div>
-                <h4 className="text-xl font-bold text-white mb-3">{adv.title}</h4>
-                <p className="text-muted-text font-light text-sm leading-relaxed">{adv.desc}</p>
+                <div className="text-accent-blue font-black text-lg sm:text-xl mb-1 sm:mb-2">0{adv.id}</div>
+                <h4 className="text-base sm:text-xl font-bold text-white mb-2 sm:mb-3">{adv.title}</h4>
+                <p className="text-muted-text font-light text-xs sm:text-sm leading-relaxed">{adv.desc}</p>
              </div>
            ))}
         </div>

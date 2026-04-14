@@ -50,7 +50,7 @@ export const ProcessTimeline = ({ steps }: ProcessTimelineProps) => {
               <ScrollReveal key={step.id} delay={index * 0.08}>
                 <button
                   onClick={() => setActiveStep(index)}
-                  className={`group w-full text-left flex items-start gap-4 md:gap-6 p-4 md:p-5 rounded-2xl transition-all duration-500 relative ${
+                  className={`group w-full text-left flex items-start gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-5 rounded-2xl transition-all duration-500 relative ${
                     isActive
                       ? "bg-accent-blue/8 border border-accent-blue/20"
                       : "bg-transparent border border-transparent hover:bg-white/[0.02] hover:border-white/5"
@@ -109,13 +109,13 @@ export const ProcessTimeline = ({ steps }: ProcessTimelineProps) => {
 
       {/* Right: Dynamic Detail Panel */}
       <div className="lg:w-5/12 w-full lg:sticky lg:top-32">
-        <div className="relative w-full aspect-[4/5] rounded-[2rem] border border-white/5 bg-secondary-surface/30 backdrop-blur-md overflow-hidden">
+        <div className="relative w-full aspect-[4/3] sm:aspect-[4/5] rounded-[1.5rem] sm:rounded-[2rem] border border-white/5 bg-secondary-surface/30 backdrop-blur-md overflow-hidden">
           {/* Background glow */}
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/15 rounded-full blur-[80px] pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/8 rounded-full blur-[80px] pointer-events-none" />
 
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-8 md:p-12">
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-8 md:p-12">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeStep}
@@ -126,17 +126,17 @@ export const ProcessTimeline = ({ steps }: ProcessTimelineProps) => {
                 className="text-center flex flex-col items-center gap-6"
               >
                 {/* Large Step Icon */}
-                <div className="text-6xl md:text-7xl">
+                <div className="text-4xl sm:text-6xl md:text-7xl">
                   {stepIcons[steps[activeStep]?.id] || "📌"}
                 </div>
 
                 {/* Step Number */}
-                <div className="text-7xl md:text-8xl font-black font-heading text-transparent bg-clip-text bg-gradient-to-b from-white/15 to-white/5">
+                <div className="text-5xl sm:text-7xl md:text-8xl font-black font-heading text-transparent bg-clip-text bg-gradient-to-b from-white/15 to-white/5">
                   0{steps[activeStep]?.id}
                 </div>
 
                 {/* Step Title */}
-                <h3 className="text-2xl md:text-3xl font-bold font-heading text-white">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-heading text-white">
                   {steps[activeStep]?.title}
                 </h3>
 

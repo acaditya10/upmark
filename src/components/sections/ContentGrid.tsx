@@ -21,7 +21,7 @@ export const ContentGrid = ({ items, columns = 3, type = "standard" }: ContentGr
   const gridClasses = columns === 2 ? "grid-cols-1 md:grid-cols-2" : columns === 4 ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-4" : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
 
   return (
-    <div className={`grid ${gridClasses} gap-6 md:gap-8`}>
+    <div className={`grid ${gridClasses} gap-4 sm:gap-6 md:gap-8`}>
       {items.map((item, index) => (
         <motion.div
           key={item.id}
@@ -29,7 +29,7 @@ export const ContentGrid = ({ items, columns = 3, type = "standard" }: ContentGr
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: index * 0.1, ease: [0.25, 0.4, 0, 1] }}
-          className="group relative bg-secondary-surface/40 backdrop-blur-xl border border-white/5 p-8 md:p-10 rounded-[2rem] hover:border-accent-blue/40 transition-all duration-500 overflow-hidden shadow-xl hover:shadow-[0_0_40px_rgba(59,130,246,0.1)] hover:-translate-y-1"
+          className="group relative bg-secondary-surface/40 backdrop-blur-xl border border-white/5 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2rem] hover:border-accent-blue/40 transition-all duration-500 overflow-hidden shadow-xl hover:shadow-[0_0_40px_rgba(59,130,246,0.1)] hover:-translate-y-1"
         >
           {/* Subtle Hover Gradient Background & Top Highlight Edge */}
           <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -42,7 +42,7 @@ export const ContentGrid = ({ items, columns = 3, type = "standard" }: ContentGr
           )}
 
           {type === "numbered" && (
-            <div className="text-7xl font-black font-heading text-transparent bg-clip-text bg-gradient-to-b from-white/10 to-white/0 mb-8 group-hover:from-accent-blue/20 group-hover:to-transparent transition-all duration-500">
+            <div className="text-5xl sm:text-7xl font-black font-heading text-transparent bg-clip-text bg-gradient-to-b from-white/10 to-white/0 mb-4 sm:mb-8 group-hover:from-accent-blue/20 group-hover:to-transparent transition-all duration-500">
               {item.number || (index + 1).toString().padStart(2, "0")}
             </div>
           )}
@@ -53,10 +53,10 @@ export const ContentGrid = ({ items, columns = 3, type = "standard" }: ContentGr
             </div>
           )}
 
-          <h3 className="text-2xl font-heading font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-accent-blue transition-all duration-500 relative z-10 w-fit">
+          <h3 className="text-xl sm:text-2xl font-heading font-bold text-white mb-3 sm:mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-accent-blue transition-all duration-500 relative z-10 w-fit">
             {item.title}
           </h3>
-          <p className="text-muted-text font-body leading-relaxed relative z-10 text-base md:text-lg font-light">
+          <p className="text-muted-text font-body leading-relaxed relative z-10 text-sm sm:text-base md:text-lg font-light">
             {item.description}
           </p>
         </motion.div>
