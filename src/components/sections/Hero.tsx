@@ -3,15 +3,24 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import type { HeroMetric } from "@/types";
+
+const DEFAULT_METRICS: HeroMetric[] = [
+  { value: "120", suffix: "+", label: "Projects Delivered" },
+  { value: "98", suffix: "%", label: "Client Retention" },
+  { value: "3x", label: "Average ROI", isGold: true },
+];
 
 interface HeroProps {
   videoUrl?: string | null;
+  metrics?: HeroMetric[];
 }
 
-export const Hero = ({ videoUrl }: HeroProps) => {
+export const Hero = ({ videoUrl, metrics }: HeroProps) => {
   const defaultVideo = "https://res.cloudinary.com/demo/video/upload/q_auto:good,f_auto/v1614264627/docs/cld-video-default.mp4";
   const defaultPoster = "https://res.cloudinary.com/demo/video/upload/so_0/v1614264627/video/cld-video-default-poster.jpg";
   const currentVideoUrl = videoUrl || defaultVideo;
+  const displayMetrics = metrics && metrics.length > 0 ? metrics : DEFAULT_METRICS;
 
   return (
     <section className="relative min-h-screen flex items-center pt-0 pb-16 overflow-hidden">
@@ -56,7 +65,7 @@ export const Hero = ({ videoUrl }: HeroProps) => {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-text max-w-xl mb-10 leading-relaxed font-body font-light">
-            Strategy, performance marketing, content and execution — unified. We don't just run campaigns. <span className="text-primary-text font-medium">We build complete marketing systems that scale.</span>
+            Strategy, performance marketing, content and execution — unified. We don&apos;t just run campaigns. <span className="text-primary-text font-medium">We build complete marketing systems that scale.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-start gap-4">
@@ -82,18 +91,24 @@ export const Hero = ({ videoUrl }: HeroProps) => {
           {/* Subtle Top Border */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/20 to-transparent -translate-y-6"></div>
           
-          <div className="flex flex-col items-start gap-1 group">
-            <span className="text-3xl md:text-4xl font-heading font-black text-white tracking-tighter group-hover:text-accent-blue transition-colors">120<span className="text-accent-blue">+</span></span>
-            <span className="text-[10px] md:text-xs text-muted-text/80 uppercase tracking-widest font-semibold">Projects Delivered</span>
-          </div>
-          <div className="flex flex-col items-start gap-1 group">
-            <span className="text-3xl md:text-4xl font-heading font-black text-white tracking-tighter group-hover:text-accent-blue transition-colors">98<span className="text-accent-blue">%</span></span>
-            <span className="text-[10px] md:text-xs text-muted-text/80 uppercase tracking-widest font-semibold">Client Retention</span>
-          </div>
-          <div className="flex flex-col items-start gap-1 group">
-            <span className="text-3xl md:text-4xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-gold to-yellow-300 tracking-tighter drop-shadow-sm glow-gold">3x</span>
-            <span className="text-[10px] md:text-xs text-muted-text/80 uppercase tracking-widest font-semibold">Average ROI</span>
-          </div>
+          {displayMetrics.map((metric, i) => (
+            <div key={i} className="flex flex-col items-start gap-1 group">
+              {metric.isGold ? (
+                <span className="text-3xl md:text-4xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-gold to-yellow-300 tracking-tighter drop-shadow-sm glow-gold">
+                  {metric.value}
+                </span>
+              ) : (
+                <span className="text-3xl md:text-4xl font-heading font-black text-white tracking-tighter group-hover:text-accent-blue transition-colors">
+                  {metric.suffix ? (
+                    <>{metric.value}<span className="text-accent-blue">{metric.suffix}</span></>
+                  ) : (
+                    metric.value
+                  )}
+                </span>
+              )}
+              <span className="text-[10px] md:text-xs text-muted-text/80 uppercase tracking-widest font-semibold">{metric.label}</span>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>

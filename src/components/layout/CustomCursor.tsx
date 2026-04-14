@@ -88,7 +88,7 @@ export function CustomCursor() {
       {/* Outer wrapper for continuous hardware-accelerated translation */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 w-10 h-10 pointer-events-none z-[9998] will-change-transform"
+        className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[9998] will-change-transform"
         style={{ transform: "translate3d(-100px, -100px, 0)" }}
       >
         {/* Inner element for styling and CSS transitions (scale/color) */}
@@ -101,7 +101,7 @@ export function CustomCursor() {
       {/* Wrapper for fast JS transforms that doesn't conflict with CSS transitions */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 pointer-events-none z-[9999] will-change-transform"
+        className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] will-change-transform"
         style={{ transform: "translate3d(-100px, -100px, 0)" }}
       >
         {/* Inner element for visual styling and transitions (hover scale) */}

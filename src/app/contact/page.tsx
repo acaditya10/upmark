@@ -1,12 +1,19 @@
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Metadata } from "next";
+import { getSiteSettings } from "@/lib/firestore";
 
 export const metadata: Metadata = {
    title: "Contact Us | Upmark",
    description: "Start a conversation with Upmark. We're ready to build your marketing system.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+   const settings = await getSiteSettings();
+
+   const email = settings?.contactEmail || "hello@upmark.co";
+   const phone = settings?.contactPhone || "+44 (0) 20 0000 0000";
+   const address = settings?.contactAddress || "London, United Kingdom";
+
    return (
       // Added flex, flex-col, and justify-center to vertically center the content. 
       // Adjusted padding (pt-24 pb-8) so it stays visually balanced against your fixed navbar.
@@ -17,14 +24,14 @@ export default function ContactPage() {
             <div className="text-center mb-8 relative z-10">
                <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-2 block inline-flex items-center gap-4">
                   <span className="w-8 h-[1px] bg-accent-blue"></span>
-                  LET'S TALK
+                  LET&apos;S TALK
                   <span className="w-8 h-[1px] bg-accent-blue"></span>
                </span>
                <h1 className="text-3xl md:text-5xl font-black font-heading text-white tracking-tight mb-4">
                   Ready to <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-blue-400">Grow?</span>
                </h1>
                <p className="text-muted-text text-lg max-w-2xl font-light mx-auto">
-                  Tell us about your project and we'll get back to you within 24 hours.
+                  Tell us about your project and we&apos;ll get back to you within 24 hours.
                </p>
             </div>
 
@@ -34,15 +41,15 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 gap-4">
                      <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                         <div className="text-accent-blue uppercase tracking-widest text-[10px] font-bold mb-1">Email us</div>
-                        <div className="text-white text-sm font-medium">hello@upmark.co</div>
+                        <div className="text-white text-sm font-medium">{email}</div>
                      </div>
                      <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                         <div className="text-accent-blue uppercase tracking-widest text-[10px] font-bold mb-1">Call us</div>
-                        <div className="text-white text-sm font-medium">+44 (0) 20 0000 0000</div>
+                        <div className="text-white text-sm font-medium">{phone}</div>
                      </div>
                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 md:col-span-2 lg:col-span-1">
                         <div className="text-accent-blue uppercase tracking-widest text-[10px] font-bold mb-1">Find us</div>
-                        <div className="text-white text-sm font-medium">London, United Kingdom</div>
+                        <div className="text-white text-sm font-medium">{address}</div>
                      </div>
                   </div>
 

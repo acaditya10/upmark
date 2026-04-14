@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   Settings,
+  MessageSquareQuote,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
@@ -28,6 +29,12 @@ const navItems = [
     href: "/admin/services",
     label: "Services",
     icon: Briefcase,
+    exact: false,
+  },
+  {
+    href: "/admin/testimonials",
+    label: "Testimonials",
+    icon: MessageSquareQuote,
     exact: false,
   },
   {

@@ -12,11 +12,9 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
-import type { CaseStudy, Service, Lead, SiteSettings } from "@/types";
+import type { CaseStudy, Service, Lead, SiteSettings, Testimonial } from "@/types";
 
 // ─── Settings ───────────────────────────────────────────────
-
-const settingsRef = collection(db, "settings");
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   try {
@@ -127,6 +125,43 @@ export async function updateService(
 
 export async function deleteService(id: string): Promise<void> {
   const docRef = doc(db, "services", id);
+  await deleteDoc(docRef);
+}
+
+// ─── Testimonials ───────────────────────────────────────────
+
+const testimonialsRef = collection(db, "testimonials");
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  const q = query(testimonialsRef, orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as Testimonial);
+}
+
+export async function createTestimonial(
+  data: Omit<Testimonial, "id" | "createdAt" | "updatedAt">
+): Promise<string> {
+  const docRef = await addDoc(testimonialsRef, {
+    ...data,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+  return docRef.id;
+}
+
+export async function updateTestimonial(
+  id: string,
+  data: Partial<Omit<Testimonial, "id" | "createdAt">>
+): Promise<void> {
+  const docRef = doc(db, "testimonials", id);
+  await updateDoc(docRef, {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function deleteTestimonial(id: string): Promise<void> {
+  const docRef = doc(db, "testimonials", id);
   await deleteDoc(docRef);
 }
 

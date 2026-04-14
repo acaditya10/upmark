@@ -38,3 +38,23 @@
     filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.15));
   }
 }
+
+/* Marquee animation for footer accent strip */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Spin animation (used by service page decorative circles) */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

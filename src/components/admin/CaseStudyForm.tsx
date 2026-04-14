@@ -11,6 +11,15 @@ const CATEGORIES: CaseStudyCategory[] = [
   "Stills & Motions",
 ];
 
+const GRADIENT_OPTIONS = [
+  { label: "Purple / Indigo", value: "from-purple-900/30 to-indigo-900/10" },
+  { label: "Blue / Slate", value: "from-blue-900/30 to-slate-900/10" },
+  { label: "Amber / Orange", value: "from-amber-900/30 to-orange-900/10" },
+  { label: "Emerald / Teal", value: "from-emerald-900/30 to-teal-900/10" },
+  { label: "Rose / Red", value: "from-rose-900/30 to-red-900/10" },
+  { label: "Cyan / Blue", value: "from-cyan-900/30 to-blue-900/10" },
+];
+
 interface CaseStudyFormData {
   title: string;
   client: string;
@@ -18,6 +27,15 @@ interface CaseStudyFormData {
   category: CaseStudyCategory;
   mediaUrl: string;
   metrics: { value: string }[];
+  tag: string;
+  stat1: string;
+  stat1label: string;
+  stat2: string;
+  stat2label: string;
+  gradient: string;
+  imageUrl: string;
+  duration: string;
+  mediaType: "Stills" | "Motion";
 }
 
 interface CaseStudyFormProps {
@@ -48,6 +66,15 @@ export function CaseStudyForm({
       metrics: initialData?.metrics?.map((v) => ({ value: v })) || [
         { value: "" },
       ],
+      tag: initialData?.tag || "",
+      stat1: initialData?.stat1 || "",
+      stat1label: initialData?.stat1label || "",
+      stat2: initialData?.stat2 || "",
+      stat2label: initialData?.stat2label || "",
+      gradient: initialData?.gradient || GRADIENT_OPTIONS[0].value,
+      imageUrl: initialData?.imageUrl || "",
+      duration: initialData?.duration || "",
+      mediaType: initialData?.mediaType || "Stills",
     },
   });
 
@@ -57,6 +84,8 @@ export function CaseStudyForm({
   });
 
   const mediaUrl = watch("mediaUrl");
+  const imageUrl = watch("imageUrl");
+  const category = watch("category");
 
   async function handleFormSubmit(data: CaseStudyFormData) {
     await onSubmit({
@@ -66,6 +95,15 @@ export function CaseStudyForm({
       category: data.category,
       mediaUrl: data.mediaUrl,
       metrics: data.metrics.map((m) => m.value).filter(Boolean),
+      tag: data.tag,
+      stat1: data.stat1,
+      stat1label: data.stat1label,
+      stat2: data.stat2,
+      stat2label: data.stat2label,
+      gradient: data.gradient,
+      imageUrl: data.imageUrl,
+      duration: data.duration,
+      mediaType: data.mediaType,
     });
   }
 
@@ -109,22 +147,84 @@ export function CaseStudyForm({
         </div>
       </div>
 
-      {/* Category */}
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-[#F8FAFC]">
-          Category *
-        </label>
-        <select
-          {...register("category", { required: "Category is required" })}
-          className={`${inputClass} appearance-none`}
-        >
-          {CATEGORIES.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
+      {/* Category & Tag */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">
+            Category *
+          </label>
+          <select
+            {...register("category", { required: "Category is required" })}
+            className={`${inputClass} appearance-none`}
+          >
+            {CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">
+            Tag / Industry
+          </label>
+          <input
+            {...register("tag")}
+            placeholder="e.g. Fashion & Lifestyle"
+            className={inputClass}
+          />
+        </div>
       </div>
+
+      {/* Stats Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Stat 1 Value</label>
+          <input {...register("stat1")} placeholder="e.g. +210%" className={inputClass} />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Stat 1 Label</label>
+          <input {...register("stat1label")} placeholder="e.g. Revenue Growth" className={inputClass} />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Stat 2 Value</label>
+          <input {...register("stat2")} placeholder="e.g. +380%" className={inputClass} />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Stat 2 Label</label>
+          <input {...register("stat2label")} placeholder="e.g. Social Engagement" className={inputClass} />
+        </div>
+      </div>
+
+      {/* Gradient & Duration (for Stills & Motions) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Card Gradient</label>
+          <select {...register("gradient")} className={`${inputClass} appearance-none`}>
+            {GRADIENT_OPTIONS.map((g) => (
+              <option key={g.value} value={g.value}>{g.label}</option>
+            ))}
+          </select>
+        </div>
+        {category === "Stills & Motions" && (
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-[#F8FAFC]">Media Type</label>
+            <select {...register("mediaType")} className={`${inputClass} appearance-none`}>
+              <option value="Stills">Stills</option>
+              <option value="Motion">Motion</option>
+            </select>
+          </div>
+        )}
+      </div>
+
+      {category === "Stills & Motions" && (
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Duration (for Motion)</label>
+          <input {...register("duration")} placeholder="e.g. 0:30" className={inputClass} />
+        </div>
+      )}
 
       {/* Description */}
       <div className="flex flex-col gap-2">
@@ -175,13 +275,21 @@ export function CaseStudyForm({
         </button>
       </div>
 
-      {/* Media Upload */}
+      {/* Media Upload (Video) */}
       <CloudinaryUploadWidget
         onUpload={(url) => setValue("mediaUrl", url)}
         currentUrl={mediaUrl}
-        label="Media Upload"
+        label="Media Upload (Video)"
       />
       <input type="hidden" {...register("mediaUrl")} />
+
+      {/* Image Upload (Card thumbnail) */}
+      <CloudinaryUploadWidget
+        onUpload={(url) => setValue("imageUrl", url)}
+        currentUrl={imageUrl}
+        label="Card Image / Thumbnail"
+      />
+      <input type="hidden" {...register("imageUrl")} />
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">

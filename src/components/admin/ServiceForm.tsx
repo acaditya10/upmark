@@ -9,6 +9,8 @@ interface ServiceFormData {
   title: string;
   description: string;
   icon_url: string;
+  subtitle: string;
+  order: number;
 }
 
 interface ServiceFormProps {
@@ -33,13 +35,21 @@ export function ServiceForm({
       title: initialData?.title || "",
       description: initialData?.description || "",
       icon_url: initialData?.icon_url || "",
+      subtitle: initialData?.subtitle || "",
+      order: initialData?.order ?? 0,
     },
   });
 
   const iconUrl = watch("icon_url");
 
   async function handleFormSubmit(data: ServiceFormData) {
-    await onSubmit(data);
+    await onSubmit({
+      title: data.title,
+      description: data.description,
+      icon_url: data.icon_url,
+      subtitle: data.subtitle,
+      order: data.order,
+    });
   }
 
   const inputClass =
@@ -54,17 +64,27 @@ export function ServiceForm({
         {initialData ? "Edit Service" : "New Service"}
       </h2>
 
-      {/* Title */}
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-[#F8FAFC]">Title *</label>
-        <input
-          {...register("title", { required: "Title is required" })}
-          placeholder="Marketing Strategy"
-          className={inputClass}
-        />
-        {errors.title && (
-          <p className="text-xs text-red-400">{errors.title.message}</p>
-        )}
+      {/* Title & Subtitle */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Title *</label>
+          <input
+            {...register("title", { required: "Title is required" })}
+            placeholder="Marketing Strategy"
+            className={inputClass}
+          />
+          {errors.title && (
+            <p className="text-xs text-red-400">{errors.title.message}</p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Subtitle / Category Tag</label>
+          <input
+            {...register("subtitle")}
+            placeholder="e.g. Foundation, Paid Media, Social"
+            className={inputClass}
+          />
+        </div>
       </div>
 
       {/* Description */}
@@ -83,6 +103,18 @@ export function ServiceForm({
         {errors.description && (
           <p className="text-xs text-red-400">{errors.description.message}</p>
         )}
+      </div>
+
+      {/* Order */}
+      <div className="flex flex-col gap-2 max-w-xs">
+        <label className="text-sm font-medium text-[#F8FAFC]">Display Order</label>
+        <input
+          type="number"
+          {...register("order", { valueAsNumber: true })}
+          placeholder="0"
+          className={inputClass}
+        />
+        <p className="text-xs text-[#94A3B8]">Lower numbers appear first. Services with the same order are sorted by creation date.</p>
       </div>
 
       {/* Icon Upload */}

@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getLeads } from "@/lib/firestore";
-import { getCaseStudies } from "@/lib/firestore";
-import { getServices } from "@/lib/firestore";
-import { Users, FileText, Briefcase, TrendingUp } from "lucide-react";
+import { getLeads, getCaseStudies, getServices, getTestimonials } from "@/lib/firestore";
+import { Users, FileText, Briefcase, TrendingUp, MessageSquareQuote } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminOverviewPage() {
@@ -12,21 +10,24 @@ export default function AdminOverviewPage() {
     leads: 0,
     caseStudies: 0,
     services: 0,
+    testimonials: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [leads, caseStudies, services] = await Promise.all([
+        const [leads, caseStudies, services, testimonials] = await Promise.all([
           getLeads(),
           getCaseStudies(),
           getServices(),
+          getTestimonials(),
         ]);
         setStats({
           leads: leads.length,
           caseStudies: caseStudies.length,
           services: services.length,
+          testimonials: testimonials.length,
         });
       } catch (err) {
         console.error("Failed to fetch stats:", err);
@@ -59,6 +60,13 @@ export default function AdminOverviewPage() {
       href: "/admin/services",
       color: "#F59E0B",
     },
+    {
+      label: "Testimonials",
+      value: stats.testimonials,
+      icon: MessageSquareQuote,
+      href: "/admin/testimonials",
+      color: "#A855F7",
+    },
   ];
 
   return (
@@ -72,7 +80,7 @@ export default function AdminOverviewPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card) => (
           <Link
             key={card.label}
@@ -110,7 +118,7 @@ export default function AdminOverviewPage() {
         <h2 className="text-lg font-semibold text-[#F8FAFC] mb-4">
           Quick Actions
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
             href="/admin/case-studies"
             className="flex items-center gap-3 px-4 py-3 bg-[#0F172A] rounded-lg border border-white/5 hover:border-[#3B82F6]/30 transition-colors"
@@ -124,6 +132,13 @@ export default function AdminOverviewPage() {
           >
             <Briefcase size={18} className="text-[#22C55E]" />
             <span className="text-sm text-[#F8FAFC]">Manage Services</span>
+          </Link>
+          <Link
+            href="/admin/testimonials"
+            className="flex items-center gap-3 px-4 py-3 bg-[#0F172A] rounded-lg border border-white/5 hover:border-[#3B82F6]/30 transition-colors"
+          >
+            <MessageSquareQuote size={18} className="text-[#A855F7]" />
+            <span className="text-sm text-[#F8FAFC]">Manage Testimonials</span>
           </Link>
           <Link
             href="/admin/leads"

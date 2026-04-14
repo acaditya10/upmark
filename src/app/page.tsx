@@ -1,88 +1,122 @@
 import { Hero } from "@/components/sections/Hero";
 import { ContentGrid } from "@/components/sections/ContentGrid";
-import { MoveRight, Target, Zap, BarChart3, Users, Network, TrendingUp, Presentation, PlaySquare, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { PlaySquare, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
-import { getSiteSettings } from "@/lib/firestore";
+import { getSiteSettings, getTestimonials } from "@/lib/firestore";
+import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
+
+// ─── Default content (fallbacks when admin hasn't configured) ────────
+
+const DEFAULT_PHILOSOPHY_POINTERS = [
+  { title: "Strategy First", desc: "Every campaign starts with insight-driven strategy. We define your positioning before we produce a single asset." },
+  { title: "Full Execution", desc: "From concept to live campaign — creative direction, production, distribution and optimization, all under one roof." },
+  { title: "Systematic Thinking", desc: "We don't build one-off ads. We architect marketing systems that compound over time and generate predictable growth." },
+  { title: "Measurable Results", desc: "Every deliverable is tied to a business outcome. We track, report and relentlessly optimize for what matters." }
+];
+
+const DEFAULT_PROCESS_ITEMS = [
+  { title: "Insight", description: "Deep-dive into your market, audience, competitors and brand. We surface the insights that define your edge." },
+  { title: "Strategy", description: "We translate insight into a precise strategy — positioning, messaging, channels and a roadmap for execution." },
+  { title: "Creative Production", description: "Our in-house team produces every asset — video, design, copy and content — aligned to the strategy." },
+  { title: "Campaign Launch", description: "Orchestrated rollout across paid, owned and earned channels with precision timing and audience targeting." },
+  { title: "Optimisation", description: "Real-time monitoring and rapid iteration. We cut what doesn't work and double down on what does." },
+  { title: "Growth", description: "We systematically compound results — scaling budgets, expanding channels and building long-term growth loops." }
+];
+
+const DEFAULT_CONTENT_ITEMS = [
+  { title: "Short-form", subtitle: "Reels & Shorts", description: "Vertical-first content engineered for algorithm performance and share velocity." },
+  { title: "Paid Creative", subtitle: "Campaign Ads", description: "Static, animated and video ad creatives across Meta, Google and programmatic networks." },
+  { title: "Long-form", subtitle: "Brand Films", description: "Cinematic brand storytelling that defines identity and creates emotional connection." },
+  { title: "Photography", subtitle: "Product Shoots", description: "Studio and lifestyle product photography optimised for eCommerce and social." },
+  { title: "Ongoing", subtitle: "Social Media Content", description: "Ongoing weekly content production — graphics, carousels, captions and stories." },
+  { title: "Video", subtitle: "YouTube & Long-form", description: "Full-length branded content, tutorials and documentaries that build authority." },
+];
+
+const DEFAULT_STUDIO_CAPABILITIES = [
+  "In-house production team", "Director + DP on every shoot", "4K / cinema-grade equipment", 
+  "Same-day turnaround available", "Licensed music library", "Motion graphics included", 
+  "Platform-native formatting", "Raw footage delivery"
+];
+
+const DEFAULT_ADVANTAGES = [
+  { title: "Integrated by design", desc: "Not a creative studio, not a media buyer, not a consultant. We combine all three into one system." },
+  { title: "Speed without compromise", desc: "We move at startup speed with agency-level production quality. Fast means first to market." },
+  { title: "Transparent reporting", desc: "Real-time dashboards and weekly performance reviews. You always know exactly what your marketing is doing." },
+  { title: "Embedded in your team", desc: "We work as an extension of your business — attending meetings, understanding culture and owning outcomes." },
+  { title: "Built for scale", desc: "Our systems are engineered to scale. As your business grows, your marketing infrastructure grows with it." },
+  { title: "Channel-agnostic thinking", desc: "We follow your audience, not trends. Whatever channel converts, we optimise there first." }
+];
 
 export default async function Home() {
-  const settings = await getSiteSettings();
+  const [settings, testimonials] = await Promise.all([
+    getSiteSettings(),
+    getTestimonials(),
+  ]);
 
-  const philosophyPointers = [
-    { title: "Strategy First", desc: "Every campaign starts with insight-driven strategy. We define your positioning before we produce a single asset." },
-    { title: "Full Execution", desc: "From concept to live campaign — creative direction, production, distribution and optimization, all under one roof." },
-    { title: "System Thinking", desc: "We don't build one-off ads. We architect marketing systems that compound over time and generate predictable growth." },
-    { title: "Measurable Results", desc: "Every deliverable is tied to a business outcome. We track, report and relentlessly optimize for what matters." }
-  ];
-
-  const capabilityItems = [
-    { id: 1, title: "Marketing Strategy", subtitle: "Foundation", description: "In-depth market analysis, brand positioning, audience mapping and go-to-market blueprints built to last.", icon: <Network size={28} /> },
-    { id: 2, title: "Performance Marketing", subtitle: "Paid Media", description: "Paid search, social ads and programmatic campaigns engineered for maximum ROAS and scalable growth.", icon: <TrendingUp size={28} /> },
-    { id: 3, title: "Social Media Marketing", subtitle: "Social", description: "Channel strategy, community building and content calendars that turn audiences into advocates.", icon: <Users size={28} /> },
-    { id: 4, title: "Campaign Design", subtitle: "Creative", description: "Visually cohesive campaigns with motion, static and interactive assets that capture and convert.", icon: <Presentation size={28} /> },
-    { id: 5, title: "Content Production", subtitle: "Content", description: "Editorial-quality content across formats — from blog and copywriting to visual storytelling.", icon: <PlaySquare size={28} /> },
-    { id: 6, title: "Video & Reels Production", subtitle: "Video", description: "Short-form, long-form and cinematic brand films that perform across platforms and captivate audiences.", icon: <MoveRight size={28} /> },
-    { id: 7, title: "Corporate Event Coverage", subtitle: "Events", description: "Professional event photography, videography and live social content to amplify your moments.", icon: <Target size={28} /> },
-    { id: 8, title: "SEO & Lead Generation", subtitle: "Organic", description: "Technical SEO, authority building and conversion-optimised lead funnels that generate qualified pipeline.", icon: <Zap size={28} /> },
-    { id: 9, title: "Digital Growth Consulting", subtitle: "Advisory", description: "Expert advisory on marketing stack, attribution, analytics and scaling frameworks for ambitious brands.", icon: <BarChart3 size={28} /> }
-  ];
-
-  const processItems = [
-    { id: 1, title: "Insight", description: "Deep-dive into your market, audience, competitors and brand. We surface the insights that define your edge." },
-    { id: 2, title: "Strategy", description: "We translate insight into a precise strategy — positioning, messaging, channels and a roadmap for execution." },
-    { id: 3, title: "Creative Production", description: "Our in-house team produces every asset — video, design, copy and content — aligned to the strategy." },
-    { id: 4, title: "Campaign Launch", description: "Orchestrated rollout across paid, owned and earned channels with precision timing and audience targeting." },
-    { id: 5, title: "Optimisation", description: "Real-time monitoring and rapid iteration. We cut what doesn't work and double down on what does." },
-    { id: 6, title: "Growth", description: "We systematically compound results — scaling budgets, expanding channels and building long-term growth loops." }
-  ];
-
-  const contentItems = [
-    { id: 1, title: "Short-form", subtitle: "Reels & Shorts", description: "Vertical-first content engineered for algorithm performance and share velocity." },
-    { id: 2, title: "Paid Creative", subtitle: "Campaign Ads", description: "Static, animated and video ad creatives across Meta, Google and programmatic networks." },
-    { id: 3, title: "Long-form", subtitle: "Brand Films", description: "Cinematic brand storytelling that defines identity and creates emotional connection." },
-    { id: 4, title: "Photography", subtitle: "Product Shoots", description: "Studio and lifestyle product photography optimised for eCommerce and social." },
-    { id: 5, title: "Ongoing", subtitle: "Social Media Content", description: "Ongoing weekly content production — graphics, carousels, captions and stories." },
-    { id: 6, title: "Video", subtitle: "YouTube & Long-form", description: "Full-length branded content, tutorials and documentaries that build authority." },
-  ];
-
-  const studioCapabilities = [
-    "In-house production team", "Director + DP on every shoot", "4K / cinema-grade equipment", 
-    "Same-day turnaround available", "Licensed music library", "Motion graphics included", 
-    "Platform-native formatting", "Raw footage delivery"
-  ];
-
-  const advantages = [
-    { id: 1, title: "Integrated by design", desc: "Not a creative studio, not a media buyer, not a consultant. We combine all three into one system." },
-    { id: 2, title: "Speed without compromise", desc: "We move at startup speed with agency-level production quality. Fast means first to market." },
-    { id: 3, title: "Transparent reporting", desc: "Real-time dashboards and weekly performance reviews. You always know exactly what your marketing is doing." },
-    { id: 4, title: "Embedded in your team", desc: "We work as an extension of your business — attending meetings, understanding culture and owning outcomes." },
-    { id: 5, title: "Built for scale", desc: "Our systems are engineered to scale. As your business grows, your marketing infrastructure grows with it." },
-    { id: 6, title: "Channel-agnostic thinking", desc: "We follow your audience, not trends. Whatever channel converts, we optimise there first." }
-  ];
+  // Use admin-configured content or fall back to defaults
+  const philosophyPointers = settings?.philosophyPointers?.length ? settings.philosophyPointers : DEFAULT_PHILOSOPHY_POINTERS;
+  const processItems = (settings?.processSteps?.length ? settings.processSteps : DEFAULT_PROCESS_ITEMS).map((p, i) => ({
+    id: i + 1,
+    title: p.title,
+    description: p.description,
+  }));
+  const contentItems = (settings?.contentItems?.length ? settings.contentItems : DEFAULT_CONTENT_ITEMS).map((c, i) => ({
+    id: i + 1,
+    title: c.title,
+    subtitle: c.subtitle,
+    description: c.description,
+  }));
+  const studioCapabilities = settings?.studioCapabilities?.length ? settings.studioCapabilities : DEFAULT_STUDIO_CAPABILITIES;
+  const advantages = (settings?.advantages?.length ? settings.advantages : DEFAULT_ADVANTAGES).map((a, i) => ({
+    id: i + 1,
+    title: a.title,
+    desc: a.desc,
+  }));
 
   return (
     <div className="flex flex-col gap-32 pb-32 relative">
-      <Hero videoUrl={settings?.heroVideoUrl} />
+      <Hero videoUrl={settings?.heroVideoUrl} metrics={settings?.heroMetrics} />
 
       {/* Philosophy Section */}
-      <section className="container mx-auto px-6 mt-10">
-        <div className="flex flex-col lg:flex-row gap-16 mb-20 text-white">
-           <div className="lg:w-1/2">
-             <span className="text-muted-text font-bold tracking-[0.2em] uppercase text-xs mb-4 block flex items-center gap-4">
-               <span className="w-8 h-[1px] bg-muted-text"></span>
-               Philosophy
+      <section className="container mx-auto px-6 mt-16 md:mt-24">
+        <div className="flex flex-col lg:flex-row gap-16 mb-20 text-white items-center">
+           {/* Left Side */}
+           <div className="lg:w-7/12 flex flex-col items-start pr-0 lg:pr-10">
+             <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-6 inline-flex items-center gap-4">
+               <span className="w-8 h-[1px] bg-accent-blue"></span>
+               PHILOSOPHY
              </span>
-             <h2 className="text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight">
-               Most agencies only create content <br className="hidden md:block"/><span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">or run ads.</span>
+             <h2 className="text-4xl md:text-5xl font-extrabold font-heading text-white tracking-tight leading-tight mb-4">
+               Most agencies only <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">create content</span> <br className="hidden md:block"/>or run ads.
              </h2>
-             <h3 className="text-2xl mt-6 font-semibold">Upmark builds complete marketing systems.</h3>
+             <h3 className="text-2xl md:text-3xl mt-4 mb-8 font-semibold">
+               Upmark builds <span className="text-accent-gold">complete marketing systems.</span>
+             </h3>
+             <div className="flex flex-col gap-6 text-muted-text font-light text-lg mb-10">
+                <p>
+                  We integrate strategy, performance marketing, content production, campaign execution and distribution into a single, coherent growth engine. The result is not a collection of deliverables — it is a system that compounds.
+                </p>
+                <p>
+                  Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
+                </p>
+             </div>
+             
+             <Link href="/about" className="group flex items-center justify-center px-8 py-4 rounded-lg font-semibold text-base text-white border border-white/20 hover:border-accent-blue hover:bg-accent-blue/5 transition-all">
+               Learn more
+             </Link>
            </div>
-           <div className="lg:w-1/2 flex flex-col gap-6 text-muted-text font-light text-lg">
-              <p>
-                We integrate strategy, performance marketing, content production, campaign execution and distribution into a single, coherent growth engine. The result is not a collection of deliverables — it is a system that compounds.
-              </p>
-              <p>
-                Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
-              </p>
+           
+           {/* Right Side Graphic */}
+           <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[400px]">
+             {/* Glowing orb / graphic placeholder inspired by the dark theme */}
+             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
+             <div className="relative w-full aspect-square max-w-[400px] border border-white/5 bg-secondary-surface/20 rounded-full flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg')] mix-blend-overlay opacity-20 object-cover w-full h-full"></div>
+                <div className="w-3/4 h-3/4 rounded-full border border-dashed border-white/20 animate-[spin_20s_linear_infinite]"></div>
+                <div className="absolute w-1/2 h-1/2 rounded-full bg-gradient-to-br from-accent-blue/30 to-transparent blur-2xl"></div>
+                {/* Single minimalist circle from mockup */}
+                <div className="absolute w-20 h-20 rounded-full border border-accent-blue/40 right-10 bottom-20"></div>
+             </div>
            </div>
         </div>
 
@@ -100,75 +134,67 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* What We Do */}
-      <section className="container mx-auto px-6 relative z-10 mt-10">
-        <div className="mb-20">
-          <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block flex items-center gap-4">
-             <span className="w-8 h-[1px] bg-accent-blue"></span>
-             WHAT WE DO
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6">One agency. <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-blue-400">Every capability.</span></h2>
-          <p className="text-muted-text text-xl max-w-2xl font-light">From strategy to production to distribution, we cover the full marketing spectrum so you never need another vendor.</p>
-        </div>
-        <ContentGrid items={capabilityItems} type="icon" columns={3} />
-      </section>
-
       {/* Process Section */}
-      <section className="container mx-auto px-6 relative z-10 mt-10">
-        <div className="mb-20">
-          <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block flex items-center gap-4">
-             <span className="w-8 h-[1px] bg-accent-blue"></span>
-             HOW WE WORK
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6">Our <span className="text-accent-gold">6-Step Process</span></h2>
-          <p className="text-muted-text text-xl max-w-2xl font-light">A rigorous system built for consistency, speed and measurable outcomes at every stage.</p>
-        </div>
-        <ContentGrid items={processItems} type="numbered" />
-      </section>
+      <section className="container mx-auto px-6 relative z-10 mt-16 md:mt-24">
+        <div className="flex flex-col lg:flex-row gap-16 items-start">
+           
+           {/* Left Side: Text and Steps */}
+           <div className="lg:w-7/12 w-full flex flex-col pr-0 lg:pr-8">
+             <div className="mb-12">
+               <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block flex items-center gap-4">
+                  <span className="w-8 h-[1px] bg-accent-blue"></span>
+                  HOW WE WORK
+               </span>
+               <h2 className="text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6">Our <span className="text-accent-gold">6-Step Process</span></h2>
+               <p className="text-muted-text text-xl max-w-2xl font-light">A rigorous system built for consistency, speed and measurable outcomes at every stage.</p>
+             </div>
+             
+             {/* Enumerate Steps 1-6 */}
+             <ContentGrid items={processItems} type="numbered" columns={2} />
+             
+             {/* CTA Buttons */}
+             <div className="mt-16 flex flex-col sm:flex-row items-center justify-start gap-4">
+               <Link href="/services" className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-blue text-white px-8 py-4 rounded-lg font-semibold text-base overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
+                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                 <span className="relative z-10 flex items-center gap-2">Our Services </span>
+               </Link>
+               
+               <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-8 py-4 rounded-lg font-semibold text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md transition-all">
+                 View our work
+               </Link>
+             </div>
+           </div>
 
-      {/* Case Studies */}
-      <section className="container mx-auto px-6 relative z-10 mt-10">
-        <div className="mb-20 text-center flex flex-col items-center">
-          <span className="text-accent-gold font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
-             <span className="w-8 h-[1px] bg-accent-gold"></span>
-             OUR WORK
-             <span className="w-8 h-[1px] bg-accent-gold"></span>
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6">Results that speak <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-gold to-yellow-400">for themselves.</span></h2>
-          <p className="text-muted-text text-xl max-w-2xl font-light">Click any case study to read the full story.</p>
-        </div>
-        
-        {/* Custom Grid for Case Studies to match text details exactly */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           {[
-             { title: "Ingri", tag: "Fashion & Lifestyle", stat1: "+210%", stat1label: "Revenue Growth", stat2: "+380%", stat2label: "Social Engagement", desc: "Ingri was a premium fashion brand struggling to differentiate in a saturated market. Organic reach had declined 60% and paid ROI was stagnating.", gradient: "from-purple-900/30 to-indigo-900/10" },
-             { title: "Motorworks", tag: "Automotive Services", stat1: "+320%", stat1label: "Lead Volume", stat2: "-58%", stat2label: "Cost Per Lead", desc: "Motorworks had strong offline reputation but near-zero digital presence. Competitors dominated local search and their website converted at under 1%.", gradient: "from-blue-900/30 to-slate-900/10" },
-             { title: "Luxe Stays", tag: "Hospitality & Hotels", stat1: "+175%", stat1label: "Booking Rate", stat2: "+£420K", stat2label: "Direct Revenue", desc: "Luxe Stays was over-reliant on OTA platforms paying 18% commission. They needed direct bookings and brand awareness in a premium segment.", gradient: "from-amber-900/30 to-orange-900/10" },
-             { title: "The Grove Kitchen", tag: "Food & Restaurant", stat1: "+290%", stat1label: "Reservations", stat2: "0→45K", stat2label: "TikTok Followers", desc: "The Grove Kitchen was a new independent restaurant with no digital footprint, limited budget and fierce competition from established names.", gradient: "from-emerald-900/30 to-teal-900/10" },
-             { title: "Vertex Corp", tag: "B2B Technology", stat1: "+£2.1M", stat1label: "Pipeline Value", stat2: "+430%", stat2label: "Demo Requests", desc: "Vertex had a technically superior product but poor messaging and a sales team struggling to generate qualified demo requests.", gradient: "from-rose-900/30 to-red-900/10" },
-             { title: "Bloom Retail", tag: "E-commerce & Retail", stat1: "+340%", stat1label: "eCommerce Revenue", stat2: "6.8×", stat2label: "ROAS", desc: "Bloom Retail had strong products but weak digital marketing — high ad spend with poor returns and no sustainable organic channel.", gradient: "from-cyan-900/30 to-blue-900/10" },
-           ].map((cs, i) => (
-              <Link href="#" key={i} className={`group block p-10 rounded-3xl bg-secondary-surface/40 bg-gradient-to-br ${cs.gradient} border border-white/5 backdrop-blur-md hover:border-accent-blue/30 transition-all duration-300 relative overflow-hidden`}>
-                 <div className="text-accent-blue font-bold uppercase tracking-widest text-xs mb-2">{cs.tag}</div>
-                 <h3 className="text-3xl font-black text-white mb-8 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-accent-blue transition-all">{cs.title}</h3>
-                 
-                 <div className="flex items-center gap-8 mb-8 pb-8 border-b border-white/10">
-                    <div>
-                       <div className="text-4xl font-black text-white">{cs.stat1}</div>
-                       <div className="text-muted-text text-sm uppercase tracking-wider">{cs.stat1label}</div>
-                    </div>
-                    <div>
-                       <div className="text-4xl font-black text-white">{cs.stat2}</div>
-                       <div className="text-muted-text text-sm uppercase tracking-wider">{cs.stat2label}</div>
-                    </div>
-                 </div>
-
-                 <p className="text-muted-text/90 font-light mb-8">{cs.desc}</p>
-                 <div className="inline-flex items-center gap-2 text-accent-blue font-semibold group-hover:gap-4 transition-all">
-                    View Case Study <ArrowUpRight size={18} />
-                 </div>
-              </Link>
-           ))}
+           {/* Right Side Graphic Placeholders */}
+           <div className="lg:w-5/12 w-full lg:sticky lg:top-32 flex flex-col gap-6 items-center">
+             <div className="w-full aspect-[4/5] rounded-[2rem] border border-white/5 bg-secondary-surface/30 backdrop-blur-md overflow-hidden relative group">
+               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-accent-blue/10 z-10"></div>
+               {/* Decorative structural elements to serve as placeholder */}
+               <div className="absolute inset-x-8 inset-y-12 border border-white/10 rounded-2xl flex flex-col gap-6 p-8 justify-center z-20 bg-secondary-surface/50 backdrop-blur-sm">
+                  <div className="w-full h-8 flex gap-2 mb-4">
+                     <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse"></div>
+                     <div className="w-3/4 h-8 rounded bg-white/5"></div>
+                  </div>
+                  <div className="w-full h-px bg-white/10 my-2"></div>
+                  <div className="flex flex-col gap-4">
+                     {[1, 2, 3].map((i) => (
+                        <div key={i} className="flex gap-4 items-center">
+                           <div className="w-10 h-10 rounded-full border-2 border-accent-blue/30 flex items-center justify-center text-accent-blue/50 text-xs">0{i}</div>
+                           <div className="flex-1 flex flex-col gap-2">
+                              <div className="w-full h-2 rounded bg-white/10"></div>
+                              <div className="w-2/3 h-2 rounded bg-white/5"></div>
+                           </div>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+               
+               {/* Abstract background blobs for premium feel */}
+               <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/20 rounded-full blur-[80px]"></div>
+               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/10 rounded-full blur-[80px]"></div>
+             </div>
+           </div>
+           
         </div>
       </section>
 
@@ -227,7 +253,7 @@ export default async function Home() {
         <div className="flex flex-col gap-6 max-w-4xl mx-auto mb-20">
            <div className="border border-white/10 bg-secondary-surface/30 p-8 rounded-2xl flex flex-col md:flex-row gap-6 md:items-center justify-between">
               <h3 className="text-2xl font-bold text-white md:w-1/2">Marketing without execution is just theory.</h3>
-              <p className="text-muted-text md:w-1/2 font-light">Ideas without action don't grow brands. We build, launch and optimize — every time.</p>
+              <p className="text-muted-text md:w-1/2 font-light">Ideas without action don&apos;t grow brands. We build, launch and optimize — every time.</p>
            </div>
            <div className="border border-white/10 bg-secondary-surface/30 p-8 rounded-2xl flex flex-col md:flex-row gap-6 md:items-center justify-between">
               <h3 className="text-2xl font-bold text-white md:w-1/2">Strategy. Production. Distribution. One team.</h3>
@@ -249,6 +275,9 @@ export default async function Home() {
            ))}
         </div>
       </section>
+
+      {/* Testimonials Carousel */}
+      <TestimonialsCarousel testimonials={testimonials} />
 
     </div>
   );

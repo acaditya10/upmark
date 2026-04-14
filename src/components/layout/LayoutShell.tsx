@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { FloatingCTA } from "@/components/layout/FloatingCTA";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { Footer } from "@/components/layout/Footer";
+import { PageTransition } from "@/components/layout/PageTransition";
 import type { ReactNode } from "react";
 
 export function LayoutShell({ children }: { children: ReactNode }) {
@@ -25,7 +26,9 @@ export function LayoutShell({ children }: { children: ReactNode }) {
     <>
       <CustomCursor />
       <Navbar />
-      <main className="flex-grow">{children}</main>
+      <main className="flex-grow">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <Footer />
       <FloatingCTA />
     </>
