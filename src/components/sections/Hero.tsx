@@ -24,11 +24,12 @@ export const Hero = ({ videoUrl, metrics }: HeroProps) => {
 
   return (
     <section className="relative min-h-screen flex items-center pt-0 pb-8 sm:pb-16 overflow-hidden">
-      {/* Background Video & Premium Lighting */}
+      {/* Background Video & Ambient Lighting */}
       <div className="absolute inset-0 z-0 bg-primary-bg overflow-hidden">
-        <div className="absolute inset-0 opacity-40 mix-blend-screen">
-           <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-accent-blue/20 blur-[120px]" />
-           <div className="absolute top-[30%] -right-[10%] w-[40%] h-[60%] rounded-full bg-accent-gold/10 blur-[150px]" />
+        {/* Reduced glow divs — smaller radii, lower opacity */}
+        <div className="absolute inset-0 opacity-30 mix-blend-screen">
+           <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-accent-blue/15 blur-[80px]" />
+           <div className="absolute top-[30%] -right-[10%] w-[40%] h-[60%] rounded-full bg-accent-gold/8 blur-[100px]" />
         </div>
         <video 
           key={currentVideoUrl}
@@ -38,6 +39,7 @@ export const Hero = ({ videoUrl, metrics }: HeroProps) => {
           playsInline 
           className="object-cover w-full h-full"
           poster={!videoUrl ? defaultPoster : undefined}
+          preload="metadata"
         >
           <source src={currentVideoUrl} type="video/mp4" />
         </video>
@@ -45,16 +47,16 @@ export const Hero = ({ videoUrl, metrics }: HeroProps) => {
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-start justify-center h-full text-left mt-16 sm:mt-20">
         
-        {/* Soft radial darkening behind text to maintain readability against bright video */}
-        <div className="absolute top-[30%] sm:top-[40%] left-[-20%] sm:left-[-10%] -translate-y-1/2 w-[600px] sm:w-[1000px] h-[600px] sm:h-[800px] bg-primary-bg/80 blur-[80px] sm:blur-[120px] rounded-full pointer-events-none -z-10"></div>
+        {/* Soft radial darkening — reduced blur for perf */}
+        <div className="absolute top-[30%] sm:top-[40%] left-[-20%] sm:left-[-10%] -translate-y-1/2 w-[600px] sm:w-[1000px] h-[600px] sm:h-[800px] bg-primary-bg/80 blur-[60px] sm:blur-[80px] rounded-full pointer-events-none -z-10"></div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.25, 0.4, 0, 1] }}
+          transition={{ duration: 0.6, ease: [0.25, 0.4, 0, 1] }}
           className="max-w-4xl flex flex-col items-start"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 sm:mb-6 rounded-full border border-accent-blue/30 bg-accent-blue/10 backdrop-blur-md shadow-[0_0_20px_rgba(59,130,246,0.15)] text-accent-blue text-[10px] sm:text-xs tracking-widest uppercase font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 sm:mb-6 rounded-full border border-accent-blue/30 bg-accent-blue/10 shadow-[0_0_20px_rgba(59,130,246,0.15)] text-accent-blue text-[10px] sm:text-xs tracking-widest uppercase font-semibold">
             <span className="w-1.5 h-1.5 rounded-full bg-accent-blue animate-pulse"></span>
             Integrated Marketing Agency
           </div>
@@ -70,12 +72,11 @@ export const Hero = ({ videoUrl, metrics }: HeroProps) => {
 
           <div className="flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4 w-full sm:w-auto">
             <Link href="/contact" className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-blue text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
-              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <div className="absolute -top-10 -left-10 w-24 h-24 bg-white/20 blur-xl rounded-full group-hover:scale-[3] transition-transform duration-700 ease-out"></div>
-              <span className="relative z-10 flex items-center gap-2">Start a Project <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" /></span>
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 flex items-center gap-2">Start a Project <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" /></span>
             </Link>
             
-            <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md transition-all">
+            <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
               View Our Work
             </Link>
           </div>
@@ -83,9 +84,9 @@ export const Hero = ({ videoUrl, metrics }: HeroProps) => {
 
         {/* Premium Metrics Bar */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 1, ease: [0.25, 0.4, 0, 1] }}
+          transition={{ delay: 0.4, duration: 0.6, ease: [0.25, 0.4, 0, 1] }}
           className="mt-10 sm:mt-16 md:mt-20 grid grid-cols-3 gap-4 sm:gap-8 md:gap-16 relative w-full max-w-4xl"
         >
           {/* Subtle Top Border */}
@@ -98,7 +99,7 @@ export const Hero = ({ videoUrl, metrics }: HeroProps) => {
                   {metric.value}
                 </span>
               ) : (
-                <span className="text-xl sm:text-3xl md:text-4xl font-heading font-black text-white tracking-tighter group-hover:text-accent-blue transition-colors">
+                <span className="text-xl sm:text-3xl md:text-4xl font-heading font-black text-white tracking-tighter group-hover:text-accent-blue transition-colors duration-200">
                   {metric.suffix ? (
                     <>{metric.value}<span className="text-accent-blue">{metric.suffix}</span></>
                   ) : (

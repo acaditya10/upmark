@@ -19,7 +19,7 @@ export default async function ContactPage() {
       // Adjusted padding (pt-24 pb-8) so it stays visually balanced against your fixed navbar.
       <div className="min-h-screen pt-20 sm:pt-24 md:pt-32 pb-8 sm:pb-12">
          <section className="container mx-auto px-4 sm:px-6 relative z-10 w-full max-w-5xl overflow-hidden md:overflow-visible">
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-accent-blue/10 blur-[100px] md:blur-[150px] pointer-events-none rounded-full"></div>
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-accent-blue/8 blur-[60px] md:blur-[80px] pointer-events-none rounded-full"></div>
 
             <div className="text-center mb-6 sm:mb-8 relative z-10">
                <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-2 block inline-flex items-center gap-4">

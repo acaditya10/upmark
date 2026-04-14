@@ -136,17 +136,17 @@ export default async function ServicesPage() {
                         src={imageUrl}
                         alt={`${item.title} — ${item.subtitle || 'Upmark service'}`}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : item.icon_url ? (
                       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={item.icon_url} alt={item.title} className="w-24 h-24 object-contain opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" />
+                        <img src={item.icon_url} alt={item.title} className="w-24 h-24 object-contain opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
                       </div>
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/10 to-accent-blue/5 flex items-center justify-center">
-                        <div className="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm">
+                        <div className="w-32 h-32 rounded-full border border-white/20 flex items-center justify-center bg-white/5">
                           <IconComponent size={40} className="text-white/30" />
                         </div>
                       </div>
@@ -164,7 +164,7 @@ export default async function ServicesPage() {
 
         {/* Global CTA at the bottom */}
         <div className="mt-20 sm:mt-40 text-center relative max-w-4xl mx-auto">
-          <div className="absolute inset-0 bg-accent-blue/20 blur-[60px] sm:blur-[100px] rounded-full -z-10"></div>
+          <div className="absolute inset-0 bg-accent-blue/15 blur-[40px] sm:blur-[60px] rounded-full -z-10"></div>
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6 sm:mb-8">
             Ready to see our <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-purple-400">results?</span>
           </h2>

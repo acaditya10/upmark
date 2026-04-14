@@ -245,12 +245,12 @@ export default async function CaseStudiesPage() {
                       src={item.imageUrl}
                       alt={`${item.title} — case study by Upmark`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent z-10"></div>
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-xs text-white uppercase tracking-widest font-semibold border border-white/10 z-20">{item.tag || item.category}</div>
+                  <div className="absolute top-4 left-4 px-3 py-1 bg-black/60 rounded-full text-xs text-white uppercase tracking-widest font-semibold border border-white/10 z-20">{item.tag || item.category}</div>
                 </div>
                 {/* Body */}
                 <div className="p-5 sm:p-8 flex flex-col flex-grow">
@@ -295,7 +295,7 @@ export default async function CaseStudiesPage() {
                       src={item.imageUrl}
                       alt={`${item.title} — success story by Upmark`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, 40vw"
                     />
                   )}
@@ -338,7 +338,7 @@ export default async function CaseStudiesPage() {
                       src={item.imageUrl}
                       alt={`${item.title} — production by Upmark`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
                       sizes="350px"
                     />
                   )}
@@ -397,7 +397,7 @@ export default async function CaseStudiesPage() {
              <Link href="/contact" className="group flex items-center justify-center gap-2 bg-accent-blue text-white px-8 py-4 rounded-lg font-semibold text-base overflow-hidden transition-all hover:scale-[1.02] shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
                Start a Project <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
              </Link>
-             <Link href="/services" className="group flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md transition-all">
+             <Link href="/services" className="group flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
                Explore our services <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
              </Link>
            </div>

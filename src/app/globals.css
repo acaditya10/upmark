@@ -68,19 +68,67 @@ html {
     min-height: 44px;
     min-width: 44px;
   }
-  /* Ensure form inputs are comfortable on mobile */
+  /* Prevents iOS zoom on focus */
   input, textarea, select {
-    font-size: 16px !important; /* Prevents iOS zoom on focus */
+    font-size: 16px !important;
   }
 }
 
-/* ─── Mobile performance optimizations ─── */
+/* ─── Performance: prefers-reduced-motion ─── */
+/* Respect the user's OS-level reduced-motion setting */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Mobile & low-end GPU performance optimizations ─── */
 @media (max-width: 768px) {
-  /* Reduce blur effects on mobile for performance */
+  /* Dramatically reduce blur effects on mobile — biggest perf win */
   .backdrop-blur-3xl,
   .backdrop-blur-2xl {
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+  .backdrop-blur-xl {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+  .backdrop-blur-md {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+
+  /* Reduce decorative blur glow radii on mobile */
+  [class*="blur-[120px]"] { filter: blur(40px) !important; }
+  [class*="blur-[150px]"] { filter: blur(50px) !important; }
+  [class*="blur-[100px]"] { filter: blur(35px) !important; }
+  [class*="blur-[80px]"]  { filter: blur(25px) !important; }
+  [class*="blur-[60px]"]  { filter: blur(20px) !important; }
+
+  /* Throttle hover-scale transforms on mobile – they block main thread */
+  .group-hover\:scale-105 { transform: none !important; }
+
+  /* Promote compositing for fixed/sticky elements */
+  .fixed, [class*="sticky"] {
+    will-change: transform;
+    contain: layout style;
+  }
+}
+
+/* ─── Ultra-light mode for very low-end devices ─── */
+/* When the device signals "save-data" or low-bandwidth, strip heavy effects */
+@media (prefers-reduced-data: reduce) {
+  .backdrop-blur-3xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl,
+  .backdrop-blur-md {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(15, 23, 42, 0.85) !important;
   }
 }
 
@@ -102,4 +150,11 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ─── GPU compositing hints for critical layers ─── */
+.will-change-transform {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }

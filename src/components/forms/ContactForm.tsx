@@ -50,7 +50,7 @@ export const ContactForm = () => {
   }
 
   return (
-    <div className="bg-primary-bg/50 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 w-full">
+    <div className="bg-primary-bg/70 border border-white/10 rounded-2xl p-6 md:p-8 w-full">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1">

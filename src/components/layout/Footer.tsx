@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
-import { motion } from "framer-motion";
 
 const TwitterIcon = ({ size }: { size: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -35,10 +34,10 @@ export const Footer = () => {
 
   return (
     <footer className="border-t border-white/5 bg-primary-bg relative overflow-hidden">
-      {/* Marquee Accent Strip */}
+      {/* Marquee Accent Strip — reduced duplicates from 6 → 4 */}
       <div className="relative overflow-hidden py-4 border-b border-white/5">
-        <div className="flex whitespace-nowrap animate-[marquee_25s_linear_infinite]">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]" style={{ willChange: "transform" }}>
+          {Array.from({ length: 4 }).map((_, i) => (
             <span key={i} className="text-[11px] uppercase tracking-[0.3em] text-white/[0.06] font-heading font-black mx-4">
               {marqueeText}
             </span>
@@ -60,21 +59,21 @@ export const Footer = () => {
           <div>
             <h4 className="text-white font-bold font-heading mb-4 sm:mb-6 tracking-wide text-sm sm:text-base">Services</h4>
             <ul className="flex flex-col gap-2 sm:gap-3">
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Marketing Strategy</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Performance Marketing</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Content Production</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Social Media Management</Link></li>
-              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">SEO & Lead Generation</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Marketing Strategy</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Performance Marketing</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Content Production</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Social Media Management</Link></li>
+              <li><Link href="/services" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">SEO & Lead Generation</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="text-white font-bold font-heading mb-4 sm:mb-6 tracking-wide text-sm sm:text-base">Company</h4>
             <ul className="flex flex-col gap-2 sm:gap-3">
-              <li><Link href="/work" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Work</Link></li>
-              <li><Link href="/case-studies" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Case Studies</Link></li>
-              <li><Link href="/contact" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Contact</Link></li>
-              <li><Link href="/privacy" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm hover:translate-x-1 inline-block transform duration-200">Privacy Policy</Link></li>
+              <li><Link href="/work" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Work</Link></li>
+              <li><Link href="/case-studies" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Case Studies</Link></li>
+              <li><Link href="/contact" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Contact</Link></li>
+              <li><Link href="/privacy" className="text-muted-text hover:text-accent-blue transition-colors text-xs sm:text-sm">Privacy Policy</Link></li>
             </ul>
           </div>
           
@@ -82,24 +81,24 @@ export const Footer = () => {
             <h4 className="text-white font-bold font-heading mb-4 sm:mb-6 tracking-wide text-sm sm:text-base">Connect</h4>
             <ul className="flex flex-col gap-2 sm:gap-3">
               <li>
-                <a href="https://x.com/upmarkmedia" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
-                  <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 group-hover/social:shadow-[0_0_12px_rgba(59,130,246,0.2)] transition-all duration-300">
+                <a href="https://x.com/upmarkmedia" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-colors text-sm duration-200">
+                  <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 transition-colors duration-200">
                     <TwitterIcon size={16} />
                   </span>
                   Twitter / X
                 </a>
               </li>
               <li>
-                <a href="https://linkedin.com/company/upmark" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
-                  <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 group-hover/social:shadow-[0_0_12px_rgba(59,130,246,0.2)] transition-all duration-300">
+                <a href="https://linkedin.com/company/upmark" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-colors text-sm duration-200">
+                  <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 transition-colors duration-200">
                     <LinkedinIcon size={16} />
                   </span>
                   LinkedIn
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com/upmark.media" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-all text-sm duration-300">
-                  <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 group-hover/social:shadow-[0_0_12px_rgba(59,130,246,0.2)] transition-all duration-300">
+                <a href="https://instagram.com/upmark.media" target="_blank" rel="noopener noreferrer" className="group/social flex items-center gap-2 text-muted-text hover:text-accent-blue transition-colors text-sm duration-200">
+                  <span className="p-1.5 rounded-lg bg-transparent group-hover/social:bg-accent-blue/10 transition-colors duration-200">
                     <InstagramIcon size={16} />
                   </span>
                   Instagram
@@ -122,16 +121,14 @@ export const Footer = () => {
             <Link href="/privacy" className="text-muted-text/60 hover:text-white transition-colors text-xs">Privacy Policy</Link>
             <Link href="/terms" className="text-muted-text/60 hover:text-white transition-colors text-xs">Terms of Service</Link>
             
-            {/* Scroll to Top Button */}
-            <motion.button
+            {/* Scroll to Top Button — plain button, no framer-motion for perf */}
+            <button
               onClick={scrollToTop}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full border border-white/10 hover:border-accent-blue/50 bg-white/5 hover:bg-accent-blue/10 flex items-center justify-center text-muted-text hover:text-accent-blue transition-all duration-300 hover:shadow-[0_0_15px_rgba(59,130,246,0.2)]"
+              className="w-10 h-10 rounded-full border border-white/10 hover:border-accent-blue/50 bg-white/5 hover:bg-accent-blue/10 flex items-center justify-center text-muted-text hover:text-accent-blue transition-colors duration-200 active:scale-95"
               aria-label="Scroll to top"
             >
               <ArrowUp size={16} />
-            </motion.button>
+            </button>
           </div>
         </div>
       </div>

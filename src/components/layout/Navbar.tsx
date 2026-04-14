@@ -14,8 +14,17 @@ export const Navbar = () => {
 
   // Handle scroll effect for dynamic glassmorphism on desktop
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -48,16 +57,16 @@ export const Navbar = () => {
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`relative w-full max-w-6xl rounded-full transition-all duration-500 pointer-events-auto flex justify-between items-center ${
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`relative w-full max-w-6xl rounded-full transition-colors duration-300 pointer-events-auto flex justify-between items-center ${
           scrolled
-            ? "bg-black/40 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] py-2.5 sm:py-3 px-4 sm:px-6 md:px-8"
+            ? "bg-black/50 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] py-2.5 sm:py-3 px-4 sm:px-6 md:px-8"
             : "bg-transparent py-3 sm:py-4 px-4 sm:px-6 md:px-8"
         }`}
       >
         {/* Logo - Left Side */}
         <Link href="/" className="text-xl sm:text-2xl font-bold tracking-tight text-white group flex items-center shrink-0">
-          Upmark<span className="text-blue-500 transition-transform duration-300 group-hover:scale-125 inline-block">.</span>
+          Upmark<span className="text-blue-500 transition-transform duration-200 group-hover:scale-125 inline-block">.</span>
         </Link>
 
         {/* Desktop Nav - Right Side */}
@@ -70,7 +79,7 @@ export const Navbar = () => {
                 <div key={link.href} className="pl-4 ml-2">
                   <Link
                     href={link.href}
-                    className="group relative inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 text-white text-sm font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] border border-white/10"
+                    className="group relative inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 text-white text-sm font-medium overflow-hidden transition-transform duration-200 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] border border-white/10"
                   >
                     <span className="relative z-10">{link.name}</span>
                   </Link>
@@ -82,13 +91,13 @@ export const Navbar = () => {
               <div key={link.href} className="relative group px-3 py-2">
                 <Link
                   href={link.href}
-                  className={`text-sm font-medium transition-all duration-300 flex items-center gap-1.5 ${
+                  className={`text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 ${
                     isActive ? "text-white" : "text-white/70 hover:text-white"
                   }`}
                 >
                   {link.name}
                   {link.dropdownItems && (
-                    <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180 opacity-70" />
+                    <ChevronDown size={14} className="transition-transform duration-200 group-hover:rotate-180 opacity-70" />
                   )}
                 </Link>
 
@@ -100,18 +109,18 @@ export const Navbar = () => {
                   />
                 )}
 
-                {/* Desktop Dropdown Menu - Transparent Black Blur */}
+                {/* Desktop Dropdown Menu */}
                 {link.dropdownItems && (
-                  <div className="absolute top-[120%] left-1/2 -translate-x-1/2 min-w-[220px] bg-black/80 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-full transition-all duration-300 p-2.5 flex flex-col gap-1 z-50">
+                  <div className="absolute top-[120%] left-1/2 -translate-x-1/2 min-w-[220px] bg-black/85 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-full transition-all duration-200 p-2.5 flex flex-col gap-1 z-50">
                     <div className="absolute -top-4 left-0 right-0 h-6 bg-transparent" />
                     {link.dropdownItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="px-4 py-2.5 hover:bg-white/10 rounded-xl text-sm text-white/70 hover:text-white transition-all duration-200 flex items-center justify-between group/item"
+                        className="px-4 py-2.5 hover:bg-white/10 rounded-xl text-sm text-white/70 hover:text-white transition-colors duration-150 flex items-center justify-between group/item"
                       >
                         {item.name}
-                        <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-200 text-blue-400" />
+                        <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-150 text-blue-400" />
                       </Link>
                     ))}
                   </div>
@@ -133,7 +142,7 @@ export const Navbar = () => {
               initial={{ opacity: 0, rotate: -90 }}
               animate={{ opacity: 1, rotate: 0 }}
               exit={{ opacity: 0, rotate: 90 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: 0.12 }}
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </motion.div>
@@ -150,32 +159,32 @@ export const Navbar = () => {
                 onClick={() => setIsOpen(false)} 
               />
               
-              {/* Dropdown Container */}
+              {/* Dropdown Container — solid bg, no blur for mobile perf */}
               <motion.div
-                initial={{ opacity: 0, y: -20, filter: "blur(5px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -10, filter: "blur(5px)" }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 className="absolute top-[110%] right-0 w-[280px] sm:w-[320px] rounded-bl-[40px] rounded-br-[20px] rounded-tl-[10px] z-40 overflow-hidden"
               >
-                {/* Subtle Glassy Gradient Fading Background */}
-                <div className="absolute inset-0 bg-gradient-to-bl from-black/95 via-black/80 to-transparent backdrop-blur-[10px] -z-10" />
+                {/* Solid dark gradient — no backdrop-blur on mobile for perf */}
+                <div className="absolute inset-0 bg-gradient-to-bl from-[#0a0f1e]/98 via-[#0a0f1e]/90 to-transparent -z-10" />
                 
                 {/* Links Container */}
                 <div className="flex flex-col items-end pt-4 pb-10 pr-8 sm:pr-10 pl-10 space-y-4">
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.href}
-                      initial={{ opacity: 0, x: 10 }}
+                      initial={{ opacity: 0, x: 8 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.04 + 0.1, duration: 0.3 }}
+                      transition={{ delay: i * 0.03 + 0.08, duration: 0.2 }}
                       className="w-full flex flex-col items-end"
                     >
                       {link.isCTA ? (
                         <div className="mt-3">
                           <Link
                             href={link.href}
-                            className="inline-block px-6 py-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 text-white text-[15px] font-medium shadow-[0_4px_15px_rgba(59,130,246,0.3)] hover:shadow-[0_4px_20px_rgba(59,130,246,0.5)] transition-all"
+                            className="inline-block px-6 py-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 text-white text-[15px] font-medium shadow-[0_4px_15px_rgba(59,130,246,0.3)] hover:shadow-[0_4px_20px_rgba(59,130,246,0.5)] transition-shadow"
                           >
                             {link.name}
                           </Link>
@@ -191,7 +200,7 @@ export const Navbar = () => {
                                 {link.name}
                                 <ChevronDown
                                   size={16}
-                                  className={`transition-transform duration-300 opacity-70 ${
+                                  className={`transition-transform duration-200 opacity-70 ${
                                     mobileSubmenuOpen === link.name ? "rotate-180 text-cyan-400" : ""
                                   }`}
                                 />
@@ -202,6 +211,7 @@ export const Navbar = () => {
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.2 }}
                                     className="overflow-hidden w-full flex flex-col items-end mt-1"
                                   >
                                     <div className="flex flex-col items-end gap-2 pr-1 py-1 mr-1 border-r border-white/10">

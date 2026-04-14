@@ -79,23 +79,23 @@ export default function WorkPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.4, ease: [0.25, 0.4, 0, 1] }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.4, 0, 1] }}
                 >
-                  <Link href="/case-studies" className={`group block rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-md hover:border-accent-blue/30 transition-all duration-300 relative overflow-hidden h-full hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(59,130,246,0.08)]`}>
+                  <Link href="/case-studies" className={`group block rounded-3xl bg-secondary-surface/40 border border-white/5 hover:border-accent-blue/30 transition-colors duration-200 relative overflow-hidden h-full hover:shadow-[0_0_40px_rgba(59,130,246,0.08)]`}>
                      {/* Image Section */}
                      <div className="relative w-full aspect-[16/9] overflow-hidden">
                        <Image
                          src={cs.image}
                          alt={`${cs.title} — ${cs.tag} case study by Upmark`}
                          fill
-                         className="object-cover group-hover:scale-105 transition-transform duration-700"
+                         className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                          sizes="(max-width: 768px) 100vw, 50vw"
                        />
                        <div className={`absolute inset-0 bg-gradient-to-br ${cs.gradient} opacity-60`}></div>
                        <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent"></div>
                        
                        {/* Tag Badge */}
-                       <div className="absolute top-4 left-4 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full text-xs text-white uppercase tracking-widest font-semibold border border-white/10">
+                       <div className="absolute top-4 left-4 px-3 py-1 bg-black/60 rounded-full text-xs text-white uppercase tracking-widest font-semibold border border-white/10">
                          {cs.tag}
                        </div>
                      </div>

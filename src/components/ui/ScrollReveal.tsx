@@ -25,13 +25,13 @@ const getVariants = (direction: string, distance: number): Variants => {
     hidden: {
       opacity: 0,
       ...offsets[direction],
-      filter: "blur(4px)",
+      // Removed filter: blur(4px) — animating CSS filter is extremely expensive
+      // on low-end GPUs and causes paint storms on every frame.
     },
     visible: {
       opacity: 1,
       x: 0,
       y: 0,
-      filter: "blur(0px)",
     },
   };
 };
@@ -41,8 +41,8 @@ export const ScrollReveal = ({
   className = "",
   delay = 0,
   direction = "up",
-  distance = 40,
-  duration = 0.7,
+  distance = 30,       // Reduced from 40 → 30 for snappier feel
+  duration = 0.5,      // Reduced from 0.7 → 0.5 for lower frame budget
   once = true,
 }: ScrollRevealProps) => {
   const variants = getVariants(direction, distance);
@@ -51,7 +51,7 @@ export const ScrollReveal = ({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, margin: "-80px" }}
+      viewport={{ once, margin: "-60px" }}
       variants={variants}
       transition={{
         duration,

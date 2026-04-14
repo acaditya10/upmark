@@ -2,16 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * Lightweight custom cursor that:
+ * - Disables itself on touch/coarse-pointer devices
+ * - Disables itself when prefers-reduced-motion is set
+ * - Uses a single rAF loop with early-exit when idle
+ * - Uses transform3d for GPU compositing (no layout thrash)
+ */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
-  const dotInnerRef = useRef<HTMLDivElement>(null);
   const outerRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
+  const dotInnerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Disable on touch devices
     if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Disable when reduced motion is preferred
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     setIsVisible(true);
 
@@ -19,15 +28,19 @@ export function CustomCursor() {
     let mouseY = -100;
     let circleX = -100;
     let circleY = -100;
+    let lastMouseX = -100;
+    let lastMouseY = -100;
+    let idleFrames = 0;
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      idleFrames = 0; // Reset idle counter on movement
     };
 
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
 
-    // Hide native cursor for interactive elements nicely
+    // Hide native cursor
     const style = document.createElement("style");
     style.innerHTML = `* { cursor: none !important; }`;
     document.head.appendChild(style);
@@ -35,14 +48,27 @@ export function CustomCursor() {
     let animationFrameId: number;
 
     const render = () => {
-      circleX += (mouseX - circleX) * 0.2; // Smooth follow lerp factor
-      circleY += (mouseY - circleY) * 0.2;
-
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%), 0)`;
+      // If the cursor hasn't moved for 120 frames (~2s), reduce to idle polling
+      if (mouseX === lastMouseX && mouseY === lastMouseY) {
+        idleFrames++;
+      } else {
+        idleFrames = 0;
       }
-      if (outerRef.current) {
-        outerRef.current.style.transform = `translate3d(calc(${circleX}px - 50%), calc(${circleY}px - 50%), 0)`;
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
+
+      // Still request frames even when idle (so we catch movement),
+      // but skip the expensive DOM writes
+      if (idleFrames < 120) {
+        circleX += (mouseX - circleX) * 0.15;
+        circleY += (mouseY - circleY) * 0.15;
+
+        if (dotRef.current) {
+          dotRef.current.style.transform = `translate3d(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%), 0)`;
+        }
+        if (outerRef.current) {
+          outerRef.current.style.transform = `translate3d(calc(${circleX}px - 50%), calc(${circleY}px - 50%), 0)`;
+        }
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -52,7 +78,6 @@ export function CustomCursor() {
 
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      // Catch links, buttons, and interactive roles
       if (target.closest("a, button, input, textarea, select, [role='button']")) {
         circleRef.current?.classList.add("scale-[1.5]", "bg-white/10", "border-white/30");
         dotInnerRef.current?.classList.add("opacity-50", "scale-75");
@@ -67,8 +92,8 @@ export function CustomCursor() {
       }
     };
 
-    document.addEventListener("mouseover", onMouseOver);
-    document.addEventListener("mouseout", onMouseOut);
+    document.addEventListener("mouseover", onMouseOver, { passive: true });
+    document.addEventListener("mouseout", onMouseOut, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
@@ -85,29 +110,27 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Outer wrapper for continuous hardware-accelerated translation */}
+      {/* Outer ring – GPU-composited translation */}
       <div
         ref={outerRef}
         className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[9998] will-change-transform"
-        style={{ transform: "translate3d(-100px, -100px, 0)" }}
+        style={{ transform: "translate3d(-100px, -100px, 0)", contain: "layout style" }}
       >
-        {/* Inner element for styling and CSS transitions (scale/color) */}
         <div 
           ref={circleRef}
-          className="w-full h-full border-2 border-muted-text/50 rounded-full transition-all duration-300 ease-out"
+          className="w-full h-full border-2 border-muted-text/50 rounded-full transition-transform duration-200 ease-out"
         />
       </div>
 
-      {/* Wrapper for fast JS transforms that doesn't conflict with CSS transitions */}
+      {/* Inner dot */}
       <div
         ref={dotRef}
         className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] will-change-transform"
-        style={{ transform: "translate3d(-100px, -100px, 0)" }}
+        style={{ transform: "translate3d(-100px, -100px, 0)", contain: "layout style" }}
       >
-        {/* Inner element for visual styling and transitions (hover scale) */}
         <div
           ref={dotInnerRef}
-          className="w-full h-full bg-white rounded-full transition-all duration-300 ease-out"
+          className="w-full h-full bg-white rounded-full transition-transform duration-200 ease-out"
         />
       </div>
     </>

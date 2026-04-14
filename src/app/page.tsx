@@ -109,7 +109,7 @@ export default async function Home() {
            
            {/* Right Side Visual */}
            <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[280px] sm:min-h-[400px]">
-             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none"></div>
+             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[40px] sm:blur-[60px] pointer-events-none"></div>
              <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[450px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
                 <Image
                   src="/images/philosophy.png"
@@ -127,7 +127,7 @@ export default async function Home() {
         {/* Philosophy Pointers */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {philosophyPointers.map((p, i) => (
-            <div key={i} className="group p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-md hover:border-accent-blue/30 transition-all duration-500 relative overflow-hidden">
+            <div key={i} className="group p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5 hover:border-accent-blue/30 transition-colors duration-300 relative overflow-hidden">
                <div className="absolute top-0 right-0 p-3 sm:p-6 text-4xl sm:text-6xl font-black text-white/5 group-hover:text-white/10 transition-colors pointer-events-none">
                  0{i + 1}
                </div>
@@ -163,7 +163,7 @@ export default async function Home() {
                  <span className="relative z-10 flex items-center gap-2">Our Services </span>
                </Link>
                
-               <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 backdrop-blur-md transition-all">
+               <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
                  View our work
                </Link>
              </div>
@@ -180,8 +180,8 @@ export default async function Home() {
                  sizes="(max-width: 1024px) 100vw, 40vw"
                />
                <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/70 via-primary-bg/20 to-transparent z-10"></div>
-               <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/20 rounded-full blur-[80px] z-0"></div>
-               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/10 rounded-full blur-[80px] z-0"></div>
+               <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/15 rounded-full blur-[50px] z-0"></div>
+               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/8 rounded-full blur-[50px] z-0"></div>
              </div>
            </div>
            
@@ -203,7 +203,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
              {contentItems.map((item) => (
-                <div key={item.id} className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5 backdrop-blur-sm">
+                <div key={item.id} className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5">
                    <div className="text-accent-blue font-bold text-xs uppercase tracking-widest mb-3">{item.subtitle}</div>
                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">{item.title}</h3>
                    <p className="text-muted-text font-light text-sm">{item.description}</p>
@@ -212,7 +212,7 @@ export default async function Home() {
            </div>
            
            {/* Studio Capabilities feature block */}
-           <div className="lg:col-span-1 p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-accent-blue/5 border border-accent-blue/20 backdrop-blur-sm flex flex-col justify-center">
+           <div className="lg:col-span-1 p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-accent-blue/5 border border-accent-blue/20 flex flex-col justify-center">
               <div className="w-12 h-12 rounded-xl bg-accent-blue/20 text-accent-blue flex items-center justify-center mb-6"><PlaySquare size={24} /></div>
               <h3 className="text-xl sm:text-2xl font-black text-white mb-4 sm:mb-6">Studio Capabilities</h3>
               <p className="text-muted-text mb-6 sm:mb-8 text-sm sm:text-base">Professional production infrastructure available to every Upmark client.</p>

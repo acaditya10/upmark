@@ -29,7 +29,7 @@ export const CaseStudyCard = ({ title, client, category, metric, imageUrl, link 
             src={imageUrl} 
             alt={`${client} - ${title}`} 
             fill 
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-muted-text">
