@@ -404,10 +404,6 @@ export default async function CaseStudiesPage() {
         </section>
       </div>
 
-      {/* Floating Get Started Button */}
-      <Link href="/contact" className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 group flex items-center justify-center gap-2 sm:gap-3 bg-accent-blue text-white px-4 py-3 sm:px-6 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-[0_8px_25px_rgba(59,130,246,0.4)] sm:shadow-[0_10px_30px_rgba(59,130,246,0.4)] hover:shadow-[0_10px_40px_rgba(59,130,246,0.6)] hover:-translate-y-1 transition-all safe-bottom">
-        <span className="relative z-10 flex items-center gap-2">Get started! <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /></span>
-      </Link>
     </div>
   );
 }
