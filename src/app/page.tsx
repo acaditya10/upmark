@@ -101,7 +101,7 @@ export default async function Home() {
                   Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
                 </p>
              </div>
-                          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
+                          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
                 <Link href="/services" className="group flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-white border border-white/20 hover:border-accent-blue hover:bg-accent-blue/5 transition-all w-full sm:w-auto">
                   Explore our services
                 </Link>
@@ -136,7 +136,7 @@ export default async function Home() {
                  0{i + 1}
                </div>
               <h3 className="text-base sm:text-xl font-bold font-heading text-white mb-2 sm:mb-3 relative z-10">{p.title}</h3>
-              <p className="text-muted-text/90 text-xs sm:text-sm font-light leading-relaxed relative z-10">{p.desc}</p>
+              <p className="text-muted-text/90 text-base font-light leading-relaxed relative z-10">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -210,7 +210,7 @@ export default async function Home() {
                 <div key={item.id} className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-white/5">
                    <div className="text-accent-blue font-bold text-xs uppercase tracking-widest mb-3">{item.subtitle}</div>
                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">{item.title}</h3>
-                   <p className="text-muted-text font-light text-sm">{item.description}</p>
+                   <p className="text-muted-text font-light text-base">{item.description}</p>
                 </div>
              ))}
            </div>
@@ -219,11 +219,11 @@ export default async function Home() {
            <div className="lg:col-span-1 p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-accent-blue/5 border border-accent-blue/20 flex flex-col justify-center">
               <div className="w-12 h-12 rounded-xl bg-accent-blue/20 text-accent-blue flex items-center justify-center mb-6"><PlaySquare size={24} /></div>
               <h3 className="text-xl sm:text-2xl font-black text-white mb-4 sm:mb-6">Studio Capabilities</h3>
-              <p className="text-muted-text mb-6 sm:mb-8 text-sm sm:text-base">Professional production infrastructure available to every Upmark client.</p>
+              <p className="text-muted-text mb-6 sm:mb-8 text-base">Professional production infrastructure available to every Upmark client.</p>
               
               <ul className="flex flex-col gap-4">
                 {studioCapabilities.map((cap, i) => (
-                   <li key={i} className="flex items-center gap-3 text-white/90 text-sm font-medium">
+                   <li key={i} className="flex items-center gap-3 text-white/90 text-base font-medium">
                       <CheckCircle2 size={16} className="text-accent-blue flex-shrink-0" />
                       {cap}
                    </li>

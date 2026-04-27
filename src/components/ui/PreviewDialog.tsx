@@ -54,7 +54,7 @@ export function PreviewDialog({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center sm:p-6"
           onClick={onClose}
         >
           {/* Backdrop */}
@@ -67,12 +67,12 @@ export function PreviewDialog({
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.25, ease: [0.25, 0.4, 0, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative z-10 bg-[#1E293B] border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl"
+            className="relative z-10 bg-[#1E293B] sm:border border-white/10 sm:rounded-2xl md:rounded-3xl overflow-hidden max-w-3xl w-screen h-[100dvh] sm:w-full sm:h-auto sm:max-h-[90vh] flex flex-col shadow-2xl"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/70 transition-colors"
+              className="absolute top-4 right-4 z-20 w-12 h-12 rounded-full bg-black/50 border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/70 transition-colors"
               aria-label="Close preview"
             >
               <X size={20} />
@@ -106,7 +106,7 @@ export function PreviewDialog({
 
               {/* Text Content */}
               <div className="p-6 sm:p-8 md:p-10">
-                <h2 className="text-2xl sm:text-3xl font-black text-white mb-4 pr-10">
+                <h2 className="text-3xl sm:text-4xl font-black text-white mb-4 pr-12">
                   {title}
                 </h2>
 
@@ -128,7 +128,7 @@ export function PreviewDialog({
 
                 {/* Description */}
                 {description && (
-                  <p className="text-muted-text font-light text-sm sm:text-base leading-relaxed mb-6">
+                  <p className="text-muted-text font-light text-base sm:text-lg leading-relaxed mb-6">
                     {description}
                   </p>
                 )}

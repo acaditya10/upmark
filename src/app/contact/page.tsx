@@ -41,11 +41,11 @@ export default async function ContactPage() {
                   <div className="grid grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4">
                      <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5">
                         <div className="text-accent-blue uppercase tracking-widest text-[10px] font-bold mb-1">Email us</div>
-                        <div className="text-white text-xs sm:text-sm font-medium truncate">{email}</div>
+                        <a href={`mailto:${email}`} className="text-white text-xs sm:text-sm font-medium truncate block">{email}</a>
                      </div>
                      <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5">
                         <div className="text-accent-blue uppercase tracking-widest text-[10px] font-bold mb-1">Call us</div>
-                        <div className="text-white text-xs sm:text-sm font-medium truncate">{phone}</div>
+                        <a href={`tel:${phone.replace(/\s+/g, '')}`} className="text-white text-xs sm:text-sm font-medium truncate block">{phone}</a>
                      </div>
                      <div className="p-3 sm:p-4 rounded-xl bg-white/5 border border-white/5">
                         <div className="text-accent-blue uppercase tracking-widest text-[10px] font-bold mb-1">Find us</div>

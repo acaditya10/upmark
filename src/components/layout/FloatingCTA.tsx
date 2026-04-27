@@ -20,7 +20,7 @@ export const FloatingCTA = () => {
       style={{ contain: "layout style" }}
     >
       <Link href="/contact" className="group">
-        <div className="relative bg-gradient-to-r from-accent-blue via-blue-500 to-indigo-500 text-white font-semibold px-5 py-3 sm:px-8 sm:py-4 rounded-full flex items-center gap-2 sm:gap-3 overflow-hidden shadow-[0_8px_30px_-10px_rgba(59,130,246,0.7)] border border-white/20 transition-transform duration-200 group-hover:scale-[1.03]">
+        <div className="relative bg-gradient-to-r from-accent-blue via-blue-500 to-indigo-500 text-white font-semibold px-5 py-4 sm:px-8 sm:py-4 rounded-full flex items-center gap-2 sm:gap-3 overflow-hidden shadow-[0_8px_30px_-10px_rgba(59,130,246,0.7)] border border-white/20 transition-transform duration-200 group-hover:scale-[1.03]">
           <Rocket size={18} className="relative z-10 sm:w-5 sm:h-5" />
           <span className="relative z-10 text-sm sm:text-base">Get started!</span>
         </div>

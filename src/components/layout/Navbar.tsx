@@ -169,7 +169,7 @@ export const Navbar = () => {
                 <div className="absolute inset-0 bg-gradient-to-bl from-[#0a0f1e]/98 via-[#0a0f1e]/90 to-transparent -z-10" />
                 
                 {/* Links Container */}
-                <div className="flex flex-col items-end pt-4 pb-10 pr-8 sm:pr-10 pl-10 space-y-4">
+                <div className="flex flex-col items-end pt-4 pb-10 pr-8 sm:pr-10 pl-10 gap-6">
                   {navLinks.map((link, i) => (
                     <motion.div
                       key={link.href}
@@ -193,7 +193,7 @@ export const Navbar = () => {
                             <>
                               <button
                                 onClick={() => setMobileSubmenuOpen(mobileSubmenuOpen === link.name ? null : link.name)}
-                                className="text-[17px] tracking-wide text-white/90 hover:text-white transition-colors flex items-center justify-end gap-1.5 w-full"
+                                className="text-[17px] tracking-wide text-white/90 hover:text-white transition-colors flex items-center justify-end gap-1.5 w-full py-2"
                               >
                                 {link.name}
                                 <ChevronDown
@@ -217,7 +217,7 @@ export const Navbar = () => {
                                         <Link
                                           key={item.href}
                                           href={item.href}
-                                          className="text-[14px] text-white/50 hover:text-white transition-colors pr-2"
+                                          className="text-[14px] text-white/50 hover:text-white transition-colors pr-2 py-2"
                                         >
                                           {item.name}
                                         </Link>
@@ -230,7 +230,7 @@ export const Navbar = () => {
                           ) : (
                             <Link
                               href={link.href}
-                              className={`text-[17px] tracking-wide transition-colors ${
+                              className={`text-[17px] tracking-wide transition-colors py-2 ${
                                 pathname === link.href ? "text-white font-semibold" : "text-white/80 hover:text-white"
                               }`}
                             >

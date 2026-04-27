@@ -61,7 +61,7 @@ export const ContactForm = () => {
               name="name" 
               required 
               placeholder="Jane Smith"
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all"
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -72,7 +72,7 @@ export const ContactForm = () => {
               name="email" 
               required 
               placeholder="jane@company.com"
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all"
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all"
             />
           </div>
         </div>
@@ -85,7 +85,7 @@ export const ContactForm = () => {
               id="company" 
               name="company" 
               placeholder="Acme Corp"
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all"
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -94,7 +94,7 @@ export const ContactForm = () => {
               id="service" 
               name="service" 
               required
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all appearance-none cursor-pointer"
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-white focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all appearance-none cursor-pointer"
               defaultValue=""
             >
               <option value="" disabled className="text-black">Select a service...</option>
@@ -114,14 +114,14 @@ export const ContactForm = () => {
             name="project" 
             required 
             placeholder="Share your goals, current challenges and any relevant context..."
-            className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all min-h-[100px] resize-none h-full"
+            className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-base text-white placeholder-[rgba(255,255,255,0.3)] focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-all min-h-[120px] resize-none h-full"
           ></textarea>
         </div>
 
         <button 
           type="submit" 
           disabled={isSubmitting}
-          className="w-full bg-accent-blue hover:bg-blue-600 transition-colors text-white font-bold py-3 rounded-lg shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)] mt-2 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="w-full bg-accent-blue hover:bg-blue-600 transition-colors text-white font-bold py-4 rounded-lg shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)] mt-2 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
             <Loader2 className="animate-spin" size={20} />

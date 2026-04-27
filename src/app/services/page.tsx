@@ -121,9 +121,9 @@ export default async function ServicesPage() {
                   </p>
                   <Link 
                     href="/contact" 
-                    className="inline-flex items-center gap-2 text-white font-medium hover:text-accent-blue transition-colors group"
+                    className="inline-flex items-center gap-2 text-white font-medium hover:text-accent-blue transition-colors group py-3 px-4 bg-white/5 hover:bg-white/10 rounded-lg"
                   >
-                    <span className="border-b border-white border-opacity-30 group-hover:border-accent-blue pb-1 transition-all">Discuss this service</span>
+                    <span className="transition-all">Discuss this service</span>
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
