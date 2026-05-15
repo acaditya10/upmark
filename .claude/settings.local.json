@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"d:\\\\Projects\\\\upmark\\\\src\\\\components\\\\interactive-diagram\" -File -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -ExpandProperty FullName)"
+    ]
+  }
+}

@@ -18,6 +18,18 @@ export interface CaseStudy {
   imageUrl?: string;       // Cloudinary image URL
   duration?: string;       // For Stills & Motions: "0:30", "1:15", etc.
   mediaType?: "Stills" | "Motion"; // For Stills & Motions category
+  
+  // Detailed Section fields
+  hiredFor?: string;
+  situation?: string;
+  keyExecutions?: string;
+  timeframe?: string;
+  
+  // Social links
+  websiteUrl?: string;
+  linkedinUrl?: string;
+  youtubeUrl?: string;
+
   order?: number;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;

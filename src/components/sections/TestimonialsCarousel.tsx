@@ -45,7 +45,7 @@ export const TestimonialsCarousel = ({ testimonials, maxItems = 3 }: Testimonial
   };
 
   return (
-    <section className="container mx-auto px-4 sm:px-6 relative z-10 my-16 sm:my-24 md:my-32">
+    <section className="container mx-auto px-4 sm:px-6 relative z-10">
       <HorizontalCarousel
         label="CLIENT STORIES"
         title={<>Don&apos;t just take <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">our word for it.</span></>}

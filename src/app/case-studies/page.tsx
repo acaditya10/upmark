@@ -1,112 +1,113 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe } from "lucide-react";
 import { getCaseStudies } from "@/lib/firestore";
+import type { CaseStudy } from "@/types";
 
 export const metadata: Metadata = {
   title: "Case Studies | Upmark — Real Results, Real Growth",
   description: "Explore Upmark's case studies. See how we've driven measurable growth for brands across fashion, hospitality, tech and more.",
 };
 
+// ─── SVG Icons ─────────────────────────────────────────────
+const LinkedinIcon = ({ size = 18, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+  </svg>
+);
+
+const YoutubeIcon = ({ size = 18, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
+    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+  </svg>
+);
+
 // ─── Default fallback data ─────────────────────────────────
-const DEFAULT_STUDIES = [
+const DEFAULT_STUDIES: CaseStudy[] = [
   {
     id: "study-1",
-    title: "Building a Growth Engine for Fashion DTC",
-    description: "A strategic deep-dive into how we architected a multi-channel acquisition system for Ingri — combining paid media, organic content and influencer partnerships into a single, self-reinforcing growth loop that delivered 210% revenue growth in 8 months.",
-    category: "Studies" as const,
-    client: "Ingri",
-    metrics: ["+210% Revenue", "+380% Engagement"],
-    mediaUrl: "",
-    tag: "Growth Architecture",
-    stat1: "+210%",
-    stat1label: "Revenue Growth",
-    stat2: "8 months",
-    stat2label: "Timeline",
-    imageUrl: "/images/casestudy-ingri.png",
-    gradient: "from-purple-900/30 to-indigo-900/10",
+    title: "Mother's Kitchen",
+    client: "Mother's Kitchen",
+    tag: "Brand Solutions",
+    category: "Studies",
+    timeframe: "Approximately 1 year",
+    hiredFor: "We did their BTL activation and planned out and provided end-to-end execution for their integrated marketing campaign, the most important aspect of which was brand solutions.",
+    situation: "While the brand was not new, after operating initially out of London, they were trying to establish themselves in India right around the time the pandemic hit. This caused a sudden halt and slow recovery, and their presence had grown quite negligible with out-of-touch content.",
+    keyExecutions: "• Handled crisis management, communications, and event handling for events like BW Enba awards and BW People Disability Positive Summit & Awards.\n• Redesigned their boxes and packaging for the regular product line up and premium gifting boxes (e.g., Rakshabandhan 2022).\n• Conducted product photography for their range of products, used for packaging redesign and repurposed in various contexts.",
+    metrics: [],
+    description: "Integrated marketing campaign and brand solutions for Mother's Kitchen.",
+    imageUrl: "",
+    gradient: "from-amber-900/30 to-orange-900/10",
+    websiteUrl: "https://www.motherskitchen.co.in/",
+    linkedinUrl: "https://www.linkedin.com/company/mother's-kitchen/",
   },
   {
     id: "study-2",
-    title: "Redefining B2B Lead Generation at Scale",
-    description: "How we transformed Vertex Corp's go-to-market strategy — replacing cold outbound with an inbound-first demand generation system that created £2.1M in qualified pipeline and 430% more demo requests within two quarters.",
-    category: "Studies" as const,
-    client: "Vertex Corp",
-    metrics: ["+£2.1M Pipeline", "+430% Demos"],
-    mediaUrl: "",
-    tag: "Demand Generation",
-    stat1: "+£2.1M",
-    stat1label: "Pipeline Created",
-    stat2: "+430%",
-    stat2label: "Demo Requests",
-    imageUrl: "/images/casestudy-vertex.png",
-    gradient: "from-rose-900/30 to-red-900/10",
-  },
-  {
-    id: "study-3",
-    title: "Motorworks: From Zero to Digital-First",
-    description: "Motorworks had a strong offline reputation but virtually no digital footprint. We built their entire online presence from scratch — SEO, paid search, social content and a conversion-optimised website — cutting cost-per-lead by 58% while tripling volume.",
-    category: "Studies" as const,
-    client: "Motorworks",
-    metrics: ["+320% Leads", "-58% CPL"],
-    mediaUrl: "",
-    tag: "Digital Transformation",
-    stat1: "+320%",
-    stat1label: "Lead Volume",
-    stat2: "-58%",
-    stat2label: "Cost Per Lead",
-    imageUrl: "/images/casestudy-motorworks.png",
+    title: "Chefs United",
+    client: "Chefs United",
+    tag: "Packaging & Media Production",
+    category: "Studies",
+    timeframe: "6 months (Late 2023 - Mid 2024)",
+    hiredFor: "We designed the packaging for their new range of products to be launched and also handled the media production of them.",
+    situation: "The company had been going steady for a while and they were now looking to do a PMF test in order to launch their new range of freeze dried and frozen foods.",
+    keyExecutions: "• Designed their packaging for the Freeze dried range and Frozen range, which were to be launched on quick commerce platforms.\n• Handled the promotional media production for the new product range.",
+    metrics: [],
+    description: "Packaging design and media production for Chefs United's new freeze-dried and frozen product lines.",
+    imageUrl: "",
     gradient: "from-blue-900/30 to-slate-900/10",
   },
   {
+    id: "study-3",
+    title: "Fab cafe",
+    client: "Fabindia",
+    tag: "Short Form Content",
+    category: "Studies",
+    timeframe: "April - June 2025",
+    hiredFor: "We handled their short form content for 2025 Q2.",
+    situation: "At the time, Fabindia was looking to shut down Fabcafe entirely due to internal issues. While it seemed like a sinking ship, our work added to the efforts being made to keep Fabcafe afloat.",
+    keyExecutions: "• Primarily created and edited reels featuring their products to be showcased on their social media channels.",
+    metrics: [],
+    description: "Short form content and reels for Fabcafe's social media.",
+    imageUrl: "",
+    gradient: "from-rose-900/30 to-red-900/10",
+  },
+  {
     id: "study-4",
-    title: "Luxe Stays: Cutting OTA Dependency",
-    description: "Luxe Stays was losing 18% of revenue to OTA commissions. We built a direct booking strategy combining brand content, SEO and targeted paid campaigns — generating £420K in direct revenue and boosting their booking rate by 175%.",
-    category: "Studies" as const,
-    client: "Luxe Stays",
-    metrics: ["+175% Bookings", "+£420K Revenue"],
-    mediaUrl: "",
-    tag: "Hospitality Growth",
-    stat1: "+175%",
-    stat1label: "Booking Rate",
-    stat2: "+£420K",
-    stat2label: "Direct Revenue",
-    imageUrl: "/images/casestudy-luxestays.png",
-    gradient: "from-amber-900/30 to-orange-900/10",
+    title: "Revfin",
+    client: "Revfin",
+    tag: "Production Support",
+    category: "Studies",
+    timeframe: "N/A",
+    hiredFor: "We worked with them mostly for production support and live event coverage, i.e. production as well as post production. This included making a number of brand films for them and a commemorative motion graphic marking 6 years of their journey.",
+    situation: "We elevated the quality of their content, providing them with better, more crisp videos and editing, raising the bar for future audio visual projects.",
+    keyExecutions: "• Provided production support for topical videos, brand films, milestone videos, live event coverage, and photography for press conferences and recurring events.\n• Handled production and post-production for a highlight video of their refurbishment center named Revshalla, showcasing their processes and offering EV performance tips.",
+    metrics: [],
+    description: "Production support, brand films, and live event coverage for Revfin.",
+    imageUrl: "",
+    gradient: "from-emerald-900/30 to-teal-900/10",
+    websiteUrl: "https://revfin.in/",
+    linkedinUrl: "https://www.linkedin.com/company/revfinindia/",
+    youtubeUrl: "https://www.youtube.com/@revfinindia9495",
   },
   {
     id: "study-5",
-    title: "Bloom Retail: 6.8× ROAS at Scale",
-    description: "Bloom Retail had strong products but inefficient marketing. We restructured their paid media, launched a content-driven organic strategy and optimised their product pages — achieving 6.8× ROAS and 340% revenue growth.",
-    category: "Studies" as const,
-    client: "Bloom Retail",
-    metrics: ["6.8× ROAS", "+340% Revenue"],
-    mediaUrl: "",
-    tag: "E-commerce Scale",
-    stat1: "6.8×",
-    stat1label: "ROAS",
-    stat2: "+340%",
-    stat2label: "Revenue Growth",
-    imageUrl: "/images/casestudy-bloom.png",
-    gradient: "from-cyan-900/30 to-blue-900/10",
-  },
-  {
-    id: "study-6",
-    title: "The Grove Kitchen: Viral in 90 Days",
-    description: "A new restaurant with zero digital presence. We designed a TikTok-first content strategy that generated 45K followers and boosted reservations by 290% — proving that strategic content can outperform paid media for local businesses.",
-    category: "Studies" as const,
-    client: "The Grove Kitchen",
-    metrics: ["+290% Reservations", "45K Followers"],
-    mediaUrl: "",
-    tag: "Viral Growth",
-    stat1: "+290%",
-    stat1label: "Reservations",
-    stat2: "0→45K",
-    stat2label: "TikTok Followers",
-    imageUrl: "/images/casestudy-grove.png",
-    gradient: "from-emerald-900/30 to-teal-900/10",
-  },
+    title: "CSOI",
+    client: "CSOI",
+    tag: "Visual Content",
+    category: "Studies",
+    timeframe: "72 hours turnaround",
+    hiredFor: "A short project with a limited scope to provide high quality photos and a brandfilm (handling its production and post production) to be featured on their website. We also helped with vectorisation of their logo.",
+    situation: "They needed to urgently update the visual content on their website as it had been outdated for a while, giving us only 72 hours to deliver the work. A last-minute addition was the vectorisation of their logo.",
+    keyExecutions: "• Provided various Stills of the premises, highlighting their facilities and ambience.\n• Created a brandfilm to give viewers a better understanding of the CSOI experience.\n• Completed vectorisation of their logo.",
+    metrics: [],
+    description: "High quality photography and brandfilm production for CSOI with rapid turnaround.",
+    imageUrl: "",
+    gradient: "from-purple-900/30 to-indigo-900/10",
+  }
 ];
 
 export default async function CaseStudiesPage() {
@@ -126,36 +127,96 @@ export default async function CaseStudiesPage() {
              <span className="w-8 h-[1px] bg-accent-blue"></span>
              CASE STUDIES
           </span>
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold font-heading text-white mb-4 sm:mb-6 tracking-tight">Case Studies.</h1>
-          <p className="text-base sm:text-xl text-muted-text font-light max-w-2xl">Results driven by strategy, scaled by execution. We measure our success purely by the continuous growth of our partners.</p>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold font-heading text-white mb-4 sm:mb-6 tracking-tight">Our Work.</h1>
+          <p className="text-base sm:text-xl text-muted-text font-light max-w-2xl">Results driven by strategy, scaled by execution. Explore our portfolio of brands.</p>
         </div>
 
         {/* Case Studies Grid */}
         <section id="studies" className="scroll-mt-32">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
             {studies.map((item) => (
-              <div key={item.id} className="group flex flex-col bg-secondary-surface/30 border border-white/5 rounded-3xl overflow-hidden hover:border-accent-blue/30 transition-all">
+              <div key={item.id} className="group flex flex-col bg-[#1E293B]/40 border border-white/5 rounded-3xl overflow-hidden hover:border-accent-blue/30 transition-all shadow-lg">
                 {/* Visual */}
-                <div className="w-full aspect-video relative overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient || 'from-blue-900/30 to-slate-900/10'} opacity-50 mix-blend-overlay z-10`}></div>
-                  {item.imageUrl && (
+                <div className="w-full aspect-video relative overflow-hidden bg-[#0F172A]">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient || 'from-blue-900/30 to-slate-900/10'} opacity-50 mix-blend-overlay z-10 group-hover:opacity-80 transition-opacity duration-300`}></div>
+                  {item.imageUrl ? (
                     <Image
                       src={item.imageUrl}
                       alt={`${item.title} — case study by Upmark`}
                       fill
                       className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                     />
+                  ) : (
+                    <div className={`w-full h-full bg-gradient-to-br ${item.gradient || 'from-blue-900/30 to-slate-900/10'} opacity-20`}></div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent z-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-[#0F172A]/20 to-transparent z-10"></div>
                   <div className="absolute top-4 left-4 px-3 py-1 bg-black/60 rounded-full text-xs text-white uppercase tracking-widest font-semibold border border-white/10 z-20">{item.tag || item.category}</div>
                 </div>
+
                 {/* Body */}
-                <div className="p-5 sm:p-8 flex flex-col flex-grow">
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 line-clamp-2">{item.title}</h3>
-                  <p className="text-muted-text/90 font-light text-sm mb-6 sm:mb-8 flex-grow">{item.description}</p>
+                <div className="p-6 sm:p-8 flex flex-col flex-grow bg-secondary-surface/30">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-2xl font-bold text-white leading-tight">{item.title}</h3>
+                      {/* Socials */}
+                      {(item.websiteUrl || item.linkedinUrl || item.youtubeUrl) && (
+                        <div className="flex items-center gap-3">
+                          {item.websiteUrl && (
+                            <Link href={item.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors" title="Website">
+                              <Globe size={18} />
+                            </Link>
+                          )}
+                          {item.linkedinUrl && (
+                            <Link href={item.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors" title="LinkedIn">
+                              <LinkedinIcon size={18} />
+                            </Link>
+                          )}
+                          {item.youtubeUrl && (
+                            <Link href={item.youtubeUrl} target="_blank" rel="noopener noreferrer" className="text-[#94A3B8] hover:text-[#3B82F6] transition-colors" title="YouTube">
+                              <YoutubeIcon size={18} />
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    {item.timeframe && (
+                      <span className="text-xs font-semibold tracking-wider uppercase text-accent-blue bg-accent-blue/10 px-3 py-1 rounded-full whitespace-nowrap">
+                        {item.timeframe}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-5 text-sm font-light text-muted-text flex-grow">
+                    {item.hiredFor && (
+                      <div>
+                        <strong className="text-white font-medium block mb-1.5 text-[15px]">What we were hired to do:</strong>
+                        <p className="leading-relaxed">{item.hiredFor}</p>
+                      </div>
+                    )}
+                    
+                    {item.situation && (
+                      <div>
+                        <strong className="text-white font-medium block mb-1.5 text-[15px]">The situation:</strong>
+                        <p className="leading-relaxed">{item.situation}</p>
+                      </div>
+                    )}
+
+                    {item.keyExecutions && (
+                      <div>
+                        <strong className="text-white font-medium block mb-1.5 text-[15px]">Key executions:</strong>
+                        <div className="leading-relaxed whitespace-pre-wrap">{item.keyExecutions}</div>
+                      </div>
+                    )}
+
+                    {!item.hiredFor && !item.situation && !item.keyExecutions && (
+                      <p className="leading-relaxed">{item.description}</p>
+                    )}
+                  </div>
+
+                  {/* Fallback Metrics/Stats from old design if present */}
                   {(item.stat1 || item.stat2) && (
-                    <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                    <div className="flex items-center justify-between border-t border-white/10 pt-6 mt-8">
                       {item.stat1 && (
                         <div>
                           <div className="text-2xl font-bold text-white">{item.stat1}</div>
@@ -181,8 +242,8 @@ export default async function CaseStudiesPage() {
            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black font-heading text-white mb-6 sm:mb-8">Ready to compound your growth?</h2>
            <p className="text-muted-text text-base sm:text-lg max-w-xl mb-8 sm:mb-10 font-light">Let&apos;s discuss how Upmark can build a complete marketing system for your business.</p>
            <div className="flex flex-col sm:flex-row items-center gap-4">
-             <Link href="/work" className="group flex items-center justify-center gap-2 bg-accent-blue text-white px-8 py-4 rounded-lg font-semibold text-base overflow-hidden transition-all hover:scale-[1.02] shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
-               View our work <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+             <Link href="/contact" className="group flex items-center justify-center gap-2 bg-accent-blue text-white px-8 py-4 rounded-lg font-semibold text-base overflow-hidden transition-all hover:scale-[1.02] shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
+               Start a Project <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
              </Link>
              <Link href="/services" className="group flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
                View our services <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

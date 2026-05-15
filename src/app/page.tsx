@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getSiteSettings, getTestimonials } from "@/lib/firestore";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
+import { ProcessOrbital } from "@/components/interactive-diagram";
 
 // ─── Default content (fallbacks when admin hasn't configured) ────────
 
@@ -75,11 +76,11 @@ export default async function Home() {
   }));
 
   return (
-    <div className="flex flex-col gap-16 sm:gap-24 md:gap-32 pb-16 sm:pb-24 md:pb-32 relative">
+    <div className="flex flex-col gap-12 sm:gap-16 md:gap-24 pb-16 sm:pb-24 md:pb-28 relative">
       <Hero videoUrl={settings?.heroVideoUrl} />
 
       {/* Philosophy / About Section */}
-      <section id="about" className="container mx-auto px-4 sm:px-6 mt-8 sm:mt-16 md:mt-24 scroll-mt-32">
+      <section id="about" className="container mx-auto px-4 sm:px-6 scroll-mt-32">
         <div className="flex flex-col lg:flex-row gap-10 sm:gap-12 lg:gap-16 mb-12 sm:mb-20 text-white items-center">
            {/* Left Side */}
            <div className="lg:w-7/12 flex flex-col items-start pr-0 lg:pr-10">
@@ -143,57 +144,24 @@ export default async function Home() {
       </section>
 
       {/* Process Section */}
-      <section className="container mx-auto px-4 sm:px-6 relative z-10 mt-8 sm:mt-16 md:mt-24">
-        <div className="flex flex-col lg:flex-row gap-10 sm:gap-12 lg:gap-16 items-start">
-           
-           {/* Left Side: Text and Steps */}
-           <div className="lg:w-7/12 w-full flex flex-col pr-0 lg:pr-8">
-             <div className="mb-12">
-               <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block flex items-center gap-4">
-                  <span className="w-8 h-[1px] bg-accent-blue"></span>
-                  HOW WE WORK
-               </span>
-               <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-4 sm:mb-6">Our <span className="text-accent-gold">6-Step Process</span></h2>
-               <p className="text-muted-text text-base sm:text-xl max-w-2xl font-light">A rigorous system built for consistency, speed and measurable outcomes at every stage.</p>
-             </div>
-             
-             {/* Enumerate Steps 1-6 */}
-             <ContentGrid items={processItems} type="numbered" columns={2} />
-             
-             {/* CTA Buttons */}
-             <div className="mt-10 sm:mt-16 flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4">
-               <Link href="/services" className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-blue text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
-                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                 <span className="relative z-10 flex items-center gap-2">Our Services </span>
-               </Link>
-               
-               <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-primary-text bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
-                 View our work
-               </Link>
-             </div>
-           </div>
-
-           {/* Right Side Visual */}
-           <div className="lg:w-5/12 w-full lg:sticky lg:top-32 flex flex-col gap-6 items-center">
-             <div className="w-full aspect-[4/5] rounded-[2rem] border border-white/5 overflow-hidden relative group shadow-2xl">
-               <Image
-                 src="/images/process.png"
-                 alt="Upmark 6-step marketing process — strategic workflow dashboard"
-                 fill
-                 className="object-cover group-hover:scale-105 transition-transform duration-700"
-                 sizes="(max-width: 1024px) 100vw, 40vw"
-               />
-               <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/70 via-primary-bg/20 to-transparent z-10"></div>
-               <div className="absolute -top-20 -right-20 w-64 h-64 bg-accent-blue/15 rounded-full blur-[50px] z-0"></div>
-               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-gold/8 rounded-full blur-[50px] z-0"></div>
-             </div>
-           </div>
-           
+      <section className="container mx-auto px-4 sm:px-6 relative z-10">
+        <ProcessOrbital />
+        
+        {/* CTA Buttons */}
+        <div className="mt-10 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-xl mx-auto">
+          <Link href="/services" className="group relative w-full sm:w-auto flex items-center justify-center gap-3 bg-accent-blue text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <span className="relative z-10 flex items-center gap-2">Our Services </span>
+          </Link>
+          
+          <Link href="/work" className="group w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
+            View our work
+          </Link>
         </div>
       </section>
 
       {/* Content Studio */}
-      <section className="container mx-auto px-4 sm:px-6 relative z-10 mt-4 sm:mt-10">
+      <section className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="mb-10 sm:mb-20 text-center flex flex-col items-center">
           <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
              <span className="w-8 h-[1px] bg-accent-blue"></span>
@@ -233,33 +201,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Why Upmark */}
-      <section className="container mx-auto px-4 sm:px-6 relative z-10 mt-4 sm:mt-10">
-        <div className="mb-10 sm:mb-20 text-center flex flex-col items-center">
-          <span className="text-accent-gold font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
-             <span className="w-8 h-[1px] bg-accent-gold"></span>
-             WHY UPMARK
-             <span className="w-8 h-[1px] bg-accent-gold"></span>
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white mb-10 sm:mb-16 tracking-tight">Different by <span className="text-accent-gold">design.</span></h2>
-        </div>
 
-        <div className="flex flex-col gap-4 sm:gap-6 max-w-4xl mx-auto mb-12 sm:mb-20">
-           <div className="border border-white/10 bg-secondary-surface/30 p-5 sm:p-8 rounded-xl sm:rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-6 md:items-center justify-between">
-              <h3 className="text-lg sm:text-2xl font-bold text-white md:w-1/2">Marketing without execution is just theory.</h3>
-              <p className="text-muted-text md:w-1/2 font-light">Ideas without action don&apos;t grow brands. We build, launch and optimize — every time.</p>
-           </div>
-           <div className="border border-white/10 bg-secondary-surface/30 p-5 sm:p-8 rounded-xl sm:rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-6 md:items-center justify-between">
-              <h3 className="text-lg sm:text-2xl font-bold text-white md:w-1/2">Strategy. Production. Distribution. One team.</h3>
-              <p className="text-muted-text md:w-1/2 font-light">Stop managing three agencies. Upmark unifies your entire marketing operation under one roof.</p>
-           </div>
-           <div className="border border-white/10 bg-secondary-surface/30 p-5 sm:p-8 rounded-xl sm:rounded-2xl flex flex-col md:flex-row gap-3 sm:gap-6 md:items-center justify-between">
-              <h3 className="text-lg sm:text-2xl font-bold text-white md:w-1/2">We measure what matters. Results.</h3>
-              <p className="text-muted-text md:w-1/2 font-light">Vanity metrics are noise. We track revenue, pipeline, ROAS and real business outcomes.</p>
-           </div>
-        </div>
-
-      </section>
 
       {/* Testimonials Carousel */}
       <TestimonialsCarousel testimonials={testimonials} />

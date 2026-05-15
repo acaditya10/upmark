@@ -36,6 +36,13 @@ interface CaseStudyFormData {
   imageUrl: string;
   duration: string;
   mediaType: "Stills" | "Motion";
+  hiredFor: string;
+  situation: string;
+  keyExecutions: string;
+  timeframe: string;
+  websiteUrl: string;
+  linkedinUrl: string;
+  youtubeUrl: string;
 }
 
 interface CaseStudyFormProps {
@@ -75,6 +82,13 @@ export function CaseStudyForm({
       imageUrl: initialData?.imageUrl || "",
       duration: initialData?.duration || "",
       mediaType: initialData?.mediaType || "Stills",
+      hiredFor: initialData?.hiredFor || "",
+      situation: initialData?.situation || "",
+      keyExecutions: initialData?.keyExecutions || "",
+      timeframe: initialData?.timeframe || "",
+      websiteUrl: initialData?.websiteUrl || "",
+      linkedinUrl: initialData?.linkedinUrl || "",
+      youtubeUrl: initialData?.youtubeUrl || "",
     },
   });
 
@@ -104,6 +118,13 @@ export function CaseStudyForm({
       imageUrl: data.imageUrl,
       duration: data.duration,
       mediaType: data.mediaType,
+      hiredFor: data.hiredFor,
+      situation: data.situation,
+      keyExecutions: data.keyExecutions,
+      timeframe: data.timeframe,
+      websiteUrl: data.websiteUrl,
+      linkedinUrl: data.linkedinUrl,
+      youtubeUrl: data.youtubeUrl,
     });
   }
 
@@ -229,19 +250,90 @@ export function CaseStudyForm({
       {/* Description */}
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-[#F8FAFC]">
-          Description *
+          Short Description *
         </label>
         <textarea
           {...register("description", {
             required: "Description is required",
           })}
-          rows={4}
-          placeholder="Describe the case study..."
+          rows={3}
+          placeholder="Brief summary for the card..."
           className={`${inputClass} resize-none`}
         />
         {errors.description && (
           <p className="text-xs text-red-400">{errors.description.message}</p>
         )}
+      </div>
+
+      {/* Detailed Sections */}
+      <div className="flex flex-col gap-4 border-t border-white/10 pt-4">
+        <h3 className="text-lg font-semibold text-white">Detailed Content Sections</h3>
+        
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">What we were hired to do</label>
+          <textarea
+            {...register("hiredFor")}
+            rows={3}
+            placeholder="e.g. Starting from 2022, we worked with..."
+            className={`${inputClass} resize-none`}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">The situation</label>
+          <textarea
+            {...register("situation")}
+            rows={3}
+            placeholder="e.g. While the brand was not new..."
+            className={`${inputClass} resize-none`}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Key executions</label>
+          <textarea
+            {...register("keyExecutions")}
+            rows={4}
+            placeholder="e.g. We handled a bunch of crisis management..."
+            className={`${inputClass} resize-none`}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Timeframe</label>
+          <input
+            {...register("timeframe")}
+            placeholder="e.g. Approximately 1 year"
+            className={inputClass}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">Website URL</label>
+          <input
+            {...register("websiteUrl")}
+            placeholder="https://example.com"
+            className={inputClass}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">LinkedIn URL</label>
+          <input
+            {...register("linkedinUrl")}
+            placeholder="https://linkedin.com/company/..."
+            className={inputClass}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-[#F8FAFC]">YouTube URL</label>
+          <input
+            {...register("youtubeUrl")}
+            placeholder="https://youtube.com/@..."
+            className={inputClass}
+          />
+        </div>
       </div>
 
       {/* Metrics */}

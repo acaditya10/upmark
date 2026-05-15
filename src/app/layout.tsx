@@ -58,8 +58,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${poppins.variable} ${inter.variable} min-h-screen flex flex-col`}>
+    <html lang="en" className="dark overflow-x-hidden">
+      <body className={`${poppins.variable} ${inter.variable} min-h-screen flex flex-col overflow-x-hidden`}>
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
