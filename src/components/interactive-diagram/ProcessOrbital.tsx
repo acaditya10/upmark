@@ -22,19 +22,8 @@ export function ProcessOrbital() {
 
   return (
     <div className="w-full relative">
-      <div className="mb-12 lg:hidden">
-        <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block flex items-center gap-4">
-          <span className="w-8 h-[1px] bg-accent-blue"></span>
-          HOW WE WORK
-        </span>
-        <h2 className="text-3xl font-black font-heading text-white tracking-tight mb-4">
-          Our <span className="text-accent-gold">6-Step Process</span>
-        </h2>
-        <p className="text-muted-text text-base">A rigorous system built for consistency, speed and measurable outcomes at every stage.</p>
-      </div>
-
-      {/* Desktop Layout */}
-      <div className="hidden lg:flex flex-col items-center justify-center py-10">
+      {/* Orbital Layout */}
+      <div className="flex flex-col items-center justify-center py-10 overflow-hidden lg:overflow-visible">
         
         <div className="text-center mb-8">
           <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 flex items-center justify-center gap-4">
@@ -47,7 +36,7 @@ export function ProcessOrbital() {
           </h2>
         </div>
 
-        <div className="relative w-[700px] h-[700px] flex items-center justify-center mt-10 overflow-hidden">
+        <div className="relative w-[700px] h-[700px] flex items-center justify-center mt-10 scale-[0.45] sm:scale-[0.6] md:scale-75 lg:scale-100 origin-center -my-[170px] sm:-my-[120px] md:-my-[80px] lg:my-0">
           
           {/* Orbital rings */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -126,6 +115,7 @@ export function ProcessOrbital() {
                   transform: "translate(-50%, -50%)",
                 }}
                 onMouseEnter={() => setActiveNode(item.id)}
+                onClick={() => setActiveNode(item.id)}
               >
                 <motion.button
                   className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all duration-300 relative group
@@ -161,54 +151,7 @@ export function ProcessOrbital() {
         </div>
       </div>
 
-      {/* Mobile Layout - Stacked Process Cards */}
-      <div className="lg:hidden flex flex-col gap-4 relative pl-8">
-        {/* Vertical Timeline Line */}
-        <div className="absolute left-4 top-4 bottom-4 w-[1px] bg-white/10" />
-        
-        {PROCESS_DATA.map((item) => {
-          const isActive = activeNode === item.id;
 
-          return (
-            <div
-              key={item.id}
-              className="relative"
-            >
-              {/* Timeline Dot */}
-              <div 
-                className={`absolute -left-8 w-8 h-8 rounded-full border flex items-center justify-center text-xs font-bold transition-colors
-                  ${isActive ? 'bg-accent-gold/20 border-accent-gold text-accent-gold shadow-[0_0_15px_rgba(212,175,55,0.3)] z-10' : 'bg-primary-bg border-white/20 text-white/50'}`}
-              >
-                {item.num}
-              </div>
-
-              <div 
-                className={`rounded-2xl border p-5 transition-all duration-300
-                  ${isActive ? 'bg-secondary-surface/60 border-accent-gold/30' : 'bg-secondary-surface/30 border-white/5'}`}
-                onClick={() => setActiveNode(item.id)}
-              >
-                <h3 className={`font-bold font-heading text-lg mb-2 ${isActive ? 'text-white' : 'text-white/80'}`}>
-                  {item.title}
-                </h3>
-                
-                <AnimatePresence>
-                  {(isActive || true) && ( // On mobile timeline, descriptions might just stay visible or accordion
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      className="overflow-hidden"
-                    >
-                      <p className={`text-sm ${isActive ? 'text-muted-text' : 'text-muted-text/70'}`}>
-                        {item.description}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }
