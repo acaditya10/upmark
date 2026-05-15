@@ -76,8 +76,8 @@ const INTERVAL = 6000;
 
 const contentVariants = {
   enter: { opacity: 0, y: 28, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] } },
-  exit: { opacity: 0, y: -18, filter: "blur(4px)", transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] } },
+  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] as const } },
+  exit: { opacity: 0, y: -18, filter: "blur(4px)", transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] as const } },
 };
 
 const staggerVariants = {
