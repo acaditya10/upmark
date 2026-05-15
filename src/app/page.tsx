@@ -95,10 +95,10 @@ export default async function Home() {
              </h3>
              <div className="flex flex-col gap-4 sm:gap-6 text-muted-text font-light text-base sm:text-lg mb-8 sm:mb-10">
                 <p>
-                  We integrate strategy, performance marketing, content production, campaign execution and distribution into a single, coherent growth engine. The result is not a collection of deliverables — it is a system that compounds.
+                  Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
                 </p>
                 <p>
-                  Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
+                  When your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We're not a collection of specialists working in parallel. We're a single, integrated team where every discipline makes every other one better. That's the Upmark advantage.
                 </p>
              </div>
                           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">

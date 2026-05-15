@@ -30,5 +30,20 @@ service cloud.firestore {
       allow read: if request.auth != null;
       allow write: if false; // Admin SDK bypasses this; blocks client writes.
     }
+    // ─── Settings ─────────────────────────────────────
+    // Read: anyone (for public website).
+    // Write: only authenticated users (admin panel).
+    match /settings/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // ─── Testimonials ─────────────────────────────────
+    // Read: anyone (for public website).
+    // Write: only authenticated users (admin panel).
+    match /testimonials/{docId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null;
+    }
   }
 }
