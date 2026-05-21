@@ -47,8 +47,8 @@ export const metadata: Metadata = {
     creator: "@upmarkmedia",
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 
