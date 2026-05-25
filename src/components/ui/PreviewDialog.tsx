@@ -33,7 +33,7 @@ export function PreviewDialog({
   autoHide,
 }: PreviewDialogProps) {
   const [detailsVisible, setDetailsVisible] = useState(true);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (!autoHide) return;
