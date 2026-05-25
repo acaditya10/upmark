@@ -65,7 +65,7 @@ export const Navbar = () => {
       >
         {/* Logo - Left Side */}
         <Link href="/" className="flex items-center shrink-0">
-          <Image src="/upmark-wordmark.png" alt="Upmark" width={100} height={100} className="h-7 sm:h-8 w-auto" priority />
+          <Image src="/upmark-wordmark.png" alt="Upmark" width={120} height={120} className="h-9 sm:h-11 w-auto" priority />
         </Link>
 
         {/* Desktop Nav - Right Side */}

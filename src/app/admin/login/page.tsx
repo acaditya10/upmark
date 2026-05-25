@@ -61,7 +61,7 @@ function LoginForm() {
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Image src="/upmark-wordmark.png" alt="Upmark" width={160} height={160} className="h-9 sm:h-10 w-auto mx-auto" />
+          <Image src="/upmark-wordmark.png" alt="Upmark" width={200} height={200} className="h-12 sm:h-14 w-auto mx-auto" />
           <p className="text-[#94A3B8] text-sm mt-2">
             Admin Dashboard
           </p>
