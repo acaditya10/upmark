@@ -50,7 +50,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
           <div className="lg:col-span-1">
             <Link href="/" className="mb-4 sm:mb-6 inline-block">
-              <Image src="/upmark-wordmark.png" alt="Upmark" width={160} height={160} className="h-9 sm:h-11 w-auto" />
+              <Image src="/upmark-wordmark.png" alt="Upmark" width={200} height={200} className="h-12 sm:h-14 w-auto" />
             </Link>
             <p className="text-muted-text/80 text-xs sm:text-sm leading-relaxed max-w-xs">
               Integrated marketing that moves markets.

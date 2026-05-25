@@ -118,7 +118,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
         {/* Logo */}
         <div className="flex items-center justify-between px-6 h-16 border-b border-white/5">
           <Link href="/admin">
-            <Image src="/upmark-wordmark.png" alt="Upmark" width={120} height={120} className="h-9 w-auto" />
+            <Image src="/upmark-wordmark.png" alt="Upmark" width={160} height={160} className="h-11 w-auto" />
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -197,7 +197,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             <Menu size={24} />
           </button>
           <span className="ml-4">
-            <Image src="/upmark-wordmark.png" alt="Upmark" width={100} height={100} className="h-8 w-auto" />
+            <Image src="/upmark-wordmark.png" alt="Upmark" width={140} height={140} className="h-10 w-auto" />
           </span>
         </header>
 

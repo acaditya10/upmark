@@ -104,7 +104,7 @@ export function CapabilityMap() {
           <div className="absolute z-10 w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full bg-[#080d17]/90 border border-white/10 backdrop-blur-sm flex items-center justify-center shadow-[0_0_40px_rgba(59,130,246,0.1)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="absolute inset-0 rounded-full border border-accent-blue/20 animate-[spin_14s_linear_infinite]"
               style={{ borderTopColor: "transparent", borderRightColor: "transparent" }} />
-            <Image src="/upmark-wordmark.png" alt="Upmark" width={80} height={80} className="w-14 lg:w-20 h-auto z-10" />
+            <Image src="/upmark-wordmark.png" alt="Upmark" width={100} height={100} className="w-20 lg:w-28 h-auto z-10" />
           </div>
 
           {/* Nodes */}
