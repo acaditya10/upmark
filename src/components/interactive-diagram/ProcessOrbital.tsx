@@ -2,16 +2,23 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PROCESS_DATA } from "./services-data";
 
 interface ProcessOrbitalItem {
   title: string;
   description: string;
 }
 
+interface ProcessDataItem {
+  id: string;
+  num: string;
+  title: string;
+  description: string;
+}
+
 export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
-  const processData = useMemo(() => {
+  const processData: ProcessDataItem[] = useMemo(() => {
     if (!items?.length) {
-      const { PROCESS_DATA } = require("./services-data");
       return PROCESS_DATA;
     }
     return items.map((item, i) => ({
