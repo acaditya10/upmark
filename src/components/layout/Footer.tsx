@@ -46,7 +46,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-6 sm:pb-10">
+      <div className="container mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-6 sm:pb-10 max-w-6xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-10 sm:mb-16">
           <div className="lg:col-span-1">
             <Link href="/" className="mb-4 sm:mb-6 inline-block">
