@@ -72,6 +72,7 @@ export default function HomePageSettings() {
   const [successMessage, setSuccessMessage] = useState("");
 
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
+  const [heroMobileVideoUrl, setHeroMobileVideoUrl] = useState("");
   const [heroMetrics, setHeroMetrics] = useState<HeroMetric[]>([
     { value: "120", suffix: "+", label: "Projects Delivered" },
     { value: "98", suffix: "%", label: "Client Retention" },
@@ -89,6 +90,7 @@ export default function HomePageSettings() {
         const data = await getSiteSettings();
         if (data) {
           setHeroVideoUrl(data.heroVideoUrl || "");
+          setHeroMobileVideoUrl(data.heroMobileVideoUrl || "");
           if (data.heroMetrics?.length) setHeroMetrics(data.heroMetrics);
           if (data.philosophyPointers?.length) setPhilosophyPointers(data.philosophyPointers);
           if (data.processSteps?.length) setProcessSteps(data.processSteps);
@@ -115,6 +117,7 @@ export default function HomePageSettings() {
     try {
       await updateSiteSettings({
         heroVideoUrl,
+        heroMobileVideoUrl,
         heroMetrics,
         philosophyPointers,
         processSteps,
@@ -164,7 +167,12 @@ export default function HomePageSettings() {
           <div>
             <label className="block text-sm font-medium text-[#F8FAFC] mb-2">Background Video</label>
             <p className="text-sm text-[#94A3B8] mb-4">Upload an MP4 or WebM video for the hero background.</p>
-            <CloudinaryUploadWidget onUpload={(url) => setHeroVideoUrl(url)} currentUrl={heroVideoUrl} label="Hero Background Video" />
+            <CloudinaryUploadWidget onUpload={(url) => setHeroVideoUrl(url)} currentUrl={heroVideoUrl} label="Hero Background Video (Desktop)" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-[#F8FAFC] mb-2">Mobile Background Video</label>
+            <p className="text-sm text-[#94A3B8] mb-4">Upload a separate video for mobile devices (optional). If not set, the desktop video will be used as fallback.</p>
+            <CloudinaryUploadWidget onUpload={(url) => setHeroMobileVideoUrl(url)} currentUrl={heroMobileVideoUrl} label="Hero Background Video (Mobile)" />
           </div>
           <div>
             <label className="block text-sm font-medium text-[#F8FAFC] mb-4">Hero Metrics</label>

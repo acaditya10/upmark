@@ -63,7 +63,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-12 sm:gap-16 md:gap-24 pb-16 sm:pb-24 md:pb-28 relative">
-      <Hero videoUrl={settings?.heroVideoUrl} />
+      <Hero videoUrl={settings?.heroVideoUrl} mobileVideoUrl={settings?.heroMobileVideoUrl} />
 
       {/* Philosophy / About Section */}
       <section id="about" className="container mx-auto px-4 sm:px-6 scroll-mt-32">

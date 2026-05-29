@@ -1,16 +1,29 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
 interface HeroProps {
   videoUrl?: string | null;
+  mobileVideoUrl?: string | null;
 }
 
-export const Hero = ({ videoUrl }: HeroProps) => {
+export const Hero = ({ videoUrl, mobileVideoUrl }: HeroProps) => {
   const defaultVideo = "https://res.cloudinary.com/demo/video/upload/q_auto:good,f_auto/v1614264627/docs/cld-video-default.mp4";
   const defaultPoster = "https://res.cloudinary.com/demo/video/upload/so_0/v1614264627/video/cld-video-default-poster.jpg";
-  const currentVideoUrl = videoUrl || defaultVideo;
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const effectiveUrl = isMobile && mobileVideoUrl ? mobileVideoUrl : (videoUrl || defaultVideo);
+  const currentVideoUrl = effectiveUrl;
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);

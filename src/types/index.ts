@@ -141,6 +141,7 @@ export interface WorkSection {
 
 export interface SiteSettings {
   heroVideoUrl?: string;
+  heroMobileVideoUrl?: string;
   // Hero metrics
   heroMetrics?: HeroMetric[];
   // Contact info
