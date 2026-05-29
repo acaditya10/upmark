@@ -171,6 +171,15 @@ html {
   contain-intrinsic-size: 1px 500px;
 }
 
+/* ─── Flicker animation for the unmute button ─── */
+@keyframes flicker {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); }
+  50% { opacity: 0.6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.7); }
+}
+.animate-flicker {
+  animation: flicker 2s ease-in-out infinite;
+}
+
 /* ─── Low-end device / battery saver: kill animations entirely ─── */
 @media (prefers-reduced-motion: reduce) {
   .animate-\[spin_14s_linear_infinite\],

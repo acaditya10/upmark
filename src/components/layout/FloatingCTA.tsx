@@ -4,9 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Rocket } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useIdle } from "@/contexts/IdleContext";
 
 export const FloatingCTA = () => {
   const pathname = usePathname();
+  const { isIdle, isHeroVisible } = useIdle();
   
   // Don't show CTA on contact page since they are already there
   if (pathname === "/contact") return null;
@@ -14,9 +16,9 @@ export const FloatingCTA = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 0.4 }}
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 safe-bottom"
+      animate={{ opacity: isIdle && isHeroVisible ? 0 : 1, y: 0 }}
+      transition={{ delay: isIdle && isHeroVisible ? 0 : 1, duration: 0.7 }}
+      className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 safe-bottom ${isIdle && isHeroVisible ? "pointer-events-none" : "pointer-events-auto"}`}
       style={{ contain: "layout style" }}
     >
       <Link href="/contact" className="group">

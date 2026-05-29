@@ -6,12 +6,14 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIdle } from "@/contexts/IdleContext";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(null);
   const pathname = usePathname();
+  const { isIdle, isHeroVisible } = useIdle();
 
   // Handle scroll effect for dynamic glassmorphism on desktop
   useEffect(() => {
@@ -52,7 +54,7 @@ export const Navbar = () => {
   }, [pathname]);
 
   return (
-    <header className="fixed top-0 w-full z-50 flex justify-center pt-3 sm:pt-6 px-3 sm:px-6 pointer-events-none">
+    <header className={`fixed top-0 w-full z-50 flex justify-center pt-3 sm:pt-6 px-3 sm:px-6 pointer-events-none transition-opacity duration-700 ${isIdle && isHeroVisible ? "opacity-0" : "opacity-100"}`}>
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

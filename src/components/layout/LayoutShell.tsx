@@ -6,6 +6,7 @@ import { FloatingCTA } from "@/components/layout/FloatingCTA";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { IdleProvider } from "@/contexts/IdleContext";
 import type { ReactNode } from "react";
 
 export function LayoutShell({ children }: { children: ReactNode }) {
@@ -23,7 +24,7 @@ export function LayoutShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <>
+    <IdleProvider>
       <CustomCursor />
       <Navbar />
       <main className="flex-grow pb-28 md:pb-0">
@@ -31,6 +32,6 @@ export function LayoutShell({ children }: { children: ReactNode }) {
       </main>
       <Footer />
       <FloatingCTA />
-    </>
+    </IdleProvider>
   );
 }

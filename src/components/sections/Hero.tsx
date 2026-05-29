@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { useIdle } from "@/contexts/IdleContext";
 
 interface HeroProps {
   videoUrl?: string | null;
@@ -9,6 +10,7 @@ interface HeroProps {
 }
 
 export const Hero = ({ videoUrl, mobileVideoUrl }: HeroProps) => {
+  const { isIdle } = useIdle();
   const defaultVideo = "https://res.cloudinary.com/demo/video/upload/q_auto:good,f_auto/v1614264627/docs/cld-video-default.mp4";
   const defaultPoster = "https://res.cloudinary.com/demo/video/upload/so_0/v1614264627/video/cld-video-default-poster.jpg";
 
@@ -73,7 +75,7 @@ export const Hero = ({ videoUrl, mobileVideoUrl }: HeroProps) => {
       </div>
 
       {/* Video Control Buttons — bottom-right */}
-      <div className="absolute bottom-24 sm:bottom-28 right-4 sm:right-8 z-50 flex flex-col items-center gap-3">
+      <div className={`absolute bottom-24 sm:bottom-28 right-4 sm:right-8 z-50 flex flex-col items-center gap-3 transition-opacity duration-700 ${isIdle ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
         <button
           onClick={togglePlay}
           className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-[background-color,color] duration-200 active:scale-90"
@@ -83,7 +85,7 @@ export const Hero = ({ videoUrl, mobileVideoUrl }: HeroProps) => {
         </button>
         <button
           onClick={toggleMute}
-          className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-[background-color,color] duration-200 active:scale-90"
+          className={`w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-[background-color,color] duration-200 active:scale-90 ${isMuted ? "animate-flicker" : ""}`}
           aria-label={isMuted ? "Unmute video" : "Mute video"}
         >
           {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
