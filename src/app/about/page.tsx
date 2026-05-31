@@ -119,7 +119,7 @@ export default async function AboutPage() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/80 via-transparent to-transparent"></div>
                 </div>
-                <div className="p-5">
+                <div className="p-5 text-center flex flex-col items-center">
                   <h3 className="text-lg font-bold text-primary-text mb-1">{member.name}</h3>
                   <p className="text-accent-blue text-sm font-medium mb-2">{member.specialty}</p>
                   <p className="text-muted-text text-sm font-light leading-relaxed">{member.description}</p>
@@ -169,7 +169,7 @@ export default async function AboutPage() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/80 via-transparent to-transparent"></div>
                 </div>
-                <div className="p-5">
+                <div className="p-5 text-center flex flex-col items-center">
                   <h3 className="text-lg font-bold text-primary-text mb-1">{investor.name}</h3>
                   <p className="text-accent-gold text-sm font-medium mb-2">{investor.specialty}</p>
                   <p className="text-muted-text text-sm font-light leading-relaxed">{investor.description}</p>

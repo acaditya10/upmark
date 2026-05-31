@@ -174,7 +174,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
           <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
             {contentStudioVisible && contentItems.map((item) => (
-              <div key={item.id} className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5">
+              <div key={item.id} className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5 text-center flex flex-col items-center">
                 <div className="text-accent-blue font-bold text-xs uppercase tracking-widest mb-3">{item.subtitle}</div>
                 <h3 className="text-xl sm:text-2xl font-bold text-primary-text mb-2 sm:mb-3">{item.title}</h3>
                 <p className="text-muted-text font-light text-base">{item.description}</p>
