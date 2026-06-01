@@ -7,7 +7,7 @@ import { SeoSection } from "@/components/admin/ui/SeoSection";
 import { revalidatePathAction } from "@/app/actions";
 import {
   Save, Loader2, ChevronDown, Plus, Trash2, Users, BadgeCheck,
-  Info, GripVertical,
+  Info, GripVertical, FileText,
 } from "lucide-react";
 import type { TeamMember, Investor, SeoPageConfig, PageVisibility } from "@/types";
 
@@ -42,6 +42,18 @@ export default function AboutPageSettings() {
 
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [investors, setInvestors] = useState<Investor[]>([]);
+  const [aboutEyebrow, setAboutEyebrow] = useState("");
+  const [aboutTitle, setAboutTitle] = useState("");
+  const [aboutSubtitle, setAboutSubtitle] = useState("");
+  const [aboutDescription, setAboutDescription] = useState("");
+  const [teamEyebrow, setTeamEyebrow] = useState("");
+  const [teamTitle, setTeamTitle] = useState("");
+  const [teamDescription, setTeamDescription] = useState("");
+  const [investorsEyebrow, setInvestorsEyebrow] = useState("");
+  const [investorsTitle, setInvestorsTitle] = useState("");
+  const [investorsDescription, setInvestorsDescription] = useState("");
+  const [ctaTitle, setCtaTitle] = useState("");
+  const [ctaDescription, setCtaDescription] = useState("");
   const [seo, setSeo] = useState<SeoPageConfig>(ABOUT_SEO_DEFAULTS);
   const [visibility, setVisibility] = useState<PageVisibility>({});
 
@@ -52,6 +64,18 @@ export default function AboutPageSettings() {
         if (data) {
           if (data.teamMembers?.length) setTeamMembers(data.teamMembers);
           if (data.investors?.length) setInvestors(data.investors);
+          if (data.aboutEyebrow) setAboutEyebrow(data.aboutEyebrow);
+          if (data.aboutTitle) setAboutTitle(data.aboutTitle);
+          if (data.aboutSubtitle) setAboutSubtitle(data.aboutSubtitle);
+          if (data.aboutDescription) setAboutDescription(data.aboutDescription);
+          if (data.teamEyebrow) setTeamEyebrow(data.teamEyebrow);
+          if (data.teamTitle) setTeamTitle(data.teamTitle);
+          if (data.teamDescription) setTeamDescription(data.teamDescription);
+          if (data.investorsEyebrow) setInvestorsEyebrow(data.investorsEyebrow);
+          if (data.investorsTitle) setInvestorsTitle(data.investorsTitle);
+          if (data.investorsDescription) setInvestorsDescription(data.investorsDescription);
+          if (data.ctaTitle) setCtaTitle(data.ctaTitle);
+          if (data.ctaDescription) setCtaDescription(data.ctaDescription);
           if (data.seo?.about) setSeo({ ...ABOUT_SEO_DEFAULTS, ...data.seo.about });
           if (data.visibility) setVisibility(data.visibility);
         }
@@ -75,6 +99,18 @@ export default function AboutPageSettings() {
       await updateSiteSettings({
         teamMembers,
         investors,
+        aboutEyebrow: aboutEyebrow || undefined,
+        aboutTitle: aboutTitle || undefined,
+        aboutSubtitle: aboutSubtitle || undefined,
+        aboutDescription: aboutDescription || undefined,
+        teamEyebrow: teamEyebrow || undefined,
+        teamTitle: teamTitle || undefined,
+        teamDescription: teamDescription || undefined,
+        investorsEyebrow: investorsEyebrow || undefined,
+        investorsTitle: investorsTitle || undefined,
+        investorsDescription: investorsDescription || undefined,
+        ctaTitle: ctaTitle || undefined,
+        ctaDescription: ctaDescription || undefined,
         visibility,
         seo: { about: seo },
       });
@@ -117,6 +153,45 @@ export default function AboutPageSettings() {
           </button>
         </div>
       </div>
+
+      {/* ─── Page Content ─── */}
+      <Section title="Page Content" icon={FileText} defaultOpen={true}>
+        <p className="text-sm text-[#94A3B8] mb-4">Edit the headings and text for each section on the About page.</p>
+        <div className="flex flex-col gap-6">
+          <div>
+            <h3 className="text-md font-semibold text-[#F8FAFC] mb-3">About Section</h3>
+            <div className="flex flex-col gap-3">
+              <input value={aboutEyebrow} onChange={(e) => setAboutEyebrow(e.target.value)} placeholder='Eyebrow label (e.g. "ABOUT US")' className={inputClass} />
+              <input value={aboutTitle} onChange={(e) => setAboutTitle(e.target.value)} placeholder='Title (e.g. "Most agencies only...")' className={inputClass} />
+              <input value={aboutSubtitle} onChange={(e) => setAboutSubtitle(e.target.value)} placeholder='Subtitle (e.g. "Upmark builds...")' className={inputClass} />
+              <textarea value={aboutDescription} onChange={(e) => setAboutDescription(e.target.value)} placeholder="Description (separate paragraphs with a blank line)" className={`${inputClass} resize-none`} rows={4} />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-md font-semibold text-[#F8FAFC] mb-3">Team Section</h3>
+            <div className="flex flex-col gap-3">
+              <input value={teamEyebrow} onChange={(e) => setTeamEyebrow(e.target.value)} placeholder='Eyebrow label (e.g. "MEET THE TEAM")' className={inputClass} />
+              <input value={teamTitle} onChange={(e) => setTeamTitle(e.target.value)} placeholder='Title (e.g. "The people behind the work")' className={inputClass} />
+              <textarea value={teamDescription} onChange={(e) => setTeamDescription(e.target.value)} placeholder="Section description" className={`${inputClass} resize-none`} rows={2} />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-md font-semibold text-[#F8FAFC] mb-3">Investors Section</h3>
+            <div className="flex flex-col gap-3">
+              <input value={investorsEyebrow} onChange={(e) => setInvestorsEyebrow(e.target.value)} placeholder='Eyebrow label (e.g. "OUR INVESTORS")' className={inputClass} />
+              <input value={investorsTitle} onChange={(e) => setInvestorsTitle(e.target.value)} placeholder='Title (e.g. "Backed by visionaries")' className={inputClass} />
+              <textarea value={investorsDescription} onChange={(e) => setInvestorsDescription(e.target.value)} placeholder="Section description" className={`${inputClass} resize-none`} rows={2} />
+            </div>
+          </div>
+          <div>
+            <h3 className="text-md font-semibold text-[#F8FAFC] mb-3">CTA Section</h3>
+            <div className="flex flex-col gap-3">
+              <input value={ctaTitle} onChange={(e) => setCtaTitle(e.target.value)} placeholder='Title (e.g. "Ready to build your marketing system?")' className={inputClass} />
+              <textarea value={ctaDescription} onChange={(e) => setCtaDescription(e.target.value)} placeholder="CTA description" className={`${inputClass} resize-none`} rows={2} />
+            </div>
+          </div>
+        </div>
+      </Section>
 
       {/* ─── Meet the Team ─── */}
       <Section title="Meet the Team" icon={Users} defaultOpen={true}>

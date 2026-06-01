@@ -19,6 +19,19 @@ export default async function AboutPage() {
   const teamMembers = settings?.teamMembers ?? [];
   const investors = settings?.investors ?? [];
 
+  const aboutEyebrow = settings?.aboutEyebrow ?? "ABOUT US";
+  const aboutTitle = settings?.aboutTitle ?? "Most agencies only <span class=\"bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400\">create content</span> <br class=\"hidden md:block\" />or run ads.";
+  const aboutSubtitle = settings?.aboutSubtitle ?? "Upmark builds <span class=\"text-accent-gold\">complete marketing systems.</span>";
+  const aboutDescription = settings?.aboutDescription ?? "Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.\n\nWhen your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We&apos;re not a collection of specialists working in parallel. We&apos;re a single, integrated team where every discipline makes every other one better. That&apos;s the Upmark advantage.";
+  const teamEyebrow = settings?.teamEyebrow ?? "MEET THE TEAM";
+  const teamTitle = settings?.teamTitle ?? "The people behind <span class=\"bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400\">the work</span>";
+  const teamDescription = settings?.teamDescription ?? "Strategists, creatives, producers and performance marketers — operating as one integrated team.";
+  const investorsEyebrow = settings?.investorsEyebrow ?? "OUR INVESTORS";
+  const investorsTitle = settings?.investorsTitle ?? "Backed by <span class=\"bg-clip-text text-transparent bg-gradient-to-r from-accent-gold to-yellow-400\">visionaries</span>";
+  const investorsDescription = settings?.investorsDescription ?? "We&apos;re proud to be supported by investors who believe in our mission.";
+  const ctaTitle = settings?.ctaTitle ?? "Ready to build your <span class=\"bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-blue-400\">marketing system?</span>";
+  const ctaDescription = settings?.ctaDescription ?? "Let&apos;s talk about how Upmark can help you scale.";
+
   const pageVisible = show("about");
   const teamVisible = show("aboutTeam") && teamMembers.length > 0;
   const investorsVisible = show("aboutInvestors") && investors.length > 0;
@@ -33,21 +46,14 @@ export default async function AboutPage() {
           <div className="lg:w-7/12 flex flex-col items-start pr-0 lg:pr-10">
             <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-6 inline-flex items-center gap-4">
               <span className="w-8 h-[1px] bg-accent-blue"></span>
-              ABOUT US
+              {aboutEyebrow}
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-4">
-              Most agencies only <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">create content</span> <br className="hidden md:block" />or run ads.
-            </h1>
-            <h2 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold">
-              Upmark builds <span className="text-accent-gold">complete marketing systems.</span>
-            </h2>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-4" dangerouslySetInnerHTML={{ __html: aboutTitle }} />
+            <h2 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold" dangerouslySetInnerHTML={{ __html: aboutSubtitle }} />
             <div className="flex flex-col gap-4 sm:gap-6 text-muted-text font-light text-base sm:text-lg mb-8 sm:mb-10">
-              <p>
-                Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
-              </p>
-              <p>
-                When your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We&apos;re not a collection of specialists working in parallel. We&apos;re a single, integrated team where every discipline makes every other one better. That&apos;s the Upmark advantage.
-              </p>
+              {aboutDescription.split("\n\n").map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
               {show("services") && (
@@ -86,14 +92,12 @@ export default async function AboutPage() {
           <div className="text-center mb-10 sm:mb-14">
             <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
               <span className="w-8 h-[1px] bg-accent-blue"></span>
-              MEET THE TEAM
+              {teamEyebrow}
               <span className="w-8 h-[1px] bg-accent-blue"></span>
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-primary-text tracking-tight mb-4">
-              The people behind <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">the work</span>
-            </h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-primary-text tracking-tight mb-4" dangerouslySetInnerHTML={{ __html: teamTitle }} />
             <p className="text-muted-text text-base sm:text-lg max-w-2xl font-light mx-auto">
-              Strategists, creatives, producers and performance marketers — operating as one integrated team.
+              {teamDescription}
             </p>
           </div>
 
@@ -136,14 +140,12 @@ export default async function AboutPage() {
           <div className="text-center mb-10 sm:mb-14">
             <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 block inline-flex items-center gap-4">
               <span className="w-8 h-[1px] bg-accent-blue"></span>
-              OUR INVESTORS
+              {investorsEyebrow}
               <span className="w-8 h-[1px] bg-accent-blue"></span>
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-primary-text tracking-tight mb-4">
-              Backed by <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-gold to-yellow-400">visionaries</span>
-            </h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-primary-text tracking-tight mb-4" dangerouslySetInnerHTML={{ __html: investorsTitle }} />
             <p className="text-muted-text text-base sm:text-lg max-w-2xl font-light mx-auto">
-              We&apos;re proud to be supported by investors who believe in our mission.
+              {investorsDescription}
             </p>
           </div>
 
@@ -185,11 +187,9 @@ export default async function AboutPage() {
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-accent-blue/10 to-accent-gold/5 border border-primary-text/5 p-8 sm:p-14 text-center">
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent-blue/10 blur-[80px] pointer-events-none rounded-full"></div>
           <div className="relative z-10">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-primary-text tracking-tight mb-4">
-              Ready to build your <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-blue-400">marketing system?</span>
-            </h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-primary-text tracking-tight mb-4" dangerouslySetInnerHTML={{ __html: ctaTitle }} />
             <p className="text-muted-text text-base sm:text-lg max-w-xl font-light mx-auto mb-8">
-              Let&apos;s talk about how Upmark can help you scale.
+              {ctaDescription}
             </p>
             {show("contact") && (
               <Link

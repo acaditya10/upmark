@@ -222,6 +222,18 @@ export interface SiteSettings {
   // Page/Section visibility
   visibility?: PageVisibility;
   // About page
+  aboutEyebrow?: string;
+  aboutTitle?: string;
+  aboutSubtitle?: string;
+  aboutDescription?: string;
+  teamEyebrow?: string;
+  teamTitle?: string;
+  teamDescription?: string;
+  investorsEyebrow?: string;
+  investorsTitle?: string;
+  investorsDescription?: string;
+  ctaTitle?: string;
+  ctaDescription?: string;
   teamMembers?: TeamMember[];
   investors?: Investor[];
   // SEO configuration
