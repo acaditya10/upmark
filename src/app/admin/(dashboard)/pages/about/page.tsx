@@ -207,10 +207,11 @@ export default function AboutPageSettings() {
                 <button type="button" onClick={() => setTeamMembers(teamMembers.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input value={member.name} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], name: e.target.value }; setTeamMembers(arr); }} placeholder="Full name" className={inputClass} />
-                <input value={member.specialty} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], specialty: e.target.value }; setTeamMembers(arr); }} placeholder="Specialty (e.g. Creative Director)" className={inputClass} />
-              </div>
-              <textarea value={member.description} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], description: e.target.value }; setTeamMembers(arr); }} placeholder="Brief description about this team member" className={`${inputClass} resize-none`} rows={2} />
+                 <input value={member.name} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], name: e.target.value }; setTeamMembers(arr); }} placeholder="Full name" className={inputClass} />
+                 <input value={member.specialty} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], specialty: e.target.value }; setTeamMembers(arr); }} placeholder="Specialty (e.g. Creative Director)" className={inputClass} />
+               </div>
+               <input value={member.cardOverlayText || ""} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], cardOverlayText: e.target.value }; setTeamMembers(arr); }} placeholder="Card overlay text (shown on the card)" className={inputClass} />
+               <textarea value={member.description} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], description: e.target.value }; setTeamMembers(arr); }} placeholder="Brief description about this team member" className={`${inputClass} resize-none`} rows={2} />
               <div>
                 <CloudinaryUploadWidget
                   onUpload={(url) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], imageUrl: url }; setTeamMembers(arr); }}
@@ -240,10 +241,11 @@ export default function AboutPageSettings() {
                 <button type="button" onClick={() => setInvestors(investors.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input value={investor.name} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], name: e.target.value }; setInvestors(arr); }} placeholder="Full name" className={inputClass} />
-                <input value={investor.specialty} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], specialty: e.target.value }; setInvestors(arr); }} placeholder="Role / background (e.g. Angel Investor)" className={inputClass} />
-              </div>
-              <textarea value={investor.description} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], description: e.target.value }; setInvestors(arr); }} placeholder="Brief description about this investor" className={`${inputClass} resize-none`} rows={2} />
+                 <input value={investor.name} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], name: e.target.value }; setInvestors(arr); }} placeholder="Full name" className={inputClass} />
+                 <input value={investor.specialty} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], specialty: e.target.value }; setInvestors(arr); }} placeholder="Role / background (e.g. Angel Investor)" className={inputClass} />
+               </div>
+               <input value={investor.cardOverlayText || ""} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], cardOverlayText: e.target.value }; setInvestors(arr); }} placeholder="Card overlay text (shown on the card)" className={inputClass} />
+               <textarea value={investor.description} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], description: e.target.value }; setInvestors(arr); }} placeholder="Brief description about this investor" className={`${inputClass} resize-none`} rows={2} />
               <div>
                 <CloudinaryUploadWidget
                   onUpload={(url) => { const arr = [...investors]; arr[i] = { ...arr[i], imageUrl: url }; setInvestors(arr); }}

@@ -149,6 +149,7 @@ export interface TeamMember {
   specialty: string;
   description: string;
   imageUrl?: string;
+  cardOverlayText?: string;
 }
 
 export interface Investor {
@@ -156,6 +157,7 @@ export interface Investor {
   specialty: string;
   description: string;
   imageUrl?: string;
+  cardOverlayText?: string;
 }
 
 export interface PageVisibility {

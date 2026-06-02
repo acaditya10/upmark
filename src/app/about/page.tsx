@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/firestore";
-import { Users, BadgeCheck } from "lucide-react";
+import { AboutCardGrid } from "@/components/ui/AboutCardGrid";
 
 export const metadata: Metadata = {
   title: "About Us | Upmark",
@@ -101,36 +101,7 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6">
-            {teamMembers.map((member, i) => (
-              <div
-                key={i}
-                className="group relative bg-secondary-surface/40 border border-primary-text/5 rounded-2xl overflow-hidden hover:border-accent-blue/30 transition-all duration-300 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] max-w-sm"
-              >
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  {member.imageUrl ? (
-                    <Image
-                      src={member.imageUrl}
-                      alt={member.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-blue/10 to-accent-gold/5">
-                      <Users size={48} className="text-primary-text/20" />
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/80 via-transparent to-transparent"></div>
-                </div>
-                <div className="p-5 text-center flex flex-col items-center">
-                  <h3 className="text-lg font-bold text-primary-text mb-1">{member.name}</h3>
-                  <p className="text-accent-blue text-sm font-medium mb-2">{member.specialty}</p>
-                  <p className="text-muted-text text-sm font-light leading-relaxed">{member.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <AboutCardGrid items={teamMembers} accentColor="blue" />
         </section>
       )}
 
@@ -149,36 +120,7 @@ export default async function AboutPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6">
-            {investors.map((investor, i) => (
-              <div
-                key={i}
-                className="group relative bg-secondary-surface/40 border border-primary-text/5 rounded-2xl overflow-hidden hover:border-accent-gold/30 transition-all duration-300 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] max-w-sm"
-              >
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  {investor.imageUrl ? (
-                    <Image
-                      src={investor.imageUrl}
-                      alt={investor.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent-gold/10 to-accent-blue/5">
-                      <BadgeCheck size={48} className="text-primary-text/20" />
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/80 via-transparent to-transparent"></div>
-                </div>
-                <div className="p-5 text-center flex flex-col items-center">
-                  <h3 className="text-lg font-bold text-primary-text mb-1">{investor.name}</h3>
-                  <p className="text-accent-gold text-sm font-medium mb-2">{investor.specialty}</p>
-                  <p className="text-muted-text text-sm font-light leading-relaxed">{investor.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <AboutCardGrid items={investors} accentColor="gold" />
         </section>
       )}
 
