@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState, useEffect } from "react";
-import { getWorkItems, createWorkItem, updateWorkItem, deleteWorkItem, getSiteSettings, updateSiteSettings, getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial } from "@/lib/firestore";
+import { getWorkItems, createWorkItem, updateWorkItem, deleteWorkItem, batchUpdateWorkItems, getSiteSettings, updateSiteSettings, getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial } from "@/lib/firestore";
 import { WorkItemForm } from "@/components/admin/WorkItemForm";
 import { TestimonialForm } from "@/components/admin/TestimonialForm";
 import { SeoSection } from "@/components/admin/ui/SeoSection";
@@ -12,7 +12,7 @@ import { FormModal } from "@/components/admin/ui/FormModal";
 import { useCollection } from "@/hooks/useCollection";
 import { revalidatePathAction } from "@/app/actions";
 import {
-  Plus, Pencil, Trash2, X, FileText, RefreshCw, Save, Loader2, Film, MessageSquareQuote, Star, Quote, Search,
+  Plus, Pencil, Trash2, X, FileText, RefreshCw, Save, Loader2, Film, MessageSquareQuote, Star, Quote, Search, ArrowUp, ArrowDown,
 } from "lucide-react";
 import type { WorkItem, WorkItemCategory, WorkSection, SeoPageConfig, Testimonial, PageVisibility } from "@/types";
 
@@ -59,6 +59,76 @@ export default function WorkPageSettings() {
   const [portfolioSearch, setPortfolioSearch] = useState("");
   const [productionSearch, setProductionSearch] = useState("");
 
+  // ─── Sort mode ─────────────────────────────
+  type SortMode = "alphabetical" | "publishDate" | "custom";
+  const [portfolioSortMode, setPortfolioSortMode] = useState<SortMode>("publishDate");
+  const [productionSortMode, setProductionSortMode] = useState<SortMode>("publishDate");
+  const [reorderingId, setReorderingId] = useState<string | null>(null);
+
+  function sortItems(items: WorkItem[], mode: SortMode): WorkItem[] {
+    const sorted = [...items];
+    switch (mode) {
+      case "alphabetical":
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "publishDate":
+        sorted.sort((a, b) => {
+          const aTime = a.createdAt?.toMillis?.() ?? 0;
+          const bTime = b.createdAt?.toMillis?.() ?? 0;
+          return bTime - aTime;
+        });
+        break;
+      case "custom":
+        sorted.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+        break;
+    }
+    return sorted;
+  }
+
+  async function applySortMode(
+    targetItems: WorkItem[],
+    mode: SortMode
+  ): Promise<void> {
+    if (targetItems.length === 0) return;
+    const sorted = sortItems(targetItems, mode);
+    const updates = sorted.map((item, i) => ({
+      id: item.id!,
+      data: { order: i },
+    }));
+    await batchUpdateWorkItems(updates);
+    await coll.refresh();
+  }
+
+  async function handleMoveItem(
+    items: WorkItem[],
+    index: number,
+    direction: "up" | "down"
+  ) {
+    if (
+      (direction === "up" && index === 0) ||
+      (direction === "down" && index === items.length - 1)
+    )
+      return;
+
+    const swapIndex = direction === "up" ? index - 1 : index + 1;
+    const item = items[index];
+    const swapItem = items[swapIndex];
+    if (!item.id || !swapItem.id) return;
+
+    setReorderingId(item.id);
+    try {
+      await batchUpdateWorkItems([
+        { id: item.id, data: { order: swapItem.order ?? index } },
+        { id: swapItem.id, data: { order: item.order ?? swapIndex } },
+      ]);
+      await coll.refresh();
+    } catch (err) {
+      console.error("Failed to reorder:", err);
+    } finally {
+      setReorderingId(null);
+    }
+  }
+
   const portfolioItems = coll.items.filter(
     (item) =>
       (["Studies", "Portfolio", "Success Stories", "Client Testimonials"].includes(item.category)) &&
@@ -75,6 +145,9 @@ export default function WorkPageSettings() {
           v?.toLowerCase().includes(productionSearch.toLowerCase())
         ))
   );
+
+  const sortedPortfolio = sortItems(portfolioItems, portfolioSortMode);
+  const sortedProduction = sortItems(productionItems, productionSortMode);
 
   // ─── Testimonials CRUD ───────────────────────
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -353,23 +426,45 @@ export default function WorkPageSettings() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4">
-            <div className="relative flex-1 max-w-sm">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                placeholder="Search portfolio items..."
-                value={portfolioSearch}
-                onChange={(e) => setPortfolioSearch(e.target.value)}
-                className="w-full bg-[#1E293B] border border-white/5 rounded-lg pl-11 pr-4 py-3 text-[#F8FAFC] placeholder-white/30 focus:outline-none focus:border-[#3B82F6] transition-colors text-sm"
-              />
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-1 bg-[#0F172A] border border-white/5 rounded-lg p-1">
+              {(["alphabetical", "publishDate", "custom"] as SortMode[]).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={async () => {
+                    setPortfolioSortMode(mode);
+                    if (mode !== "custom") {
+                      await applySortMode(portfolioItems, mode);
+                    }
+                  }}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                    portfolioSortMode === mode
+                      ? "bg-[#3B82F6]/20 text-[#3B82F6]"
+                      : "text-[#94A3B8] hover:text-white"
+                  }`}
+                >
+                  {mode === "alphabetical" ? "A–Z" : mode === "publishDate" ? "Date" : "Custom"}
+                </button>
+              ))}
             </div>
-            <button
-              onClick={() => openCreateWorkItem("Studies")}
-              className="flex items-center gap-2 px-4 py-2 bg-[#3B82F6] hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all flex-shrink-0"
-            >
-              <Plus size={16} /> Add New
-            </button>
+            <div className="flex items-center gap-3 flex-1 max-w-sm">
+              <div className="relative flex-1">
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  placeholder="Search portfolio items..."
+                  value={portfolioSearch}
+                  onChange={(e) => setPortfolioSearch(e.target.value)}
+                  className="w-full bg-[#1E293B] border border-white/5 rounded-lg pl-11 pr-4 py-3 text-[#F8FAFC] placeholder-white/30 focus:outline-none focus:border-[#3B82F6] transition-colors text-sm"
+                />
+              </div>
+              <button
+                onClick={() => openCreateWorkItem("Studies")}
+                className="flex items-center gap-2 px-4 py-2 bg-[#3B82F6] hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all flex-shrink-0"
+              >
+                <Plus size={16} /> Add New
+              </button>
+            </div>
           </div>
 
           {coll.loading ? (
@@ -382,17 +477,40 @@ export default function WorkPageSettings() {
             />
           ) : (
             <div className="bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden">
-              <div className="hidden md:grid md:grid-cols-[1fr_100px_80px_80px] gap-4 px-6 py-3 border-b border-white/5 bg-white/[0.02]">
+              <div className="hidden md:grid md:grid-cols-[32px_1fr_100px_80px_80px] gap-4 px-6 py-3 border-b border-white/5 bg-white/[0.02]">
+                <span />
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">Title / Client</span>
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">Category</span>
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">Status</span>
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider text-right">Actions</span>
               </div>
-              {portfolioItems.map((item) => (
+              {sortedPortfolio.map((item, index) => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-1 md:grid-cols-[1fr_100px_80px_80px] gap-2 md:gap-4 px-6 py-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors items-center"
+                  className="grid grid-cols-[32px_1fr_100px_80px_80px] gap-4 px-6 py-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors items-center"
                 >
+                  <div className="flex flex-col items-center gap-0.5">
+                    {portfolioSortMode === "custom" && (
+                      <>
+                        <button
+                          onClick={() => handleMoveItem(sortedPortfolio, index, "up")}
+                          disabled={index === 0 || reorderingId !== null}
+                          className="p-0.5 text-[#94A3B8] hover:text-white disabled:opacity-20 transition-colors"
+                          title="Move up"
+                        >
+                          <ArrowUp size={12} />
+                        </button>
+                        <button
+                          onClick={() => handleMoveItem(sortedPortfolio, index, "down")}
+                          disabled={index === sortedPortfolio.length - 1 || reorderingId !== null}
+                          className="p-0.5 text-[#94A3B8] hover:text-white disabled:opacity-20 transition-colors"
+                          title="Move down"
+                        >
+                          <ArrowDown size={12} />
+                        </button>
+                      </>
+                    )}
+                  </div>
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-[#F8FAFC] truncate">{item.title}</p>
                     <p className="text-xs text-[#94A3B8] truncate">{item.client}</p>
@@ -484,23 +602,45 @@ export default function WorkPageSettings() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4">
-            <div className="relative flex-1 max-w-sm">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                placeholder="Search production items..."
-                value={productionSearch}
-                onChange={(e) => setProductionSearch(e.target.value)}
-                className="w-full bg-[#1E293B] border border-white/5 rounded-lg pl-11 pr-4 py-3 text-[#F8FAFC] placeholder-white/30 focus:outline-none focus:border-[#3B82F6] transition-colors text-sm"
-              />
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-1 bg-[#0F172A] border border-white/5 rounded-lg p-1">
+              {(["alphabetical", "publishDate", "custom"] as SortMode[]).map((mode) => (
+                <button
+                  key={mode}
+                  onClick={async () => {
+                    setProductionSortMode(mode);
+                    if (mode !== "custom") {
+                      await applySortMode(productionItems, mode);
+                    }
+                  }}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                    productionSortMode === mode
+                      ? "bg-[#3B82F6]/20 text-[#3B82F6]"
+                      : "text-[#94A3B8] hover:text-white"
+                  }`}
+                >
+                  {mode === "alphabetical" ? "A–Z" : mode === "publishDate" ? "Date" : "Custom"}
+                </button>
+              ))}
             </div>
-            <button
-              onClick={() => openCreateWorkItem("Production")}
-              className="flex items-center gap-2 px-4 py-2 bg-[#3B82F6] hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all flex-shrink-0"
-            >
-              <Plus size={16} /> Add New
-            </button>
+            <div className="flex items-center gap-3 flex-1 max-w-sm">
+              <div className="relative flex-1">
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  placeholder="Search production items..."
+                  value={productionSearch}
+                  onChange={(e) => setProductionSearch(e.target.value)}
+                  className="w-full bg-[#1E293B] border border-white/5 rounded-lg pl-11 pr-4 py-3 text-[#F8FAFC] placeholder-white/30 focus:outline-none focus:border-[#3B82F6] transition-colors text-sm"
+                />
+              </div>
+              <button
+                onClick={() => openCreateWorkItem("Production")}
+                className="flex items-center gap-2 px-4 py-2 bg-[#3B82F6] hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all flex-shrink-0"
+              >
+                <Plus size={16} /> Add New
+              </button>
+            </div>
           </div>
 
           {coll.loading ? (
@@ -513,17 +653,40 @@ export default function WorkPageSettings() {
             />
           ) : (
             <div className="bg-[#1E293B] rounded-xl border border-white/5 overflow-hidden">
-              <div className="hidden md:grid md:grid-cols-[1fr_100px_80px_80px] gap-4 px-6 py-3 border-b border-white/5 bg-white/[0.02]">
+              <div className="hidden md:grid md:grid-cols-[32px_1fr_100px_80px_80px] gap-4 px-6 py-3 border-b border-white/5 bg-white/[0.02]">
+                <span />
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">Title / Client</span>
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">Folder</span>
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">Status</span>
                 <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider text-right">Actions</span>
               </div>
-              {productionItems.map((item) => (
+              {sortedProduction.map((item, index) => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-1 md:grid-cols-[1fr_100px_80px_80px] gap-2 md:gap-4 px-6 py-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors items-center"
+                  className="grid grid-cols-[32px_1fr_100px_80px_80px] gap-4 px-6 py-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors items-center"
                 >
+                  <div className="flex flex-col items-center gap-0.5">
+                    {productionSortMode === "custom" && (
+                      <>
+                        <button
+                          onClick={() => handleMoveItem(sortedProduction, index, "up")}
+                          disabled={index === 0 || reorderingId !== null}
+                          className="p-0.5 text-[#94A3B8] hover:text-white disabled:opacity-20 transition-colors"
+                          title="Move up"
+                        >
+                          <ArrowUp size={12} />
+                        </button>
+                        <button
+                          onClick={() => handleMoveItem(sortedProduction, index, "down")}
+                          disabled={index === sortedProduction.length - 1 || reorderingId !== null}
+                          className="p-0.5 text-[#94A3B8] hover:text-white disabled:opacity-20 transition-colors"
+                          title="Move down"
+                        >
+                          <ArrowDown size={12} />
+                        </button>
+                      </>
+                    )}
+                  </div>
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-[#F8FAFC] truncate">{item.title}</p>
                     <p className="text-xs text-[#94A3B8] truncate">{item.client}</p>

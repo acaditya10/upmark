@@ -10,6 +10,7 @@ import {
   orderBy,
   serverTimestamp,
   setDoc,
+  writeBatch,
 } from "firebase/firestore";
 import { db } from "./firebase";
 import type { CaseStudy, WorkItem, Service, Lead, SiteSettings, Testimonial } from "@/types";
@@ -129,6 +130,17 @@ export async function updateWorkItem(
 export async function deleteWorkItem(id: string): Promise<void> {
   const docRef = doc(db, "work", id);
   await deleteDoc(docRef);
+}
+
+export async function batchUpdateWorkItems(
+  updates: { id: string; data: Partial<Omit<WorkItem, "id" | "createdAt">> }[]
+): Promise<void> {
+  const batch = writeBatch(db);
+  for (const { id, data } of updates) {
+    const docRef = doc(db, "work", id);
+    batch.update(docRef, { ...data, updatedAt: serverTimestamp() });
+  }
+  await batch.commit();
 }
 
 // ─── Services ───────────────────────────────────────────────

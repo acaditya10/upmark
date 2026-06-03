@@ -70,8 +70,12 @@ export default function WorkPage() {
           getTestimonials(),
         ]);
         const published = all.filter(w => w.published);
-        const studies = published.filter(w => ["Studies", "Portfolio", "Success Stories", "Client Testimonials"].includes(w.category));
-        const portfolio = published.filter(w => ["Stills & Motions", "Production"].includes(w.category));
+        const studies = published
+          .filter(w => ["Studies", "Portfolio", "Success Stories", "Client Testimonials"].includes(w.category))
+          .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+        const portfolio = published
+          .filter(w => ["Stills & Motions", "Production"].includes(w.category))
+          .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
         if (studies.length > 0) setCaseStudies(studies);
         if (portfolio.length > 0) setPortfolioItems(portfolio);
         if (allTestimonials.length > 0) setTestimonials(allTestimonials);
