@@ -191,7 +191,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
             </svg>
 
             {/* Central Information Core */}
-            <div className="absolute z-10 w-[45%] h-[45%] rounded-full border border-primary-text/10 bg-secondary-surface/90 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 text-center overflow-hidden" style={{ boxShadow: "0 0 50px rgba(var(--color-accent-gold-rgb), 0.1)" }}>
+            <div className="absolute z-10 w-[35%] h-[35%] rounded-full border border-primary-text/10 bg-secondary-surface/90 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 text-center overflow-hidden" style={{ boxShadow: "0 0 50px rgba(var(--color-accent-gold-rgb), 0.1)" }}>
               <div className="absolute inset-0 bg-gradient-to-b from-accent-gold/5 to-transparent pointer-events-none" />
 
               <AnimatePresence mode="wait">
@@ -239,9 +239,11 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                     </span>
 
                     {/* Floating Title (always visible, or visible on hover/active) */}
-                    <div className={`absolute top-full mt-2 sm:mt-4 whitespace-nowrap text-[9px] sm:text-xs lg:text-sm font-bold tracking-wider uppercase transition-[opacity,transform] duration-300
+                    <div className={`absolute top-full mt-2 sm:mt-4 flex flex-col items-center text-[9px] sm:text-xs lg:text-sm font-bold tracking-wider uppercase transition-[opacity,transform] duration-300 rounded-lg px-2.5 py-1 bg-primary-bg/80 shadow-[0_2px_12px_rgba(0,0,0,0.15)]
                     ${isActive ? "text-primary-text opacity-100 translate-y-0" : "text-muted-text opacity-70 group-hover:opacity-100 -translate-y-1"}`}>
-                      {item.title}
+                      {item.title.split(" ").map((word, i) => (
+                        <span key={i}>{word}</span>
+                      ))}
                     </div>
 
                   </motion.button>
