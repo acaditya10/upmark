@@ -129,7 +129,6 @@ export default async function Home() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/60 via-transparent to-transparent"></div>
             </div>
           </div>
         </div>
@@ -138,7 +137,7 @@ export default async function Home() {
         {philosophyVisible && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {philosophyPointers.map((p, i) => (
-            <div key={i} className="group p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5 hover:border-accent-blue/30 transition-colors duration-300 relative overflow-hidden">
+            <div key={i} className="group p-6 sm:p-8 min-h-[200px] sm:min-h-0 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5 hover:border-accent-blue/30 transition-colors duration-300 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-3 sm:p-6 text-4xl sm:text-6xl font-black text-primary-text/5 group-hover:text-primary-text/10 transition-colors pointer-events-none">
                 0{i + 1}
               </div>
