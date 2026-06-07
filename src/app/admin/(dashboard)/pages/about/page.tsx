@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { getSiteSettings, updateSiteSettings } from "@/lib/firestore";
-import { CloudinaryUploadWidget } from "@/components/admin/CloudinaryUploadWidget";
 import { SeoSection } from "@/components/admin/ui/SeoSection";
 import { revalidatePathAction } from "@/app/actions";
 import {
   Save, Loader2, ChevronDown, Plus, Trash2, Users, BadgeCheck,
-  Info, GripVertical, FileText,
+  Info, GripVertical, FileText, Upload,
 } from "lucide-react";
 import type { TeamMember, Investor, SeoPageConfig, PageVisibility } from "@/types";
 
@@ -196,31 +195,135 @@ export default function AboutPageSettings() {
       {/* ─── Meet the Team ─── */}
       <Section title="Meet the Team" icon={Users} defaultOpen={true}>
         <p className="text-sm text-muted-text mb-4">Add and manage team members shown on the About page.</p>
-        <div className="flex flex-col gap-4">
-          {teamMembers.map((member, i) => (
-            <div key={i} className="flex flex-col gap-3 p-4 border border-primary-text/10 rounded-xl bg-primary-text/[0.02]">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-primary-text flex items-center gap-2">
-                  <GripVertical size={14} className="text-muted-text" />
-                  Team Member {i + 1}
-                </span>
-                <button type="button" onClick={() => setTeamMembers(teamMembers.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
+        <div className="flex flex-col gap-6">
+          {teamMembers.map((member, i) => {
+            const updateMember = (field: keyof TeamMember, value: string) => {
+              const arr = [...teamMembers];
+              arr[i] = { ...arr[i], [field]: value };
+              setTeamMembers(arr);
+            };
+            return (
+              <div key={i} className="border border-primary-text/10 rounded-xl bg-primary-text/[0.02] overflow-hidden">
+                <div className="flex justify-between items-center px-4 pt-4 pb-2">
+                  <span className="text-sm font-semibold text-primary-text flex items-center gap-2">
+                    <GripVertical size={14} className="text-muted-text" />
+                    Team Member {i + 1}
+                  </span>
+                  <button type="button" onClick={() => setTeamMembers(teamMembers.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
+                </div>
+                <div className="flex flex-col lg:flex-row gap-0">
+                  {/* ── Left: Live Card Preview ── */}
+                  <div className="lg:w-[300px] flex-shrink-0 p-4">
+                    <div className="relative w-full max-w-[280px] mx-auto">
+                      <label className="text-xs font-medium text-muted-text mb-2 block">Card Preview</label>
+                      <div
+                        className="group relative bg-secondary-surface/40 border border-primary-text/10 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 aspect-[3/4]"
+                        onClick={() => {
+                          if (!window.cloudinary) return;
+                          const widget = window.cloudinary.createUploadWidget(
+                            {
+                              cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+                              uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+                              sources: ["local", "url", "camera"],
+                              multiple: false,
+                              maxFileSize: 50000000,
+                              resourceType: "auto",
+                              styles: {
+                                palette: {
+                                  window: "#1E293B",
+                                  sourceBg: "#0F172A",
+                                  windowBorder: "#3B82F6",
+                                  tabIcon: "#3B82F6",
+                                  inactiveTabIcon: "#94A3B8",
+                                  menuIcons: "#3B82F6",
+                                  link: "#3B82F6",
+                                  action: "#3B82F6",
+                                  inProgress: "#3B82F6",
+                                  complete: "#22C55E",
+                                  error: "#EF4444",
+                                  textDark: "#0F172A",
+                                  textLight: "#F8FAFC",
+                                },
+                              },
+                            },
+                            (error: unknown, result: { event: string; info: { secure_url: string } }) => {
+                              if (!error && result.event === "success") {
+                                updateMember("imageUrl", result.info.secure_url);
+                              }
+                            }
+                          );
+                          widget.open();
+                        }}
+                      >
+                        {member.imageUrl ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={member.imageUrl}
+                            alt={member.name || "Team member"}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-accent-blue/10 to-accent-gold/5 gap-2">
+                            <div className="w-10 h-10 rounded-full bg-accent-blue/10 flex items-center justify-center">
+                              <Upload size={18} className="text-accent-blue" />
+                            </div>
+                            <span className="text-xs text-muted-text">Click to upload photo</span>
+                          </div>
+                        )}
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          {member.imageUrl ? (
+                            <>
+                              <span className="px-3 py-1.5 bg-accent-blue text-white text-xs font-medium rounded-lg">Replace</span>
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); updateMember("imageUrl", ""); }}
+                                className="p-1.5 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30"
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </>
+                          ) : (
+                            <span className="px-3 py-1.5 bg-accent-blue text-white text-xs font-medium rounded-lg">Upload Photo</span>
+                          )}
+                        </div>
+                        {/* Text overlay (matches public card) */}
+                        <div className="absolute bottom-0 left-0 right-0 p-3 z-10 bg-gradient-to-t from-black via-black/70 to-transparent">
+                          {member.cardOverlayText && (
+                            <p className="text-white/80 text-xs font-medium mb-0.5">{member.cardOverlayText}</p>
+                          )}
+                          <h3 className="text-sm font-bold text-white truncate">{member.name || "Name"}</h3>
+                          <p className="text-xs font-semibold text-blue-400 truncate">{member.specialty || "Specialty"}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ── Right: Input Fields ── */}
+                  <div className="flex-1 p-4 pt-2 lg:pt-4 flex flex-col gap-3 border-t lg:border-t-0 lg:border-l border-primary-text/10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-medium text-muted-text mb-1 block">Full Name</label>
+                        <input value={member.name} onChange={(e) => updateMember("name", e.target.value)} placeholder="e.g. Anisha Kapoor" className={inputClass} />
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-muted-text mb-1 block">Specialty</label>
+                        <input value={member.specialty} onChange={(e) => updateMember("specialty", e.target.value)} placeholder="e.g. Founder & CBO" className={inputClass} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-muted-text mb-1 block">Card Overlay Text</label>
+                      <input value={member.cardOverlayText || ""} onChange={(e) => updateMember("cardOverlayText", e.target.value)} placeholder="e.g. Leadership Team" className={inputClass} />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-muted-text mb-1 block">Description</label>
+                      <textarea value={member.description} onChange={(e) => updateMember("description", e.target.value)} placeholder="Brief description about this team member" className={`${inputClass} resize-none`} rows={3} />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                 <input value={member.name} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], name: e.target.value }; setTeamMembers(arr); }} placeholder="Full name" className={inputClass} />
-                 <input value={member.specialty} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], specialty: e.target.value }; setTeamMembers(arr); }} placeholder="Specialty (e.g. Creative Director)" className={inputClass} />
-               </div>
-               <input value={member.cardOverlayText || ""} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], cardOverlayText: e.target.value }; setTeamMembers(arr); }} placeholder="Card overlay text (shown on the card)" className={inputClass} />
-               <textarea value={member.description} onChange={(e) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], description: e.target.value }; setTeamMembers(arr); }} placeholder="Brief description about this team member" className={`${inputClass} resize-none`} rows={2} />
-              <div>
-                <CloudinaryUploadWidget
-                  onUpload={(url) => { const arr = [...teamMembers]; arr[i] = { ...arr[i], imageUrl: url }; setTeamMembers(arr); }}
-                  currentUrl={member.imageUrl}
-                  label="Team Member Photo"
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
           <button type="button" onClick={() => setTeamMembers([...teamMembers, { name: "", specialty: "", description: "" }])} className="flex items-center gap-2 text-sm text-accent-blue hover:text-accent-blue/80 self-start">
             <Plus size={16} /> Add Team Member
           </button>
@@ -230,31 +333,135 @@ export default function AboutPageSettings() {
       {/* ─── Meet the Investors ─── */}
       <Section title="Meet the Investors" icon={BadgeCheck}>
         <p className="text-sm text-muted-text mb-4">Add and manage investors shown on the About page.</p>
-        <div className="flex flex-col gap-4">
-          {investors.map((investor, i) => (
-            <div key={i} className="flex flex-col gap-3 p-4 border border-primary-text/10 rounded-xl bg-primary-text/[0.02]">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-primary-text flex items-center gap-2">
-                  <GripVertical size={14} className="text-muted-text" />
-                  Investor {i + 1}
-                </span>
-                <button type="button" onClick={() => setInvestors(investors.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
+        <div className="flex flex-col gap-6">
+          {investors.map((investor, i) => {
+            const updateInvestor = (field: keyof Investor, value: string) => {
+              const arr = [...investors];
+              arr[i] = { ...arr[i], [field]: value };
+              setInvestors(arr);
+            };
+            return (
+              <div key={i} className="border border-primary-text/10 rounded-xl bg-primary-text/[0.02] overflow-hidden">
+                <div className="flex justify-between items-center px-4 pt-4 pb-2">
+                  <span className="text-sm font-semibold text-primary-text flex items-center gap-2">
+                    <GripVertical size={14} className="text-muted-text" />
+                    Investor {i + 1}
+                  </span>
+                  <button type="button" onClick={() => setInvestors(investors.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
+                </div>
+                <div className="flex flex-col lg:flex-row gap-0">
+                  {/* ── Left: Live Card Preview ── */}
+                  <div className="lg:w-[300px] flex-shrink-0 p-4">
+                    <div className="relative w-full max-w-[280px] mx-auto">
+                      <label className="text-xs font-medium text-muted-text mb-2 block">Card Preview</label>
+                      <div
+                        className="group relative bg-secondary-surface/40 border border-primary-text/10 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 aspect-[3/4]"
+                        onClick={() => {
+                          if (!window.cloudinary) return;
+                          const widget = window.cloudinary.createUploadWidget(
+                            {
+                              cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+                              uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+                              sources: ["local", "url", "camera"],
+                              multiple: false,
+                              maxFileSize: 50000000,
+                              resourceType: "auto",
+                              styles: {
+                                palette: {
+                                  window: "#1E293B",
+                                  sourceBg: "#0F172A",
+                                  windowBorder: "#3B82F6",
+                                  tabIcon: "#3B82F6",
+                                  inactiveTabIcon: "#94A3B8",
+                                  menuIcons: "#3B82F6",
+                                  link: "#3B82F6",
+                                  action: "#3B82F6",
+                                  inProgress: "#3B82F6",
+                                  complete: "#22C55E",
+                                  error: "#EF4444",
+                                  textDark: "#0F172A",
+                                  textLight: "#F8FAFC",
+                                },
+                              },
+                            },
+                            (error: unknown, result: { event: string; info: { secure_url: string } }) => {
+                              if (!error && result.event === "success") {
+                                updateInvestor("imageUrl", result.info.secure_url);
+                              }
+                            }
+                          );
+                          widget.open();
+                        }}
+                      >
+                        {investor.imageUrl ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={investor.imageUrl}
+                            alt={investor.name || "Investor"}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-accent-gold/10 to-accent-blue/5 gap-2">
+                            <div className="w-10 h-10 rounded-full bg-accent-gold/10 flex items-center justify-center">
+                              <Upload size={18} className="text-accent-gold" />
+                            </div>
+                            <span className="text-xs text-muted-text">Click to upload photo</span>
+                          </div>
+                        )}
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          {investor.imageUrl ? (
+                            <>
+                              <span className="px-3 py-1.5 bg-accent-blue text-white text-xs font-medium rounded-lg">Replace</span>
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); updateInvestor("imageUrl", ""); }}
+                                className="p-1.5 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30"
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </>
+                          ) : (
+                            <span className="px-3 py-1.5 bg-accent-blue text-white text-xs font-medium rounded-lg">Upload Photo</span>
+                          )}
+                        </div>
+                        {/* Text overlay (matches public card) */}
+                        <div className="absolute bottom-0 left-0 right-0 p-3 z-10 bg-gradient-to-t from-black via-black/70 to-transparent">
+                          {investor.cardOverlayText && (
+                            <p className="text-white/80 text-xs font-medium mb-0.5">{investor.cardOverlayText}</p>
+                          )}
+                          <h3 className="text-sm font-bold text-white truncate">{investor.name || "Name"}</h3>
+                          <p className="text-xs font-semibold text-amber-400 truncate">{investor.specialty || "Specialty"}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ── Right: Input Fields ── */}
+                  <div className="flex-1 p-4 pt-2 lg:pt-4 flex flex-col gap-3 border-t lg:border-t-0 lg:border-l border-primary-text/10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-medium text-muted-text mb-1 block">Full Name</label>
+                        <input value={investor.name} onChange={(e) => updateInvestor("name", e.target.value)} placeholder="e.g. John Smith" className={inputClass} />
+                      </div>
+                      <div>
+                        <label className="text-xs font-medium text-muted-text mb-1 block">Role / Background</label>
+                        <input value={investor.specialty} onChange={(e) => updateInvestor("specialty", e.target.value)} placeholder="e.g. Angel Investor" className={inputClass} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-muted-text mb-1 block">Card Overlay Text</label>
+                      <input value={investor.cardOverlayText || ""} onChange={(e) => updateInvestor("cardOverlayText", e.target.value)} placeholder="e.g. Early Backer" className={inputClass} />
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-muted-text mb-1 block">Description</label>
+                      <textarea value={investor.description} onChange={(e) => updateInvestor("description", e.target.value)} placeholder="Brief description about this investor" className={`${inputClass} resize-none`} rows={3} />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                 <input value={investor.name} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], name: e.target.value }; setInvestors(arr); }} placeholder="Full name" className={inputClass} />
-                 <input value={investor.specialty} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], specialty: e.target.value }; setInvestors(arr); }} placeholder="Role / background (e.g. Angel Investor)" className={inputClass} />
-               </div>
-               <input value={investor.cardOverlayText || ""} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], cardOverlayText: e.target.value }; setInvestors(arr); }} placeholder="Card overlay text (shown on the card)" className={inputClass} />
-               <textarea value={investor.description} onChange={(e) => { const arr = [...investors]; arr[i] = { ...arr[i], description: e.target.value }; setInvestors(arr); }} placeholder="Brief description about this investor" className={`${inputClass} resize-none`} rows={2} />
-              <div>
-                <CloudinaryUploadWidget
-                  onUpload={(url) => { const arr = [...investors]; arr[i] = { ...arr[i], imageUrl: url }; setInvestors(arr); }}
-                  currentUrl={investor.imageUrl}
-                  label="Investor Photo"
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
           <button type="button" onClick={() => setInvestors([...investors, { name: "", specialty: "", description: "" }])} className="flex items-center gap-2 text-sm text-accent-blue hover:text-accent-blue/80 self-start">
             <Plus size={16} /> Add Investor
           </button>

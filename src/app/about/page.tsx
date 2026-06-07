@@ -80,7 +80,7 @@ export default async function AboutPage() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-bg/60 via-transparent to-transparent"></div>
+              
             </div>
           </div>
         </div>
