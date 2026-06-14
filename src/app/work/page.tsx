@@ -27,6 +27,16 @@ const FALLBACK_PORTFOLIO: WorkItem[] = [
   { id: "p-6", title: "Vertex Corp — Product Demo", client: "Vertex Corp", defaultGalleryMode: "grid", galleryUrls: [], duration: "1:15", description: "A technical product demonstration video that simplified complex B2B messaging into engaging visuals.", imageUrl: "/images/casestudy-vertex.png", category: "Production", metrics: [], published: true },
 ];
 
+const GRADIENT_HOVER_MAP: Record<string, string> = {
+  "from-purple-900/30 to-indigo-900/10": "from-purple-900 via-purple-700/70 to-transparent",
+  "from-blue-900/30 to-slate-900/10": "from-blue-900 via-blue-700/70 to-transparent",
+  "from-amber-900/30 to-orange-900/10": "from-amber-900 via-amber-700/70 to-transparent",
+  "from-emerald-900/30 to-teal-900/10": "from-emerald-900 via-emerald-700/70 to-transparent",
+  "from-rose-900/30 to-red-900/10": "from-rose-900 via-rose-700/70 to-transparent",
+  "from-cyan-900/30 to-blue-900/10": "from-cyan-900 via-cyan-700/70 to-transparent",
+};
+const DEFAULT_HOVER_GRADIENT = "from-black via-black/70 to-transparent";
+
 const DEFAULT_PORTFOLIO_SECTION: WorkSection = {
   label: "PORTFOLIO",
   title: "Strategies that deliver.",
@@ -165,15 +175,15 @@ export default function WorkPage() {
               onClick={() => { setSelectedCs(cs); setCsPreviewOpen(true); }}
               className="snap-start flex-shrink-0 cursor-pointer group"
             >
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-secondary-surface/40 border border-primary-text/10 hover:border-accent-blue/30 transition-[border-color,box-shadow] duration-200 h-[300px] sm:h-[420px] w-auto flex hover:shadow-[0_0_40px_rgba(59,130,246,0.08)]">
+              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-secondary-surface/40 border border-primary-text/10 hover:border-accent-blue/30 transition-[border-color,box-shadow] duration-200 aspect-square w-[300px] sm:w-[420px] flex hover:shadow-[0_0_40px_rgba(59,130,246,0.08)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={cs.imageUrl || "/images/placeholder.png"}
                   alt={`${cs.title} — ${cs.tag} case study by Upmark`}
-                  className="h-full w-auto object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  className="h-full w-full object-contain group-hover:scale-[1.03] transition-transform duration-500"
                 />
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className={`absolute inset-0 bg-gradient-to-t z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${GRADIENT_HOVER_MAP[cs.gradient || ""] || DEFAULT_HOVER_GRADIENT}`}></div>
 
                 <div className="absolute top-3 left-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                    <div className="px-3 py-1 bg-black/60 rounded-full text-[10px] text-white uppercase tracking-widest font-semibold border border-white/10">
@@ -214,17 +224,17 @@ export default function WorkPage() {
               className="snap-start flex-shrink-0 cursor-pointer group"
             >
               <div className="relative rounded-2xl overflow-hidden bg-secondary-surface/40 border border-primary-text/10 hover:border-accent-blue/30 transition-[border-color]">
-                <div className="h-[300px] sm:h-[420px] w-auto relative overflow-hidden flex">
+                <div className="aspect-square w-[300px] sm:w-[420px] relative overflow-hidden flex">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors z-10"></div>
 
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.imageUrl || "/images/placeholder.png"}
                     alt={`${item.title} — production by Upmark`}
-                    className="h-full w-auto object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    className="h-full w-full object-contain group-hover:scale-[1.03] transition-transform duration-500"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className={`absolute inset-0 bg-gradient-to-t z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${GRADIENT_HOVER_MAP[item.gradient || ""] || DEFAULT_HOVER_GRADIENT}`}></div>
 
                   <div className="absolute top-3 left-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                      <div className="px-3 py-1 bg-black/60 rounded-full text-[10px] text-white uppercase tracking-widest font-semibold border border-white/10 backdrop-blur-md">

@@ -1,20 +1,14 @@
 import { Hero } from "@/components/sections/Hero";
-import { ContentGrid } from "@/components/sections/ContentGrid";
-import { PlaySquare, CheckCircle2 } from "lucide-react";
+import { PlaySquare, CheckCircle2, ArrowRight } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getSiteSettings, getFeaturedTestimonials } from "@/lib/firestore";
+import { getSiteSettings, getFeaturedTestimonials, getServices } from "@/lib/firestore";
 import { TestimonialsCarousel } from "@/components/sections/TestimonialsCarousel";
+import { BrandCarousel } from "@/components/sections/BrandCarousel";
 import { ProcessOrbital } from "@/components/interactive-diagram";
 
 // ─── Default content (fallbacks when admin hasn't configured) ────────
-
-const DEFAULT_PHILOSOPHY_POINTERS = [
-  { title: "Strategy First", desc: "Every campaign starts with insight-driven strategy. We define your positioning before we produce a single asset." },
-  { title: "Full Execution", desc: "From concept to live campaign — creative direction, production, distribution and optimization, all under one roof." },
-  { title: "Systematic Thinking", desc: "We don't build one-off ads. We architect marketing systems that compound over time and generate predictable growth." },
-  { title: "Measurable Results", desc: "Every deliverable is tied to a business outcome. We track, report and relentlessly optimize for what matters." }
-];
 
 const DEFAULT_PROCESS_ITEMS: { title: string; description: string; imageUrl?: string }[] = [
   { title: "Insight", description: "Deep-dive into your market, audience, competitors and brand. We surface the insights that define your edge.", imageUrl: "/images/service-strategy.png" },
@@ -40,17 +34,33 @@ const DEFAULT_STUDIO_CAPABILITIES = [
   "Platform-native formatting", "Raw footage delivery"
 ];
 
+const DEFAULT_BRANDS = [
+  { name: "Google" }, { name: "Meta" }, { name: "Shopify" }, { name: "Stripe" },
+  { name: "Notion" }, { name: "Figma" }, { name: "Vercel" }, { name: "Slack" },
+];
+
 export default async function Home() {
-  const [settings, testimonials] = await Promise.all([
+  const [settings, testimonials, rawServices] = await Promise.all([
     getSiteSettings(),
     getFeaturedTestimonials(),
+    getServices(),
   ]);
+
+  const featuredServiceIds = settings?.featuredServiceIds;
+  const featuredServices = (featuredServiceIds?.length
+    ? featuredServiceIds
+        .map((id) => rawServices.find((s) => s.id === id))
+        .filter(Boolean)
+    : rawServices.sort((a, b) => (a.order || 0) - (b.order || 0)).slice(0, 4)
+  ).map((s, i) => {
+    const IconComponent = s!.icon_name ? (LucideIcons as any)[s!.icon_name] : null;
+    return { ...s!, icon: IconComponent };
+  });
 
   const vis = settings?.visibility ?? {};
   const show = (key: string) => vis[key as keyof typeof vis] ?? true;
 
   // Use admin-configured content or fall back to defaults
-  const philosophyPointers = settings?.philosophyPointers?.length ? settings.philosophyPointers : DEFAULT_PHILOSOPHY_POINTERS;
   const processItems = (settings?.processSteps?.length ? settings.processSteps : DEFAULT_PROCESS_ITEMS).map((p, i) => ({
     id: i + 1,
     title: p.title,
@@ -64,25 +74,30 @@ export default async function Home() {
     description: c.description,
   }));
   const studioCapabilities = settings?.studioCapabilities?.length ? settings.studioCapabilities : DEFAULT_STUDIO_CAPABILITIES;
+  const brandCarouselItems = settings?.brandCarouselItems?.length ? settings.brandCarouselItems : DEFAULT_BRANDS;
   const aboutImageUrl = settings?.homeAboutImageUrl || "/images/philosophy.png";
 
   const pageVisible = show("home");
   const heroVisible = show("homeHero");
   const aboutVisible = show("homeAbout");
-  const philosophyVisible = show("homePhilosophy") && philosophyPointers.length > 0;
   const processVisible = show("homeProcess") && processItems.length > 0;
   const contentStudioVisible = show("homeContentStudio") && contentItems.length > 0;
   const studioCapVisible = show("homeStudioCapabilities") && studioCapabilities.length > 0;
   const testimonialsVisible = show("homeTestimonials") && testimonials.length > 0;
+  const brandCarouselVisible = show("homeBrandCarousel") && brandCarouselItems.length > 0;
 
   if (!pageVisible) return null;
 
   return (
-    <div className="flex flex-col gap-12 sm:gap-16 md:gap-24 pb-16 sm:pb-24 md:pb-28 relative">
-      {heroVisible && <Hero videoUrl={settings?.heroVideoUrl} mobileVideoUrl={settings?.heroMobileVideoUrl} />}
+    <div className="flex flex-col pb-16 sm:pb-24 md:pb-28 relative">
+      {/* Hero + Brand Carousel — flush, no gaps */}
+      {heroVisible && <Hero videoUrl={settings?.heroVideoUrl} />}
+      {brandCarouselVisible && <BrandCarousel brands={brandCarouselItems} />}
 
-      {/* Philosophy / About Section */}
-      {(aboutVisible || philosophyVisible) && (
+      {/* Remaining sections with gaps */}
+      <div className="flex flex-col gap-12 sm:gap-16 md:gap-24 pt-12 sm:pt-16 md:pt-24">
+      {/* About Section */}
+      {aboutVisible && (
       <section id="about" className="container mx-auto px-4 sm:px-6 scroll-mt-32">
         <div className="flex flex-col lg:flex-row gap-10 sm:gap-12 lg:gap-16 mb-12 sm:mb-20 text-primary-text items-center">
           {/* Left Side */}
@@ -91,7 +106,7 @@ export default async function Home() {
               <span className="w-8 h-[1px] bg-accent-blue"></span>
               ABOUT US
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-6 sm:mb-4">
               Most agencies only <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">create content</span> <br className="hidden md:block" />or run ads.
             </h2>
             <h3 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold">
@@ -105,47 +120,67 @@ export default async function Home() {
                 When your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We're not a collection of specialists working in parallel. We're a single, integrated team where every discipline makes every other one better. That's the Upmark advantage.
               </p>
             </div>
-            <div className="flex flex-row items-center justify-center gap-3 w-full">
-              {show("services") && (
-                <Link href="/services" className="group relative flex items-center justify-center gap-3 bg-accent-blue text-white px-5 py-3 rounded-lg font-semibold text-sm overflow-hidden transition-[transform] hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <span className="relative z-10">Our Services</span>
-                </Link>
-              )}
-              <Link href="/about" className="group flex items-center justify-center px-5 py-3 rounded-lg font-semibold text-sm text-primary-text bg-primary-text/5 border border-primary-text/10 hover:bg-primary-text/10 hover:border-primary-text/20 transition-colors duration-200">
-                Learn More
-              </Link>
-            </div>
           </div>
 
           {/* Right Side Visual */}
-          <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[280px] sm:min-h-[400px]">
+          <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[200px] sm:min-h-[400px]">
             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[40px] sm:blur-[60px] pointer-events-none"></div>
-            <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[450px] rounded-3xl overflow-hidden border border-primary-text/10 shadow-2xl">
-              <Image
-                src={aboutImageUrl}
-                alt="Upmark strategy session — marketing team brainstorming around data-driven insights"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
-              />
+            <div className="relative w-full aspect-square max-w-[260px] sm:max-w-[450px] rounded-3xl overflow-hidden border border-primary-text/10 shadow-2xl">
+              {aboutImageUrl.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                <video
+                  src={aboutImageUrl}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={aboutImageUrl}
+                  alt="Upmark strategy session — marketing team brainstorming around data-driven insights"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  priority
+                />
+              )}
             </div>
           </div>
         </div>
 
-        {/* Philosophy Pointers */}
-        {philosophyVisible && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {philosophyPointers.map((p, i) => (
-            <div key={i} className="group p-6 sm:p-8 min-h-[200px] sm:min-h-0 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5 hover:border-accent-blue/30 transition-colors duration-300 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-3 sm:p-6 text-4xl sm:text-6xl font-black text-primary-text/5 group-hover:text-primary-text/10 transition-colors pointer-events-none">
-                0{i + 1}
-              </div>
-              <h3 className="text-base sm:text-xl font-bold font-heading text-primary-text mb-2 sm:mb-3 relative z-10">{p.title}</h3>
-              <p className="text-muted-text/90 text-base font-light leading-relaxed relative z-10">{p.desc}</p>
+        {/* Featured Services */}
+        {show("services") && featuredServices.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-6">
+          {featuredServices.map((s, i) => {
+            const hoverColors = [
+              "hover:bg-blue-500 hover:border-blue-500",
+              "hover:bg-violet-500 hover:border-violet-500",
+              "hover:bg-emerald-500 hover:border-emerald-500",
+              "hover:bg-amber-500 hover:border-amber-500",
+            ];
+            return (
+              <Link key={s.id || i} href={`/services#${s.id}`} className={`group p-6 sm:p-8 min-h-[200px] sm:min-h-0 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5 ${hoverColors[i]} transition-all duration-300 relative overflow-hidden flex flex-col justify-between`}>
+                <div>
+                  <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                    {s.icon && <div className="w-10 h-10 rounded-xl bg-accent-blue/10 text-accent-blue group-hover:bg-white/20 group-hover:text-white flex items-center justify-center flex-shrink-0 transition-colors duration-300"><s.icon size={20} /></div>}
+                    <h3 className="text-base sm:text-xl font-bold font-heading text-primary-text group-hover:text-white relative z-10 transition-colors duration-300">{s.title}</h3>
+                  </div>
+                  <p className="text-muted-text/90 group-hover:text-white/80 text-base font-light leading-relaxed relative z-10 line-clamp-4 transition-colors duration-300">{s.description}</p>
+                </div>
+                <div className="flex items-center gap-2 mt-4 text-accent-blue group-hover:text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                  Learn more <ArrowRight size={16} />
+                </div>
+              </Link>
+            );
+          })}
+          {/* Explore More Services arrow */}
+          <Link href="/services" className="group p-6 sm:p-8 min-h-[200px] sm:min-h-0 rounded-2xl sm:rounded-3xl bg-accent-blue/5 border border-accent-blue/20 hover:bg-accent-blue hover:border-accent-blue transition-all duration-300 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
+            <div className="w-14 h-14 rounded-full bg-accent-blue/10 text-accent-blue group-hover:bg-white/20 group-hover:text-white flex items-center justify-center transition-colors duration-300">
+              <ArrowRight size={24} />
             </div>
-          ))}
+            <span className="text-sm sm:text-base font-semibold text-accent-blue group-hover:text-white transition-colors">Explore More Services</span>
+          </Link>
         </div>
         )}
       </section>
@@ -206,6 +241,7 @@ export default async function Home() {
       {/* Testimonials Carousel */}
       {testimonialsVisible && <TestimonialsCarousel testimonials={testimonials} />}
 
+      </div>
     </div>
   );
 }

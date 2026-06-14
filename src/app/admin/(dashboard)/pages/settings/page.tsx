@@ -40,6 +40,7 @@ export default function GlobalSettingsPage() {
   const [socialLinkedin, setSocialLinkedin] = useState("");
   const [socialInstagram, setSocialInstagram] = useState("");
   const [contactEmail, setContactEmail] = useState("");
+  const [footerTagline, setFooterTagline] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -54,6 +55,7 @@ export default function GlobalSettingsPage() {
           setSocialLinkedin(data.socialLinkedin || "");
           setSocialInstagram(data.socialInstagram || "");
           setContactEmail(data.contactEmail || "");
+          setFooterTagline(data.footerTagline || "");
         }
       } catch (error) {
         console.error("Failed to load settings:", error);
@@ -77,6 +79,7 @@ export default function GlobalSettingsPage() {
         socialLinkedin,
         socialInstagram,
         contactEmail,
+        footerTagline,
       });
       await revalidatePathAction("/");
       setSuccessMessage("Global settings saved.");
@@ -152,7 +155,17 @@ export default function GlobalSettingsPage() {
       <Section title="Footer Connect Links" icon={LinkIcon} defaultOpen={true}>
         <div className="space-y-4">
           <p className="text-sm text-muted-text mb-4">Manage the social media links and contact email displayed in the footer.</p>
-          
+
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-1">Footer Tagline</label>
+            <input 
+              value={footerTagline} 
+              onChange={(e) => setFooterTagline(e.target.value)} 
+              placeholder="Integrated marketing that moves markets." 
+              className={inputClass} 
+            />
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-primary-text mb-1">Twitter / X URL</label>
             <input 

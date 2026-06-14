@@ -80,16 +80,27 @@ export const ContactForm = () => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-[10px] uppercase tracking-widest text-muted-text font-bold">Email *</label>
+            <label htmlFor="phone" className="text-[10px] uppercase tracking-widest text-muted-text font-bold">Phone Number</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              placeholder="you@email.com"
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="+91 9891392912"
               className="bg-primary-text/5 border border-primary-text/10 rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-primary-text placeholder-primary-text/30 focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-[border-color,box-shadow]"
             />
           </div>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="email" className="text-[10px] uppercase tracking-widest text-muted-text font-bold">Email *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="you@email.com"
+            className="bg-primary-text/5 border border-primary-text/10 rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-primary-text placeholder-primary-text/30 focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-[border-color,box-shadow]"
+          />
         </div>
 
         <div className="flex flex-col gap-1">
@@ -125,17 +136,6 @@ export const ContactForm = () => {
               );
             })}
           </div>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="project" className="text-[10px] uppercase tracking-widest text-muted-text font-bold">Project Details *</label>
-          <textarea
-            id="project"
-            name="project"
-            required
-            placeholder="Goals, challenges, context..."
-            className="bg-primary-text/5 border border-primary-text/10 rounded-lg px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base text-primary-text placeholder-primary-text/30 focus:outline-none focus:border-accent-blue focus:ring-1 focus:ring-accent-blue transition-[border-color,box-shadow] min-h-[80px] sm:min-h-[120px] resize-none h-full"
-          ></textarea>
         </div>
 
         <button

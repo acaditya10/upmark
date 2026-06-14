@@ -122,14 +122,15 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
   };
 
   return (
-    <div className="w-full relative">
+    <div className="graphite-grid py-20 md:py-32 px-4">
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
       <div className="text-center mb-0">
         <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-4 flex items-center justify-center gap-4">
           <span className="w-8 h-[1px] bg-accent-blue"></span>
           HOW WE WORK
           <span className="w-8 h-[1px] bg-accent-blue"></span>
         </span>
-        <h2 className="text-3xl md:text-5xl font-black font-heading text-primary-text">
+        <h2 className="text-3xl md:text-5xl font-black font-heading text-white">
           Our <span className="text-accent-gold">6-Step Process</span>
         </h2>
       </div>
@@ -142,8 +143,8 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
 
             {/* Orbital rings */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[62%] h-[62%] rounded-full border border-primary-text/15" />
-              <div className="absolute w-[74%] h-[74%] rounded-full border border-primary-text/15 border-dashed animate-[spin_60s_linear_infinite]" />
+              <div className="w-[62%] h-[62%] rounded-full border border-white/15" />
+              <div className="absolute w-[74%] h-[74%] rounded-full border border-white/15 border-dashed animate-[spin_60s_linear_infinite]" />
             </div>
 
             {/* SVG Connection Paths (Center to Nodes) */}
@@ -162,7 +163,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                     y2={50 + yPct}
                     stroke={isActive ? "var(--color-accent-gold-var)" : "currentColor"}
                     strokeWidth={isActive ? 0.3 : 0.15}
-                    className={`transition-colors duration-500 ${isActive ? "opacity-60" : "text-primary-text/10"}`}
+                    className={`transition-colors duration-500 ${isActive ? "opacity-60" : "text-white/10"}`}
                   />
                 );
               })}
@@ -174,7 +175,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                 r="32"
                 fill="none"
                 stroke="currentColor"
-                className="text-primary-text/10"
+                className="text-white/10"
                 strokeWidth="0.15"
               />
 
@@ -196,7 +197,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
             </svg>
 
             {/* Central Information Core */}
-            <div className="absolute z-10 w-[35%] h-[35%] rounded-full border border-primary-text/10 bg-secondary-surface/90 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 text-center overflow-hidden" style={{ boxShadow: "0 0 50px rgba(var(--color-accent-gold-rgb), 0.1)" }}>
+            <div className="absolute z-10 w-[35%] h-[35%] rounded-full border border-white/10 bg-slate-800/80 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 text-center overflow-hidden" style={{ boxShadow: "0 0 50px rgba(var(--color-accent-gold-rgb), 0.1)" }}>
               <div className="absolute inset-0 bg-gradient-to-b from-accent-gold/5 to-transparent pointer-events-none" />
 
               <AnimatePresence mode="wait">
@@ -212,7 +213,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                     className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-accent-gold mb-2 sm:mb-4 opacity-80"
                     strokeWidth={1.5}
                   />
-                  <p className="hidden md:block text-xs lg:text-sm text-muted-text font-light leading-relaxed px-2">
+                  <p className="hidden md:block text-xs lg:text-sm text-white/60 font-light leading-relaxed px-2">
                     {activeData.description}
                   </p>
                 </motion.div>
@@ -235,17 +236,17 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                     className={`w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full border flex items-center justify-center transition-colors duration-300 relative group
                     ${isActive
                         ? "bg-accent-gold/10 border-accent-gold shadow-glow-gold"
-                        : "bg-secondary-surface border-primary-text/10 hover:border-primary-text/30"}`}
+                        : "bg-white/5 border-white/10 hover:border-white/30"}`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span className={`font-bold font-heading text-sm sm:text-base lg:text-lg ${isActive ? "text-accent-gold" : "text-primary-text/60"}`}>
+                    <span className={`font-bold font-heading text-sm sm:text-base lg:text-lg ${isActive ? "text-accent-gold" : "text-white/60"}`}>
                       {item.num}
                     </span>
 
                     {/* Floating Title (always visible, or visible on hover/active) */}
-                    <div className={`absolute top-full mt-2 sm:mt-4 flex flex-col items-center text-[9px] sm:text-xs lg:text-sm font-bold tracking-wider uppercase transition-[opacity,transform] duration-300 rounded-lg px-2.5 py-1 bg-primary-bg/80 shadow-[0_2px_12px_rgba(0,0,0,0.15)]
-                    ${isActive ? "text-primary-text opacity-100 translate-y-0" : "text-muted-text opacity-70 group-hover:opacity-100 -translate-y-1"}`}>
+                    <div className={`absolute top-full mt-2 sm:mt-4 flex flex-col items-center text-[9px] sm:text-xs lg:text-sm font-bold tracking-wider uppercase transition-[opacity,transform] duration-300 rounded-lg px-2.5 py-1 bg-accent-blue shadow-lg
+                    ${isActive ? "text-white opacity-100 translate-y-0" : "text-white opacity-70 group-hover:opacity-100 -translate-y-1"}`}>
                       {item.title.split(" ").map((word, i) => (
                         <span key={i}>{word}</span>
                       ))}
@@ -268,7 +269,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                 transition={{ duration: 0.2 }}
               >
                 <h3 className="text-lg font-bold text-accent-gold mb-2">{activeData.title}</h3>
-                <p className="text-sm text-muted-text leading-relaxed">{activeData.description}</p>
+                <p className="text-sm text-white/60 leading-relaxed">{activeData.description}</p>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -300,7 +301,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                     }}
                     exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)", transition: { duration: 0.3 } }}
                     transition={{ duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-                    className="absolute inset-0 rounded-2xl overflow-hidden border border-primary-text/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-secondary-surface"
+                    className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-slate-800"
                   >
                     {nodeData.imageUrl && (
                       <Image
@@ -329,13 +330,14 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
             )}
 
             {showWork && (
-              <Link href="/work" className="group flex items-center justify-center px-5 py-3 rounded-lg font-semibold text-sm text-primary-text bg-primary-text/5 border border-primary-text/10 hover:bg-primary-text/10 hover:border-primary-text/20 transition-colors duration-200">
+              <Link href="/work" className="group flex items-center justify-center px-5 py-3 rounded-lg font-semibold text-sm text-white bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-colors duration-200">
                 View our work
               </Link>
             )}
           </div>
         </div>
 
+      </div>
       </div>
     </div>
   );

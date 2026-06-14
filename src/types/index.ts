@@ -105,6 +105,11 @@ export interface Testimonial {
   updatedAt?: Timestamp;
 }
 
+export interface BrandItem {
+  name: string;
+  logoUrl?: string;
+}
+
 export interface PhilosophyPointer {
   title: string;
   desc: string;
@@ -168,6 +173,7 @@ export interface PageVisibility {
   homeContentStudio?: boolean;
   homeStudioCapabilities?: boolean;
   homeTestimonials?: boolean;
+  homeBrandCarousel?: boolean;
   // Work sections
   workHeader?: boolean;
   workPortfolio?: boolean;
@@ -195,7 +201,6 @@ export interface SiteSettings {
   // Home Page Assets
   homeAboutImageUrl?: string;
   heroVideoUrl?: string;
-  heroMobileVideoUrl?: string;
   // Contact & Socials
   contactEmail?: string;
   contactPhone?: string;
@@ -203,11 +208,15 @@ export interface SiteSettings {
   socialTwitter?: string;
   socialLinkedin?: string;
   socialInstagram?: string;
+  // Footer
+  footerTagline?: string;
   // Homepage section content
+  featuredServiceIds?: string[];
   philosophyPointers?: PhilosophyPointer[];
   processSteps?: ProcessStep[];
   contentItems?: ContentItem[];
   studioCapabilities?: string[];
+  brandCarouselItems?: BrandItem[];
   // Work page sections
   portfolioSection?: WorkSection;
   productionSection?: WorkSection;

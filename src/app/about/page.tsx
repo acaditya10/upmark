@@ -15,7 +15,7 @@ export default async function AboutPage() {
   const vis = settings?.visibility ?? {};
   const show = (key: string) => vis[key as keyof typeof vis] ?? true;
 
-  const aboutImageUrl = settings?.homeAboutImageUrl || "/images/philosophy.png";
+  const aboutImageUrl = settings?.homeAboutImageUrl || "/images/about-story.svg";
   const teamMembers = settings?.teamMembers ?? [];
   const investors = settings?.investors ?? [];
 
@@ -73,14 +73,25 @@ export default async function AboutPage() {
           <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[280px] sm:min-h-[400px]">
             <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[40px] sm:blur-[60px] pointer-events-none"></div>
             <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[450px] rounded-3xl overflow-hidden border border-primary-text/10 shadow-2xl">
-              <Image
-                src={aboutImageUrl}
-                alt="Upmark strategy session"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
-              />
+              {aboutImageUrl.match(/\.(mp4|webm|ogg|mov)$/i) ? (
+                <video
+                  src={aboutImageUrl}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={aboutImageUrl}
+                  alt="Upmark strategy session"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  priority
+                />
+              )}
               
             </div>
           </div>
@@ -126,11 +137,10 @@ export default async function AboutPage() {
       )}
 
       {/* ─── CTA Section ─── */}
-      <section className="container mx-auto px-4 sm:px-6">
-        <div className="mt-16 sm:mt-24 text-center relative max-w-4xl mx-auto">
-          <div className="absolute inset-0 bg-accent-blue/15 blur-[40px] sm:blur-[60px] rounded-full -z-10"></div>
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-primary-text tracking-tight mb-6 sm:mb-8" dangerouslySetInnerHTML={{ __html: ctaTitle }} />
-          <p className="text-base sm:text-xl text-muted-text mb-8 sm:mb-12 font-light max-w-2xl mx-auto">
+      <section className="graphite-grid rounded-2xl sm:rounded-3xl my-16 sm:my-24 mx-4 sm:mx-6">
+        <div className="relative z-10 py-16 sm:py-24 text-center max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6 sm:mb-8" dangerouslySetInnerHTML={{ __html: ctaTitle }} />
+          <p className="text-base sm:text-xl text-white/70 mb-8 sm:mb-12 font-light max-w-2xl mx-auto">
             {ctaDescription}
           </p>
           {show("contact") && (

@@ -40,7 +40,7 @@ export function IdleProvider({ children }: { children: ReactNode }) {
     };
 
     const handleScroll = () => {
-      const pastHero = window.scrollY > window.innerHeight * 0.85;
+      const pastHero = window.scrollY > window.innerHeight * 0.3;
       setIsHeroVisible(!pastHero);
       if (!pastHero) resetTimer();
     };

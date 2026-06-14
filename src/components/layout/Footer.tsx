@@ -68,7 +68,7 @@ export const Footer = () => {
               <Image src={settings?.globalLogoUrl || "/upmark-wordmark.png"} alt="Upmark" width={200} height={200} className="h-12 sm:h-14 w-auto object-contain" />
             </Link>
             <p className="text-neutral-500 text-xs sm:text-sm leading-relaxed max-w-xs">
-              Integrated marketing that moves markets.
+              {settings?.footerTagline || "Integrated marketing that moves markets."}
             </p>
           </div>
 

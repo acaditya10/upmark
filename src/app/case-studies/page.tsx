@@ -26,25 +26,26 @@ export default async function CaseStudiesPage() {
         </div>
 
         {/* CTA Area */}
-        <div className="mt-16 sm:mt-24 text-center relative max-w-4xl mx-auto w-full">
-          <div className="absolute inset-0 bg-accent-blue/15 blur-[40px] sm:blur-[60px] rounded-full -z-10"></div>
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-primary-text tracking-tight mb-6 sm:mb-8">Ready to compound your growth?</h2>
-          <p className="text-base sm:text-xl text-muted-text mb-8 sm:mb-12 font-light max-w-2xl mx-auto">
-            Let&apos;s discuss how Upmark can build a complete marketing system for your business.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            {show("contact") && (
-              <Link href="/contact" className="bg-white text-black px-6 py-4 sm:px-10 sm:py-5 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors flex items-center gap-3 w-full sm:w-auto justify-center">
-                Start a Project <ArrowRight size={20} />
-              </Link>
-            )}
-            {show("services") && (
-              <Link href="/services" className="px-6 py-4 sm:px-10 sm:py-5 rounded-full font-bold text-lg border border-primary-text/20 text-primary-text hover:bg-primary-text/5 transition-colors w-full sm:w-auto justify-center hover:border-primary-text/40">
-                View our services
-              </Link>
-            )}
+        <section className="graphite-grid rounded-2xl sm:rounded-3xl mx-4 sm:mx-6">
+          <div className="relative z-10 py-16 sm:py-24 text-center max-w-4xl mx-auto px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black font-heading text-white tracking-tight mb-6 sm:mb-8">Ready to compound your growth?</h2>
+            <p className="text-base sm:text-xl text-white/70 mb-8 sm:mb-12 font-light max-w-2xl mx-auto">
+              Let&apos;s discuss how Upmark can build a complete marketing system for your business.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              {show("contact") && (
+                <Link href="/contact" className="bg-white text-black px-6 py-4 sm:px-10 sm:py-5 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors flex items-center gap-3 w-full sm:w-auto justify-center">
+                  Start a Project <ArrowRight size={20} />
+                </Link>
+              )}
+              {show("services") && (
+                <Link href="/services" className="px-6 py-4 sm:px-10 sm:py-5 rounded-full font-bold text-lg border border-white/30 text-white hover:bg-white hover:text-black transition-colors w-full sm:w-auto justify-center hover:border-white/40">
+                  View our services
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

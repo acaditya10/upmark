@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getSiteSettings, updateSiteSettings } from "@/lib/firestore";
+import { getSiteSettings, updateSiteSettings, getServices } from "@/lib/firestore";
 import { CloudinaryUploadWidget } from "@/components/admin/CloudinaryUploadWidget";
 import { SeoSection } from "@/components/admin/ui/SeoSection";
 import { revalidatePathAction } from "@/app/actions";
 import {
   Save, Loader2, PlaySquare, ChevronDown, Plus, Trash2, Lightbulb,
-  ListOrdered, Film, Award, Home, Image as ImageIcon,
+  ListOrdered, Film, Award, Home, Image as ImageIcon, ArrowUp, ArrowDown, Star,
 } from "lucide-react";
-import type { PhilosophyPointer, ProcessStep, ContentItem, SeoPageConfig, PageVisibility } from "@/types";
+import type { PhilosophyPointer, ProcessStep, ContentItem, BrandItem, SeoPageConfig, PageVisibility, Service } from "@/types";
 
 function Section({ title, icon: Icon, children, defaultOpen = false }: { title: string; icon: React.ElementType; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -72,27 +72,31 @@ export default function HomePageSettings() {
   const [successMessage, setSuccessMessage] = useState("");
 
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
-  const [heroMobileVideoUrl, setHeroMobileVideoUrl] = useState("");
   const [homeAboutImageUrl, setHomeAboutImageUrl] = useState("");
+  const [featuredServiceIds, setFeaturedServiceIds] = useState<string[]>([]);
+  const [allServices, setAllServices] = useState<Service[]>([]);
   const [philosophyPointers, setPhilosophyPointers] = useState<PhilosophyPointer[]>(DEFAULT_PHILOSOPHY_POINTERS);
   const [processSteps, setProcessSteps] = useState<ProcessStep[]>(DEFAULT_PROCESS_ITEMS);
   const [contentItems, setContentItems] = useState<ContentItem[]>(DEFAULT_CONTENT_ITEMS);
   const [studioCapabilities, setStudioCapabilities] = useState<string[]>(DEFAULT_STUDIO_CAPABILITIES);
+  const [brandCarouselItems, setBrandCarouselItems] = useState<BrandItem[]>([]);
   const [seo, setSeo] = useState<SeoPageConfig>(HOME_SEO_DEFAULTS);
   const [visibility, setVisibility] = useState<PageVisibility>({});
 
   useEffect(() => {
     async function load() {
       try {
-        const data = await getSiteSettings();
+        const [data, services] = await Promise.all([getSiteSettings(), getServices()]);
+        setAllServices(services.sort((a, b) => (a.order || 0) - (b.order || 0)));
         if (data) {
           setHeroVideoUrl(data.heroVideoUrl || "");
-          setHeroMobileVideoUrl(data.heroMobileVideoUrl || "");
           setHomeAboutImageUrl(data.homeAboutImageUrl || "");
+          if (data.featuredServiceIds?.length) setFeaturedServiceIds(data.featuredServiceIds);
           if (data.philosophyPointers?.length) setPhilosophyPointers(data.philosophyPointers);
           if (data.processSteps?.length) setProcessSteps(data.processSteps);
           if (data.contentItems?.length) setContentItems(data.contentItems);
           if (data.studioCapabilities?.length) setStudioCapabilities(data.studioCapabilities);
+          if (data.brandCarouselItems?.length) setBrandCarouselItems(data.brandCarouselItems);
           if (data.seo?.home) setSeo({ ...HOME_SEO_DEFAULTS, ...data.seo.home });
           if (data.visibility) setVisibility(data.visibility);
         }
@@ -115,12 +119,13 @@ export default function HomePageSettings() {
     try {
       await updateSiteSettings({
         heroVideoUrl,
-        heroMobileVideoUrl,
         homeAboutImageUrl,
+        featuredServiceIds,
         philosophyPointers,
         processSteps,
         contentItems,
         studioCapabilities,
+        brandCarouselItems,
         visibility,
         seo: { home: seo },
       });
@@ -164,15 +169,8 @@ export default function HomePageSettings() {
       <Section title="Hero Section" icon={PlaySquare} defaultOpen={true}>
         <div>
           <label className="block text-sm font-medium text-primary-text mb-2">Background Video</label>
-          <p className="text-sm text-muted-text mb-4">Upload an MP4 or WebM video for the hero background. The desktop video is shown in landscape and the mobile video in portrait, side by side.</p>
-          <div className="flex flex-col md:flex-row md:items-stretch gap-4">
-            <div className="flex-[2] min-w-0">
-              <CloudinaryUploadWidget onUpload={(url) => setHeroVideoUrl(url)} currentUrl={heroVideoUrl} label="Hero Background Video (Desktop)" fit="cover" height="h-[28rem]" />
-            </div>
-            <div className="flex-1 min-w-0 md:max-w-[280px]">
-              <CloudinaryUploadWidget onUpload={(url) => setHeroMobileVideoUrl(url)} currentUrl={heroMobileVideoUrl} label="Hero Background Video (Mobile)" fit="cover" height="h-[28rem]" />
-            </div>
-          </div>
+          <p className="text-sm text-muted-text mb-4">Upload an MP4 or WebM video for the hero background.</p>
+          <CloudinaryUploadWidget onUpload={(url) => setHeroVideoUrl(url)} currentUrl={heroVideoUrl} label="Hero Background Video" fit="cover" height="h-[28rem]" />
         </div>
       </Section>
 
@@ -183,6 +181,74 @@ export default function HomePageSettings() {
             <p className="text-sm text-muted-text mb-4">Upload the image used in the Philosophy / About section on the homepage.</p>
             <CloudinaryUploadWidget onUpload={(url) => setHomeAboutImageUrl(url)} currentUrl={homeAboutImageUrl} label="About Us Image" />
           </div>
+        </div>
+      </Section>
+
+      <Section title="Featured Services" icon={Star}>
+        <p className="text-sm text-muted-text mb-4">Choose up to 4 services to feature on the homepage. Use arrows to reorder.</p>
+        <div className="flex flex-col gap-2">
+          {featuredServiceIds.map((id, i) => {
+            const svc = allServices.find((s) => s.id === id);
+            return (
+              <div key={id} className="flex items-center gap-2 p-3 border border-primary-text/10 rounded-xl bg-primary-text/[0.02]">
+                <div className="flex flex-col items-center gap-0.5">
+                  <button
+                    onClick={() => { const arr = [...featuredServiceIds]; [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]; setFeaturedServiceIds(arr); }}
+                    disabled={i === 0}
+                    className="p-0.5 text-muted-text hover:text-primary-text disabled:opacity-20 transition-colors"
+                    title="Move up"
+                  >
+                    <ArrowUp size={12} />
+                  </button>
+                  <button
+                    onClick={() => { const arr = [...featuredServiceIds]; [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]; setFeaturedServiceIds(arr); }}
+                    disabled={i === featuredServiceIds.length - 1}
+                    className="p-0.5 text-muted-text hover:text-primary-text disabled:opacity-20 transition-colors"
+                    title="Move down"
+                  >
+                    <ArrowDown size={12} />
+                  </button>
+                </div>
+                <span className="text-sm font-bold text-muted-text w-6">{i + 1}.</span>
+                <span className="flex-1 text-sm font-medium text-primary-text">{svc?.title || "Unknown service"}</span>
+                <button
+                  onClick={() => setFeaturedServiceIds(featuredServiceIds.filter((_, j) => j !== i))}
+                  className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            );
+          })}
+          {featuredServiceIds.length < 4 && (
+            <div className="flex items-center gap-2 mt-1">
+              <select
+                id="add-service-select"
+                className={`${inputClass} flex-1`}
+                defaultValue=""
+              >
+                <option value="" disabled>Select a service to add...</option>
+                {allServices
+                  .filter((s) => s.id && !featuredServiceIds.includes(s.id))
+                  .map((s) => (
+                    <option key={s.id} value={s.id}>{s.title}</option>
+                  ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => {
+                  const sel = document.getElementById("add-service-select") as HTMLSelectElement;
+                  if (sel?.value) {
+                    setFeaturedServiceIds([...featuredServiceIds, sel.value]);
+                    sel.value = "";
+                  }
+                }}
+                className="flex items-center gap-2 text-sm text-accent-blue hover:text-accent-blue/80 px-3 py-2 border border-accent-blue/20 rounded-lg hover:bg-accent-blue/5 transition-colors"
+              >
+                <Plus size={16} /> Add
+              </button>
+            </div>
+          )}
         </div>
       </Section>
 
@@ -253,6 +319,37 @@ export default function HomePageSettings() {
         </div>
       </Section>
 
+      <Section title="Brand Carousel" icon={Star}>
+        <p className="text-sm text-muted-text mb-4">Add brand logos or names shown in the carousel below the hero video. If a logo URL is provided it will be displayed, otherwise the brand name is shown as text.</p>
+        <div className="flex flex-col gap-3">
+          {brandCarouselItems.map((brand, i) => (
+            <div key={i} className="flex flex-col gap-2 p-4 border border-primary-text/10 rounded-xl bg-primary-text/[0.02]">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm font-bold text-primary-text">Brand {i + 1}</span>
+                <button type="button" onClick={() => setBrandCarouselItems(brandCarouselItems.filter((_, j) => j !== i))} className="p-2 text-red-400 hover:bg-red-500/10 rounded-lg"><Trash2 size={14} /></button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-muted-text mb-1">Brand Name</label>
+                  <input value={brand.name} onChange={(e) => { const arr = [...brandCarouselItems]; arr[i] = { ...arr[i], name: e.target.value }; setBrandCarouselItems(arr); }} placeholder="e.g. Google" className={inputClass} />
+                </div>
+                <div>
+                  <label className="block text-xs text-muted-text mb-1">Logo (optional)</label>
+                  <CloudinaryUploadWidget
+                    onUpload={(url) => { const arr = [...brandCarouselItems]; arr[i] = { ...arr[i], logoUrl: url }; setBrandCarouselItems(arr); }}
+                    currentUrl={brand.logoUrl}
+                    label="Upload Logo"
+                    fit="contain"
+                    height="h-20"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+          <button type="button" onClick={() => setBrandCarouselItems([...brandCarouselItems, { name: "", logoUrl: "" }])} className="flex items-center gap-2 text-sm text-accent-blue hover:text-accent-blue/80 self-start"><Plus size={16} /> Add Brand</button>
+        </div>
+      </Section>
+
       {/* ─── Page & Section Visibility ────────────── */}
       <div className="bg-secondary-surface border border-primary-text/10 rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
@@ -270,6 +367,7 @@ export default function HomePageSettings() {
             { key: "homeContentStudio", label: "Content Studio" },
             { key: "homeStudioCapabilities", label: "Studio Capabilities" },
             { key: "homeTestimonials", label: "Testimonials" },
+            { key: "homeBrandCarousel", label: "Brand Carousel" },
           ].map(({ key, label }) => (
             <label key={key} className="flex items-center gap-3 p-3 rounded-lg bg-primary-bg border border-primary-text/5 cursor-pointer hover:border-primary-text/10 transition-colors">
               <input

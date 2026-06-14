@@ -80,7 +80,7 @@ export const PROCESS_DATA = [
     title: "Insight",
     icon: Lightbulb,
     description: "Deep-dive into your market, audience, competitors and brand. We surface the insights that define your edge.",
-    imageUrl: "/images/service-strategy.png",
+    imageUrl: "/images/process-insight.png",
   },
   {
     id: "strategy",
@@ -88,7 +88,7 @@ export const PROCESS_DATA = [
     title: "Strategy",
     icon: Target,
     description: "We translate insight into a precise strategy — positioning, messaging, channels and a roadmap for execution.",
-    imageUrl: "/images/service-seo.png",
+    imageUrl: "/images/process-strategy.png",
   },
   {
     id: "production",
@@ -96,7 +96,7 @@ export const PROCESS_DATA = [
     title: "Creative Production",
     icon: PenTool,
     description: "Our in-house team produces every asset — video, design, copy and content — aligned to the strategy.",
-    imageUrl: "/images/service-content.png",
+    imageUrl: "/images/process-production.png",
   },
   {
     id: "launch",
@@ -104,7 +104,7 @@ export const PROCESS_DATA = [
     title: "Campaign Launch",
     icon: Rocket,
     description: "Orchestrated rollout across paid, owned and earned channels with precision timing and audience targeting.",
-    imageUrl: "/images/service-social.png",
+    imageUrl: "/images/process-launch.png",
   },
   {
     id: "optimization",
@@ -112,7 +112,7 @@ export const PROCESS_DATA = [
     title: "Optimisation",
     icon: Settings,
     description: "Real-time monitoring and rapid iteration. We cut what doesn't work and double down on what does.",
-    imageUrl: "/images/service-performance.png",
+    imageUrl: "/images/process-optimisation.png",
   },
   {
     id: "growth",
@@ -120,6 +120,6 @@ export const PROCESS_DATA = [
     title: "Growth",
     icon: TrendingUp,
     description: "We systematically compound results — scaling budgets, expanding channels and building long-term growth loops.",
-    imageUrl: "/images/process.png",
+    imageUrl: "/images/process-growth.png",
   },
 ];
