@@ -82,13 +82,15 @@ export const Navbar = () => {
     setIsOpen(false);
   }, [pathname]);
 
+  const isVisible = !(pathname === "/" && isHeroVisible);
+
   return (
-    <header className={`fixed top-0 w-full z-50 flex justify-center pt-3 sm:pt-6 px-3 sm:px-6 pointer-events-none transition-all duration-500 ${pathname === "/" && isHeroVisible ? "opacity-0" : "opacity-100"} ${hidden ? '-translate-y-full' : 'translate-y-0'}`}>
+    <header className={`fixed top-0 w-full z-50 flex justify-center pt-3 sm:pt-6 px-3 sm:px-6 pointer-events-none transition-all duration-500 ${isVisible ? "opacity-100" : "opacity-0"} ${hidden ? '-translate-y-full' : 'translate-y-0'}`}>
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`relative w-full max-w-6xl rounded-full transition-colors duration-300 pointer-events-auto flex justify-between items-center ${
+        className={`relative w-full max-w-6xl rounded-full transition-colors duration-300 ${isVisible ? "pointer-events-auto" : "pointer-events-none"} flex justify-between items-center ${
           scrolled
             ? "bg-primary-bg/80 backdrop-blur-xl border border-primary-text/10 shadow-lg py-2.5 sm:py-3 px-4 sm:px-6 md:px-8"
             : isLight
@@ -203,7 +205,7 @@ export const Navbar = () => {
                         href={link.href}
                         className={`inline-flex items-center px-5 py-2.5 rounded-full border text-[16px] tracking-wide transition-all duration-300 shadow-[0_2px_10px_rgba(0,0,0,0.25)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.35)] ${
                           pathname === link.href
-                            ? "border-accent-blue/40 bg-accent-blue/15 text-primary-text font-semibold shadow-[0_2px_14px_rgba(59,130,246,0.15)]"
+                            ? "border-primary-text/15 bg-primary-bg/90 text-primary-text font-semibold ring-2 ring-inset ring-accent-blue/60 shadow-[0_2px_14px_rgba(59,130,246,0.15)]"
                             : "border-primary-text/15 bg-primary-bg/90 text-primary-text/80 hover:text-accent-blue hover:border-accent-blue/40"
                         }`}
                       >

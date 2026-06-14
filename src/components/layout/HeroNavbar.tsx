@@ -49,7 +49,7 @@ export const HeroNavbar = () => {
   }, [pathname]);
 
   return (
-    <div className="w-full flex justify-center px-3 sm:px-6 py-3 sm:py-4">
+    <div className="w-full flex justify-center px-3 sm:px-6 py-3 sm:py-4 relative z-10">
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -164,7 +164,7 @@ export const HeroNavbar = () => {
                         href={link.href}
                         className={`inline-flex items-center px-5 py-2.5 rounded-full border text-[16px] tracking-wide transition-all duration-300 shadow-[0_2px_10px_rgba(0,0,0,0.25)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.35)] ${
                           pathname === link.href
-                            ? "border-accent-blue/40 bg-accent-blue/15 text-primary-text font-semibold shadow-[0_2px_14px_rgba(59,130,246,0.15)]"
+                            ? "border-primary-text/15 bg-primary-bg/90 text-primary-text font-semibold ring-2 ring-inset ring-accent-blue/60 shadow-[0_2px_14px_rgba(59,130,246,0.15)]"
                             : "border-primary-text/15 bg-primary-bg/90 text-primary-text/80 hover:text-accent-blue hover:border-accent-blue/40"
                         }`}
                       >
