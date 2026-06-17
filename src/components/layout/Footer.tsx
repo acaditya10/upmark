@@ -27,7 +27,7 @@ const InstagramIcon = ({ size }: { size: number }) => (
   </svg>
 );
 
-const marqueeText = "Strategy · Production · Distribution · Unified · ";
+const marqueeText = "Content. Strategy. Momentum. ";
 
 export const Footer = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -52,12 +52,21 @@ export const Footer = () => {
     <footer className="border-t border-white/5 bg-[#0a0a0a] relative">
       {/* Marquee Accent Strip — subtle background texture */}
       <div className="relative overflow-hidden py-4 border-b border-white/5">
-        <div className="flex whitespace-nowrap animate-[marquee_30s_linear_infinite]" style={{ willChange: "transform" }}>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <span key={i} className="text-[13px] uppercase tracking-[0.3em] text-neutral-100/[0.06] font-heading font-black mx-4">
-              {marqueeText}
-            </span>
-          ))}
+        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]" style={{ willChange: "transform", width: "max-content" }}>
+          <div className="flex whitespace-nowrap">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span key={i} className="text-[13px] uppercase tracking-[0.3em] text-neutral-100/20 font-heading font-black mx-4">
+                {marqueeText}
+              </span>
+            ))}
+          </div>
+          <div className="flex whitespace-nowrap" aria-hidden="true">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <span key={i} className="text-[13px] uppercase tracking-[0.3em] text-neutral-100/20 font-heading font-black mx-4">
+                {marqueeText}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -74,7 +83,7 @@ export const Footer = () => {
 
           <div className="grid grid-cols-2 gap-8 sm:gap-12 lg:col-span-2">
             <div>
-              <h4 className="text-neutral-100 font-bold font-heading mb-4 sm:mb-6 uppercase text-xs tracking-[0.2em]">Services</h4>
+              <h4 className="text-neutral-100 font-bold font-heading mb-4 sm:mb-6 uppercase text-xs tracking-[0.2em]">{settings?.footerHeadingServices || "Services"}</h4>
               <ul className="flex flex-col space-y-4">
                 {services.map((service) => (
                   <li key={service.id}>
@@ -87,7 +96,7 @@ export const Footer = () => {
             </div>
 
             <div>
-              <h4 className="text-neutral-100 font-bold font-heading mb-4 sm:mb-6 uppercase text-xs tracking-[0.2em]">Company</h4>
+              <h4 className="text-neutral-100 font-bold font-heading mb-4 sm:mb-6 uppercase text-xs tracking-[0.2em]">{settings?.footerHeadingCompany || "Company"}</h4>
               <ul className="flex flex-col space-y-4">
                 {show("about") && <li><Link href="/about" className="text-neutral-400 hover:text-white transition-colors duration-300 text-xs sm:text-sm">About Us</Link></li>}
                 {show("work") && <li><Link href="/work" className="text-neutral-400 hover:text-white transition-colors duration-300 text-xs sm:text-sm">Portfolio</Link></li>}
@@ -100,7 +109,7 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-neutral-100 font-bold font-heading mb-4 sm:mb-6 uppercase text-xs tracking-[0.2em]">Connect</h4>
+              <h4 className="text-neutral-100 font-bold font-heading mb-4 sm:mb-6 uppercase text-xs tracking-[0.2em]">{settings?.footerHeadingConnect || "Connect"}</h4>
             <ul className="flex flex-col space-y-4">
               {(settings?.socialTwitter || !settings) && (
                 <li>
@@ -132,12 +141,34 @@ export const Footer = () => {
                   </a>
                 </li>
               )}
-              {(settings?.contactEmail || !settings) && (
+              {(settings?.footerContacts && settings.footerContacts.length > 0 || settings?.contactEmail || !settings) && (
                 <li className="pt-2 mt-2 border-t border-white/10">
-                  <p className="text-neutral-100 font-bold font-heading uppercase text-xs tracking-[0.2em] mb-4">Get in touch</p>
-                  <a href={`mailto:${settings?.contactEmail || "connect@upmarkmedia.in"}`} className="text-neutral-400 hover:text-white hover:underline hover:underline-offset-4 transition-colors duration-300 text-sm font-medium">
-                    {settings?.contactEmail || "connect@upmarkmedia.in"}
-                  </a>
+                  <p className="text-neutral-100 font-bold font-heading uppercase text-xs tracking-[0.2em] mb-4">{settings?.footerHeadingGetInTouch || "Get in touch"}</p>
+                  {settings?.footerContacts && settings.footerContacts.length > 0 && (
+                    <div className="flex flex-col gap-4 mb-4">
+                      {settings.footerContacts.map((contact, i) => (
+                        <div key={contact.id || i} className="flex flex-col gap-1">
+                          <p className="text-neutral-100 font-bold text-sm">{contact.name}</p>
+                          {contact.designation && <p className="text-neutral-500 text-xs">{contact.designation}</p>}
+                          {contact.phone && (
+                            <a href={`tel:${contact.phone}`} className="text-neutral-400 hover:text-white transition-colors duration-300 text-xs">
+                              {contact.phone}
+                            </a>
+                          )}
+                          {contact.email && (
+                            <a href={`mailto:${contact.email}`} className="text-neutral-400 hover:text-white transition-colors duration-300 text-xs">
+                              {contact.email}
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {(settings?.contactEmail || !settings) && (
+                    <a href={`mailto:${settings?.contactEmail || "connect@upmarkmedia.in"}`} className="text-neutral-400 hover:text-white hover:underline hover:underline-offset-4 transition-colors duration-300 text-sm font-medium">
+                      {settings?.contactEmail || "connect@upmarkmedia.in"}
+                    </a>
+                  )}
                 </li>
               )}
             </ul>

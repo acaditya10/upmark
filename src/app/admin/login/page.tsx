@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
+import { getSiteSettings } from "@/lib/firestore";
 
 function LoginForm() {
   const { login, user, loading: authLoading } = useAuth();
@@ -15,6 +16,17 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [logoUrl, setLogoUrl] = useState("/upmark-wordmark.png");
+
+  useEffect(() => {
+    getSiteSettings().then(data => {
+      if (data?.theme === "editorial") {
+        if (data?.editorialLogoUrl) setLogoUrl(data.editorialLogoUrl);
+      } else {
+        if (data?.globalLogoUrl) setLogoUrl(data.globalLogoUrl);
+      }
+    }).catch(console.error);
+  }, []);
 
   // Redirect if already logged in
   if (authLoading) {
@@ -61,7 +73,7 @@ function LoginForm() {
       <div className="w-full max-w-md relative">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Image src="/upmark-wordmark.png" alt="Upmark" width={280} height={280} className="h-16 sm:h-20 w-auto mx-auto" />
+          <Image src={logoUrl} alt="Upmark" width={280} height={280} className="h-16 sm:h-20 w-auto mx-auto" />
           <p className="text-muted-text text-sm mt-2">
             Admin Dashboard
           </p>

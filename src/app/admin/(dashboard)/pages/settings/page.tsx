@@ -5,8 +5,10 @@ import { getSiteSettings, updateSiteSettings } from "@/lib/firestore";
 import { CloudinaryUploadWidget } from "@/components/admin/CloudinaryUploadWidget";
 import { revalidatePathAction } from "@/app/actions";
 import {
-  Save, Loader2, Globe, Image as ImageIcon, Link as LinkIcon, ChevronDown
+  Save, Loader2, Globe, Image as ImageIcon, Link as LinkIcon, ChevronDown,
+  UserPlus, Trash2, Plus, Phone, Mail, User, Briefcase,
 } from "lucide-react";
+import type { FooterContact } from "@/types";
 
 function Section({ title, icon: Icon, children, defaultOpen = false }: { title: string; icon: React.ElementType; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -41,6 +43,11 @@ export default function GlobalSettingsPage() {
   const [socialInstagram, setSocialInstagram] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [footerTagline, setFooterTagline] = useState("");
+  const [footerHeadingServices, setFooterHeadingServices] = useState("");
+  const [footerHeadingCompany, setFooterHeadingCompany] = useState("");
+  const [footerHeadingConnect, setFooterHeadingConnect] = useState("");
+  const [footerHeadingGetInTouch, setFooterHeadingGetInTouch] = useState("");
+  const [footerContacts, setFooterContacts] = useState<FooterContact[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -56,6 +63,11 @@ export default function GlobalSettingsPage() {
           setSocialInstagram(data.socialInstagram || "");
           setContactEmail(data.contactEmail || "");
           setFooterTagline(data.footerTagline || "");
+          setFooterHeadingServices(data.footerHeadingServices || "");
+          setFooterHeadingCompany(data.footerHeadingCompany || "");
+          setFooterHeadingConnect(data.footerHeadingConnect || "");
+          setFooterHeadingGetInTouch(data.footerHeadingGetInTouch || "");
+          setFooterContacts(data.footerContacts || []);
         }
       } catch (error) {
         console.error("Failed to load settings:", error);
@@ -80,6 +92,11 @@ export default function GlobalSettingsPage() {
         socialInstagram,
         contactEmail,
         footerTagline,
+        footerHeadingServices,
+        footerHeadingCompany,
+        footerHeadingConnect,
+        footerHeadingGetInTouch,
+        footerContacts,
       });
       await revalidatePathAction("/");
       setSuccessMessage("Global settings saved.");
@@ -167,6 +184,46 @@ export default function GlobalSettingsPage() {
           </div>
 
           <div>
+            <label className="block text-sm font-medium text-primary-text mb-1">Services Heading</label>
+            <input 
+              value={footerHeadingServices} 
+              onChange={(e) => setFooterHeadingServices(e.target.value)} 
+              placeholder="Services" 
+              className={inputClass} 
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-1">Company Heading</label>
+            <input 
+              value={footerHeadingCompany} 
+              onChange={(e) => setFooterHeadingCompany(e.target.value)} 
+              placeholder="Company" 
+              className={inputClass} 
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-1">Connect Heading</label>
+            <input 
+              value={footerHeadingConnect} 
+              onChange={(e) => setFooterHeadingConnect(e.target.value)} 
+              placeholder="Connect" 
+              className={inputClass} 
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-1">Get In Touch Heading</label>
+            <input 
+              value={footerHeadingGetInTouch} 
+              onChange={(e) => setFooterHeadingGetInTouch(e.target.value)} 
+              placeholder="Get in touch" 
+              className={inputClass} 
+            />
+          </div>
+
+          <div>
             <label className="block text-sm font-medium text-primary-text mb-1">Twitter / X URL</label>
             <input 
               value={socialTwitter} 
@@ -205,6 +262,109 @@ export default function GlobalSettingsPage() {
               className={inputClass} 
               type="email"
             />
+          </div>
+
+          <div className="pt-4 border-t border-primary-text/5">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-sm font-medium text-primary-text flex items-center gap-2">
+                  <UserPlus size={16} className="text-accent-blue" /> Footer Contacts
+                </p>
+                <p className="text-xs text-muted-text mt-1">Add contact persons displayed in the footer Connect section.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const newContact: FooterContact = {
+                    id: Date.now().toString(),
+                    name: "",
+                    designation: "",
+                    phone: "",
+                    email: "",
+                  };
+                  setFooterContacts([...footerContacts, newContact]);
+                }}
+                className="flex items-center gap-1.5 text-xs text-accent-blue hover:text-accent-blue/80 transition-colors"
+              >
+                <Plus size={14} /> Add Contact
+              </button>
+            </div>
+
+            {footerContacts.length === 0 && (
+              <p className="text-xs text-muted-text italic">No contacts added yet. Click "Add Contact" to get started.</p>
+            )}
+
+            <div className="flex flex-col gap-4">
+              {footerContacts.map((contact, index) => (
+                <div key={contact.id || index} className="bg-primary-bg border border-primary-text/5 rounded-xl p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs text-muted-text font-medium">Contact {index + 1}</p>
+                    <button
+                      type="button"
+                      onClick={() => setFooterContacts(footerContacts.filter((_, i) => i !== index))}
+                      className="text-red-400/60 hover:text-red-400 transition-colors"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs text-muted-text flex items-center gap-1"><User size={12} /> Name</label>
+                      <input
+                        value={contact.name}
+                        onChange={(e) => {
+                          const updated = [...footerContacts];
+                          updated[index] = { ...updated[index], name: e.target.value };
+                          setFooterContacts(updated);
+                        }}
+                        placeholder="John Doe"
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs text-muted-text flex items-center gap-1"><Briefcase size={12} /> Designation</label>
+                      <input
+                        value={contact.designation}
+                        onChange={(e) => {
+                          const updated = [...footerContacts];
+                          updated[index] = { ...updated[index], designation: e.target.value };
+                          setFooterContacts(updated);
+                        }}
+                        placeholder="CEO"
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs text-muted-text flex items-center gap-1"><Phone size={12} /> Phone</label>
+                      <input
+                        value={contact.phone}
+                        onChange={(e) => {
+                          const updated = [...footerContacts];
+                          updated[index] = { ...updated[index], phone: e.target.value };
+                          setFooterContacts(updated);
+                        }}
+                        placeholder="+91 98765 43210"
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs text-muted-text flex items-center gap-1"><Mail size={12} /> Email</label>
+                      <input
+                        value={contact.email}
+                        onChange={(e) => {
+                          const updated = [...footerContacts];
+                          updated[index] = { ...updated[index], email: e.target.value };
+                          setFooterContacts(updated);
+                        }}
+                        placeholder="john@example.com"
+                        className={inputClass}
+                        type="email"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Section>

@@ -39,6 +39,19 @@ const DEFAULT_BRANDS = [
   { name: "Notion" }, { name: "Figma" }, { name: "Vercel" }, { name: "Slack" },
 ];
 
+function parseHighlighted(text: string, type: "gradient" | "gold"): React.ReactNode[] {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  return parts.map((part, i) => {
+    if (i % 2 === 1) {
+      if (type === "gradient") {
+        return <span key={i} className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">{part}</span>;
+      }
+      return <span key={i} className="text-accent-gold">{part}</span>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 export default async function Home() {
   const [settings, testimonials, rawServices] = await Promise.all([
     getSiteSettings(),
@@ -76,6 +89,10 @@ export default async function Home() {
   const studioCapabilities = settings?.studioCapabilities?.length ? settings.studioCapabilities : DEFAULT_STUDIO_CAPABILITIES;
   const brandCarouselItems = settings?.brandCarouselItems?.length ? settings.brandCarouselItems : DEFAULT_BRANDS;
   const aboutImageUrl = settings?.homeAboutImageUrl || "/images/philosophy.png";
+  const homeAboutEyebrow = settings?.homeAboutEyebrow || "ABOUT US";
+  const homeAboutTitle = settings?.homeAboutTitle || "Most agencies only **create content** or run ads.";
+  const homeAboutSubtitle = settings?.homeAboutSubtitle || "Upmark builds **complete marketing systems.**";
+  const homeAboutDescription = settings?.homeAboutDescription || "Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.\n\nWhen your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We're not a collection of specialists working in parallel. We're a single, integrated team where every discipline makes every other one better. That's the Upmark advantage.";
 
   const pageVisible = show("home");
   const heroVisible = show("homeHero");
@@ -104,21 +121,18 @@ export default async function Home() {
           <div className="lg:w-7/12 flex flex-col items-start pr-0 lg:pr-10">
             <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-6 inline-flex items-center gap-4">
               <span className="w-8 h-[1px] bg-accent-blue"></span>
-              ABOUT US
+              {homeAboutEyebrow}
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-6 sm:mb-4">
-              Most agencies only <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-blue to-indigo-400">create content</span> <br className="hidden md:block" />or run ads.
+              {parseHighlighted(homeAboutTitle, "gradient")}
             </h2>
             <h3 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold">
-              Upmark builds <span className="text-accent-gold">complete marketing systems.</span>
+              {parseHighlighted(homeAboutSubtitle, "gold")}
             </h3>
             <div className="flex flex-col gap-4 sm:gap-6 text-muted-text font-light text-base sm:text-lg mb-8 sm:mb-10">
-              <p>
-                Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.
-              </p>
-              <p>
-                When your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We're not a collection of specialists working in parallel. We're a single, integrated team where every discipline makes every other one better. That's the Upmark advantage.
-              </p>
+              {homeAboutDescription.split("\n\n").filter(Boolean).map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
 

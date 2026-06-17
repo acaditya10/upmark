@@ -73,6 +73,10 @@ export default function HomePageSettings() {
 
   const [heroVideoUrl, setHeroVideoUrl] = useState("");
   const [homeAboutImageUrl, setHomeAboutImageUrl] = useState("");
+  const [homeAboutEyebrow, setHomeAboutEyebrow] = useState("ABOUT US");
+  const [homeAboutTitle, setHomeAboutTitle] = useState("Most agencies only create content or run ads.");
+  const [homeAboutSubtitle, setHomeAboutSubtitle] = useState("Upmark builds complete marketing systems.");
+  const [homeAboutDescription, setHomeAboutDescription] = useState("Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.\n\nWhen your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We're not a collection of specialists working in parallel. We're a single, integrated team where every discipline makes every other one better. That's the Upmark advantage.");
   const [featuredServiceIds, setFeaturedServiceIds] = useState<string[]>([]);
   const [allServices, setAllServices] = useState<Service[]>([]);
   const [philosophyPointers, setPhilosophyPointers] = useState<PhilosophyPointer[]>(DEFAULT_PHILOSOPHY_POINTERS);
@@ -91,6 +95,10 @@ export default function HomePageSettings() {
         if (data) {
           setHeroVideoUrl(data.heroVideoUrl || "");
           setHomeAboutImageUrl(data.homeAboutImageUrl || "");
+          setHomeAboutEyebrow(data.homeAboutEyebrow || "ABOUT US");
+          setHomeAboutTitle(data.homeAboutTitle || "Most agencies only create content or run ads.");
+          setHomeAboutSubtitle(data.homeAboutSubtitle || "Upmark builds complete marketing systems.");
+          setHomeAboutDescription(data.homeAboutDescription || "Founded on the belief that modern marketing must be fast, precise and measurable, Upmark brings together strategists, creatives, producers and performance marketers who operate as one integrated team.\n\nWhen your strategist sits next to your editor, your performance data informs your creative, and your content team understands your media budget — the work gets sharper. We're not a collection of specialists working in parallel. We're a single, integrated team where every discipline makes every other one better. That's the Upmark advantage.");
           if (data.featuredServiceIds?.length) setFeaturedServiceIds(data.featuredServiceIds);
           if (data.philosophyPointers?.length) setPhilosophyPointers(data.philosophyPointers);
           if (data.processSteps?.length) setProcessSteps(data.processSteps);
@@ -120,6 +128,10 @@ export default function HomePageSettings() {
       await updateSiteSettings({
         heroVideoUrl,
         homeAboutImageUrl,
+        homeAboutEyebrow,
+        homeAboutTitle,
+        homeAboutSubtitle,
+        homeAboutDescription,
         featuredServiceIds,
         philosophyPointers,
         processSteps,
@@ -176,6 +188,24 @@ export default function HomePageSettings() {
 
       <Section title="About Us Section" icon={ImageIcon}>
         <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-2">Eyebrow Label</label>
+            <input value={homeAboutEyebrow} onChange={(e) => setHomeAboutEyebrow(e.target.value)} placeholder="e.g. ABOUT US" className={inputClass} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-2">Heading</label>
+            <input value={homeAboutTitle} onChange={(e) => setHomeAboutTitle(e.target.value)} placeholder="Main heading" className={inputClass} />
+            <p className="text-xs text-muted-text mt-1">Wrap text in **double asterisks** to apply gradient highlight, e.g. **create content**</p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-2">Subheading</label>
+            <input value={homeAboutSubtitle} onChange={(e) => setHomeAboutSubtitle(e.target.value)} placeholder="Subheading" className={inputClass} />
+            <p className="text-xs text-muted-text mt-1">Wrap text in **double asterisks** to apply gold highlight, e.g. **complete marketing systems.**</p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-primary-text mb-2">Description</label>
+            <textarea value={homeAboutDescription} onChange={(e) => setHomeAboutDescription(e.target.value)} placeholder="Body text (use blank lines for paragraph breaks)" className={`${inputClass} resize-none`} rows={5} />
+          </div>
           <div>
             <label className="block text-sm font-medium text-primary-text mb-2">About Us Image</label>
             <p className="text-sm text-muted-text mb-4">Upload the image used in the Philosophy / About section on the homepage.</p>

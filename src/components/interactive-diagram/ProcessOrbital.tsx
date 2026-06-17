@@ -131,7 +131,7 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
           <span className="w-8 h-[1px] bg-accent-blue"></span>
         </span>
         <h2 className="text-3xl md:text-5xl font-black font-heading text-white">
-          Our <span className="text-accent-gold">6-Step Process</span>
+          Our <span className="text-white">6-Step Process</span>
         </h2>
       </div>
 
@@ -197,8 +197,8 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
             </svg>
 
             {/* Central Information Core */}
-            <div className="absolute z-10 w-[35%] h-[35%] rounded-full border border-white/10 bg-slate-800/80 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 text-center overflow-hidden" style={{ boxShadow: "0 0 50px rgba(var(--color-accent-gold-rgb), 0.1)" }}>
-              <div className="absolute inset-0 bg-gradient-to-b from-accent-gold/5 to-transparent pointer-events-none" />
+            <div className="absolute z-10 w-[35%] h-[35%] rounded-full border border-white/20 bg-white backdrop-blur-xl flex items-center justify-center p-4 sm:p-8 text-center overflow-hidden" style={{ boxShadow: "0 0 50px rgba(var(--color-accent-gold-rgb), 0.1)" }}>
+              <div className="absolute inset-0 bg-gradient-to-b from-gray-100/50 to-transparent pointer-events-none" />
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -210,10 +210,10 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                   className="flex flex-col items-center justify-center w-full h-full"
                 >
                   <activeData.icon
-                    className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-accent-gold mb-2 sm:mb-4 opacity-80"
+                    className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-gray-700 mb-2 sm:mb-4 opacity-80"
                     strokeWidth={1.5}
                   />
-                  <p className="hidden md:block text-xs lg:text-sm text-white/60 font-light leading-relaxed px-2">
+                  <p className="hidden md:block text-xs lg:text-sm text-gray-600 font-light leading-relaxed px-2">
                     {activeData.description}
                   </p>
                 </motion.div>
@@ -232,15 +232,15 @@ export function ProcessOrbital({ items }: { items?: ProcessOrbitalItem[] }) {
                   onMouseEnter={() => handleNodeHover(item.id)}
                   onClick={() => handleNodeHover(item.id)}
                 >
-                  <motion.button
+                    <motion.button
                     className={`w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full border flex items-center justify-center transition-colors duration-300 relative group
                     ${isActive
-                        ? "bg-accent-gold/10 border-accent-gold shadow-glow-gold"
-                        : "bg-white/5 border-white/10 hover:border-white/30"}`}
+                        ? "bg-white border-accent-gold shadow-glow-gold"
+                        : "bg-white border-white/30 hover:border-white/60"}`}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span className={`font-bold font-heading text-sm sm:text-base lg:text-lg ${isActive ? "text-accent-gold" : "text-white/60"}`}>
+                    <span className={`font-bold font-heading text-sm sm:text-base lg:text-lg ${isActive ? "text-accent-gold" : "text-gray-700"}`}>
                       {item.num}
                     </span>
 

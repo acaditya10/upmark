@@ -49,15 +49,15 @@ export const HeroNavbar = () => {
   }, [pathname]);
 
   return (
-    <div className="w-full flex justify-center px-3 sm:px-6 py-3 sm:py-4 relative z-10">
+    <div className="w-full relative z-10">
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`relative w-full max-w-6xl rounded-full transition-colors duration-300 flex justify-between items-center ${
+        className={`relative w-full transition-colors duration-300 flex justify-between items-center ${
           isLight
-            ? "bg-primary-bg/85 backdrop-blur-md border border-primary-text/10 shadow-md py-2.5 sm:py-3 px-4 sm:px-6 md:px-8"
-            : "bg-transparent py-3 sm:py-4 px-4 sm:px-6 md:px-8"
+            ? "bg-primary-bg/85 backdrop-blur-md border-b border-primary-text/10 shadow-md py-1.5 px-4 sm:px-6 md:px-10"
+            : "bg-transparent py-1.5 px-4 sm:px-6 md:px-10"
         }`}
       >
         {/* Logo - Left Side */}

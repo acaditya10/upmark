@@ -214,16 +214,16 @@ html {
 /* ─── Brand carousel marquee animations ─── */
 @keyframes marquee-x {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-33.333%); }
 }
 
 @keyframes marquee-y-up {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
+  100% { transform: translateY(-33.333%); }
 }
 
 @keyframes marquee-y-down {
-  0% { transform: translateY(-50%); }
+  0% { transform: translateY(-33.333%); }
   100% { transform: translateY(0); }
 }
 
@@ -237,13 +237,6 @@ html {
 
 .animate-marquee-y-down {
   animation: marquee-y-down var(--marquee-duration, 20s) linear infinite;
-}
-
-/* Pause on hover */
-.marquee-pause:hover .animate-marquee-x,
-.marquee-pause:hover .animate-marquee-y-up,
-.marquee-pause:hover .animate-marquee-y-down {
-  animation-play-state: paused;
 }
 
 /* Respect reduced motion */
