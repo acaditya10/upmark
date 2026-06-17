@@ -165,7 +165,7 @@ export default async function Home() {
 
         {/* Featured Services */}
         {show("services") && featuredServices.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
           {featuredServices.map((s, i) => {
             const hoverColors = [
               "hover:bg-blue-500 hover:border-blue-500",
@@ -174,26 +174,26 @@ export default async function Home() {
               "hover:bg-amber-500 hover:border-amber-500",
             ];
             return (
-              <Link key={s.id || i} href={`/services#${s.id}`} className={`group p-6 sm:p-8 min-h-[200px] sm:min-h-0 rounded-2xl sm:rounded-3xl bg-secondary-surface/40 border border-primary-text/5 ${hoverColors[i]} transition-all duration-300 relative overflow-hidden flex flex-col justify-between`}>
-                <div>
-                  <div className="flex items-center gap-3 mb-3 sm:mb-4">
-                    {s.icon && <div className="w-10 h-10 rounded-xl bg-accent-blue/10 text-accent-blue group-hover:bg-white/20 group-hover:text-white flex items-center justify-center flex-shrink-0 transition-colors duration-300"><s.icon size={20} /></div>}
-                    <h3 className="text-base sm:text-xl font-bold font-heading text-primary-text group-hover:text-white relative z-10 transition-colors duration-300">{s.title}</h3>
+              <Link key={s.id || i} href={`/services#${s.id}`} className={`group p-6 sm:p-7 min-h-[220px] sm:min-h-[260px] rounded-3xl bg-secondary-surface/60 backdrop-blur-sm border border-primary-text/8 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)] ${hoverColors[i]} transition-all duration-500 ease-out relative overflow-hidden flex flex-col justify-between hover:scale-[1.02]`}>
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-2xl bg-accent-blue/10 text-accent-blue group-hover:bg-white/20 group-hover:text-white flex items-center justify-center mb-4 sm:mb-5 transition-all duration-300 group-hover:rotate-3 group-hover:scale-110">
+                    {s.icon && <s.icon size={22} />}
                   </div>
-                  <p className="text-muted-text/90 group-hover:text-white/80 text-base font-light leading-relaxed relative z-10 line-clamp-4 transition-colors duration-300">{s.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold font-heading text-primary-text group-hover:text-white mb-2 sm:mb-3 transition-colors duration-300">{s.title}</h3>
+                  <p className="text-muted-text/80 group-hover:text-white/75 text-sm sm:text-[15px] font-light leading-relaxed line-clamp-4 transition-colors duration-300">{s.description}</p>
                 </div>
-                <div className="flex items-center gap-2 mt-4 text-accent-blue group-hover:text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                  Learn more <ArrowRight size={16} />
+                <div className="flex items-center gap-2 mt-4 text-accent-blue group-hover:text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-3 group-hover:translate-y-0 relative z-10">
+                  Learn more <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
               </Link>
             );
           })}
           {/* Explore More Services arrow */}
-          <Link href="/services" className="group p-6 sm:p-8 min-h-[200px] sm:min-h-0 rounded-2xl sm:rounded-3xl bg-accent-blue/5 border border-accent-blue/20 hover:bg-accent-blue hover:border-accent-blue transition-all duration-300 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
-            <div className="w-14 h-14 rounded-full bg-accent-blue/10 text-accent-blue group-hover:bg-white/20 group-hover:text-white flex items-center justify-center transition-colors duration-300">
+          <Link href="/services" className="group p-6 sm:p-7 min-h-[220px] sm:min-h-[260px] rounded-3xl bg-gradient-to-br from-accent-blue/8 to-accent-blue/4 border border-accent-blue/15 hover:bg-accent-blue hover:border-accent-blue transition-all duration-500 ease-out flex flex-col items-center justify-center gap-4 relative overflow-hidden hover:scale-[1.02] hover:shadow-[0_12px_40px_rgba(99,102,241,0.25)]">
+            <div className="w-14 h-14 rounded-full bg-accent-blue/15 text-accent-blue group-hover:bg-white/20 group-hover:text-white flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-45">
               <ArrowRight size={24} />
             </div>
-            <span className="text-sm sm:text-base font-semibold text-accent-blue group-hover:text-white transition-colors">Explore More Services</span>
+            <span className="text-sm sm:text-base font-semibold text-accent-blue group-hover:text-white transition-colors duration-300">Explore More Services</span>
           </Link>
         </div>
         )}
