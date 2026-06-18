@@ -49,7 +49,7 @@ export const HeroNavbar = () => {
   }, [pathname]);
 
   return (
-    <div className="w-full relative z-10">
+    <div className="w-full relative z-30">
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
