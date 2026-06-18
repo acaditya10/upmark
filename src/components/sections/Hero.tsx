@@ -93,8 +93,8 @@ export const Hero = ({ videoUrl }: HeroProps) => {
         </div>
       </div>
 
-      {/* Video Control Buttons — bottom-right of the video */}
-      <div className={`absolute bottom-4 sm:bottom-6 right-4 sm:right-8 z-50 flex flex-col items-center gap-3 transition-opacity duration-700 ${isIdle ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
+      {/* Video Control Buttons — bottom-right of the video, behind menu */}
+      <div className={`absolute bottom-4 sm:bottom-6 right-4 sm:right-8 z-20 flex flex-col items-center gap-3 transition-opacity duration-700 ${isIdle ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
         <button
           onClick={togglePlay}
           className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/80 hover:text-white hover:bg-black/60 transition-[background-color,color] duration-200 active:scale-90"
