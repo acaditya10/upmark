@@ -42,37 +42,18 @@ export default async function AboutPage() {
     <div className="min-h-screen pt-28 sm:pt-24 md:pt-32 pb-8 sm:pb-12">
       {/* ─── About Section ─── */}
       <section className="container mx-auto px-4 sm:px-6 mb-16 sm:mb-24">
-        <div className="flex flex-col lg:flex-row gap-10 sm:gap-12 lg:gap-16 text-primary-text items-center">
-          <div className="lg:w-7/12 flex flex-col items-start pr-0 lg:pr-10">
-            <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-6 inline-flex items-center gap-4">
-              <span className="w-8 h-[1px] bg-accent-blue"></span>
-              {aboutEyebrow}
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-4" dangerouslySetInnerHTML={{ __html: aboutTitle }} />
-            <h2 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold" dangerouslySetInnerHTML={{ __html: aboutSubtitle }} />
-            <div className="flex flex-col gap-4 sm:gap-6 text-muted-text font-light text-base sm:text-lg mb-8 sm:mb-10">
-              {aboutDescription.split("\n\n").map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
-            <div className="flex flex-row items-center justify-center gap-3 w-full">
-              {show("services") && (
-                <Link href="/services" className="group relative flex items-center justify-center gap-3 bg-accent-blue text-white px-5 py-3 rounded-lg font-semibold text-sm overflow-hidden transition-[transform] hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <span className="relative z-10">Our Services</span>
-                </Link>
-              )}
-              {show("contact") && (
-                <Link href="/contact" className="group flex items-center justify-center px-5 py-3 rounded-lg font-semibold text-sm text-primary-text bg-primary-text/5 border border-primary-text/10 hover:bg-primary-text/10 hover:border-primary-text/20 transition-colors duration-200">
-                  Get in touch
-                </Link>
-              )}
-            </div>
-          </div>
+        <div className="text-primary-text">
+          <span className="text-accent-blue font-bold tracking-[0.2em] uppercase text-xs mb-6 inline-flex items-center gap-4">
+            <span className="w-8 h-[1px] bg-accent-blue"></span>
+            {aboutEyebrow}
+          </span>
 
-          <div className="lg:w-5/12 w-full flex justify-center items-center relative min-h-[280px] sm:min-h-[400px]">
-            <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[40px] sm:blur-[60px] pointer-events-none"></div>
-            <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[450px] rounded-3xl overflow-hidden border border-primary-text/10 shadow-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-primary-text tracking-tight leading-tight mb-4" dangerouslySetInnerHTML={{ __html: aboutTitle }} />
+          <h2 className="text-xl sm:text-2xl md:text-3xl mt-4 mb-6 sm:mb-8 font-semibold" dangerouslySetInnerHTML={{ __html: aboutSubtitle }} />
+
+          <div className="relative">
+            <div className="float-right ml-6 sm:ml-8 lg:ml-10 mb-4 w-[300px] sm:w-[400px] lg:w-[500px] relative aspect-square rounded-3xl overflow-hidden border border-primary-text/10 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/10 to-accent-gold/5 rounded-full blur-[40px] sm:blur-[60px] pointer-events-none"></div>
               {aboutImageUrl.match(/\.(mp4|webm|ogg|mov)$/i) ? (
                 <video
                   src={aboutImageUrl}
@@ -80,20 +61,39 @@ export default async function AboutPage() {
                   muted
                   loop
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover relative z-10"
                 />
               ) : (
                 <Image
                   src={aboutImageUrl}
                   alt="Upmark strategy session"
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="object-cover relative z-10"
+                  sizes="(max-width: 640px) 300px, (max-width: 1024px) 400px, 500px"
                   priority
                 />
               )}
-              
             </div>
+
+            <div className="text-muted-text font-light text-base sm:text-lg mb-8 sm:mb-10">
+              {aboutDescription.split("\n\n").map((paragraph, i) => (
+                <p key={i} className="mb-4 sm:mb-6">{paragraph}</p>
+              ))}
+            </div>
+          </div>
+
+          <div className="clear-both flex flex-row items-center justify-start gap-3 w-full">
+            {show("services") && (
+              <Link href="/services" className="group relative flex items-center justify-center gap-3 bg-accent-blue text-white px-5 py-3 rounded-lg font-semibold text-sm overflow-hidden transition-[transform] hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_-10px_rgba(59,130,246,0.6)]">
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-accent-blue opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <span className="relative z-10">Our Services</span>
+              </Link>
+            )}
+            {show("contact") && (
+              <Link href="/contact" className="group flex items-center justify-center px-5 py-3 rounded-lg font-semibold text-sm text-primary-text bg-primary-text/5 border border-primary-text/10 hover:bg-primary-text/10 hover:border-primary-text/20 transition-colors duration-200">
+                Get in touch
+              </Link>
+            )}
           </div>
         </div>
       </section>

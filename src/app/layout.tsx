@@ -74,8 +74,8 @@ export default async function RootLayout({
   const themeClass = settings?.theme === "editorial" ? "theme-editorial" : "dark";
 
   return (
-    <html lang="en" className={`${themeClass} overflow-x-hidden`}>
-      <body className={`${poppins.variable} ${inter.variable} min-h-screen flex flex-col overflow-x-hidden`}>
+    <html lang="en" className={`${themeClass} overflow-x-clip`}>
+      <body className={`${poppins.variable} ${inter.variable} min-h-screen flex flex-col overflow-x-clip`}>
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
