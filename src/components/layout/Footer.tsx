@@ -52,7 +52,7 @@ export const Footer = () => {
     <footer className="border-t border-white/5 bg-[#0a0a0a] relative">
       {/* Marquee Accent Strip — subtle background texture */}
       <div className="relative overflow-hidden py-4 border-b border-white/5">
-        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]" style={{ willChange: "transform", width: "max-content" }}>
+        <div className="flex whitespace-nowrap animate-[marquee_40s_linear_infinite]" style={{ willChange: "transform", width: "max-content" }}>
           <div className="flex whitespace-nowrap">
             {Array.from({ length: 8 }).map((_, i) => (
               <span key={i} className="text-[13px] uppercase tracking-[0.3em] text-neutral-100/20 font-heading font-black mx-4">

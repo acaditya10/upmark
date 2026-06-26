@@ -42,7 +42,7 @@ function MarqueeRow({ brands }: { brands: BrandItem[] }) {
     <div className="relative overflow-hidden w-full">
       <div
         className="flex w-max animate-marquee-x"
-        style={{ "--marquee-duration": "20s" } as React.CSSProperties}
+        style={{ "--marquee-duration": "30s" } as React.CSSProperties}
       >
         {tripled.map((brand, i) => (
           <BrandCard key={`h-${i}`} brand={brand} />
@@ -65,7 +65,7 @@ function MarqueeColumn({
     <div className="relative overflow-hidden h-full">
       <div
         className={`flex flex-col ${animClass}`}
-        style={{ "--marquee-duration": "8s" } as React.CSSProperties}
+        style={{ "--marquee-duration": "12s" } as React.CSSProperties}
       >
         {tripled.map((brand, i) => (
           <div key={`${direction}-${i}`} className="flex-shrink-0 h-[80px]">
